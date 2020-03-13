@@ -1,6 +1,0 @@
-# IntelliJ stuff
-build/
-out/
-
-# Gradle build
-.gradle/
