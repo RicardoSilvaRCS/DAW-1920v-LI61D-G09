@@ -15,7 +15,7 @@ class Controller () {
      */
     @GetMapping("/projects/getprojects")
     fun getProjects () {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -24,7 +24,7 @@ class Controller () {
      */
     @GetMapping("/projects/getproject")
     fun getProject( name: String ) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -38,7 +38,7 @@ class Controller () {
      */
     @PostMapping("/projects/createproject")
     fun createProject( name: String , description: String , labels: List<String> , initstate: String , transitions: List<String> ) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -47,7 +47,7 @@ class Controller () {
      */
     @PutMapping("/projects/updateproject")
     fun updateProject( description: String ) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -56,7 +56,7 @@ class Controller () {
      */
     @DeleteMapping("/projects/deleteproject")
     fun deleteProject( name: String ) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     //----------------------------//---------------------------------
@@ -69,7 +69,7 @@ class Controller () {
      */
     @GetMapping("/issues/getissues")
     fun getissues( projName: String ) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -78,7 +78,7 @@ class Controller () {
      */
     @GetMapping("/issues/getissue")
     fun getissue( tid: Int ) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -92,7 +92,7 @@ class Controller () {
      */
     @PostMapping("/issues/createissue")
     fun createissue() {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -104,7 +104,7 @@ class Controller () {
      */
     @PutMapping("/issues/updateissue/:tid")
     fun updateissueInfo() {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -113,7 +113,7 @@ class Controller () {
      */
     @PutMapping("/issues/updateissue/:tid/updatestate")
     fun updateissuetate( state: String) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -122,7 +122,7 @@ class Controller () {
      */
     @DeleteMapping("/issues/deleteissue/:tid")
     fun deleteissue() {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     //----------------------------//---------------------------------
@@ -134,7 +134,7 @@ class Controller () {
      */
     @GetMapping("/comments/getcomments/:tid")
     fun getComments() {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -143,7 +143,7 @@ class Controller () {
      */
     @PostMapping("/comments/createcomment/:tid")
     fun createComment( text: String) {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
     /*
@@ -152,7 +152,7 @@ class Controller () {
      */
     @DeleteMapping("/comments/deletecomment/:cid")
     fun deleteComment () {
-        throw NotImplementedException()
+        throw NotImplementedError()
     }
 
 }
