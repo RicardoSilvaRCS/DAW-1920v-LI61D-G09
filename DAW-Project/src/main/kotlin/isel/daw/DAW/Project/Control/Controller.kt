@@ -1,11 +1,11 @@
 package isel.daw.DAW.Project.Control
 
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
+import isel.daw.DAW.Project.Model.Projects.ProjectIdentifierDto
+import isel.daw.DAW.Project.Model.Projects.Projects
+import org.springframework.web.bind.annotation.*
 
-class Controller () {
+@RestController
+class Controller (private val projects: Projects) {
 
     /**
      * PROJECTS
@@ -17,8 +17,8 @@ class Controller () {
      * GET /projects/getprojects
      */
     @GetMapping("/projects/getprojects")
-    fun getProjects () {
-        throw NotImplementedError()
+    fun getProjects (): List<ProjectIdentifierDto> {
+        return projects.getProjects()
     }
 
     /**
@@ -105,28 +105,28 @@ class Controller () {
      *  issname:String, the new name of the issue;
      *  description:String, new description of the issue;
      *  labels:List<String>, a new label for the issue.
-     * PUT /issues/updateissue/:tid projname={projName}&issname={issuename}&description={issuedescr}&labels={onelabel}
+     * PUT /issues/updateissue/{tid} projname={projName}&issname={issuename}&description={issuedescr}&labels={onelabel}
      */
-    @PutMapping("/issues/updateissue/:tid")
-    fun updateissueInfo() {
+    @PutMapping("/issues/updateissue/{tid}")
+    fun updateissueInfo(@PathVariable tid: Int) {
         throw NotImplementedError()
     }
 
     /**
      * Endpoint to update the issue state. Must receive the @param state:String.
-     * PUT /issues/updateissue/:tid/updatestate state={newstate}
+     * PUT /issues/updateissue/{tid}/updatestate state={newstate}
      */
-    @PutMapping("/issues/updateissue/:tid/updatestate")
-    fun updateissuetate( state: String) {
+    @PutMapping("/issues/updateissue/{tid}/updatestate")
+    fun updateissuetate( @PathVariable tid: Int, state: String) {
         throw NotImplementedError()
     }
 
     /**
      * Endpoint to delete an issue.
-     * DELETE /issues/deleteissue/:tid
+     * DELETE /issues/deleteissue/{tid}
      */
-    @DeleteMapping("/issues/deleteissue/:tid")
-    fun deleteissue() {
+    @DeleteMapping("/issues/deleteissue{tid}")
+    fun deleteissue(@PathVariable tid: Int) {
         throw NotImplementedError()
     }
 
@@ -138,28 +138,28 @@ class Controller () {
 
     /**
      * Endpoint to get all comments of an issue.
-     * GET /comments/getcomments/:tid
+     * GET /comments/getcomments/{tid}
      */
-    @GetMapping("/comments/getcomments/:tid")
-    fun getComments() {
+    @GetMapping("/comments/getcomments/{tid}")
+    fun getComments(@PathVariable tid: Int) {
         throw NotImplementedError()
     }
 
     /**
      * Endpoint to add a comment to an issue. Must receive the @param text:String.
-     * POST /comments/createcomment/:tid text={commenttext}
+     * POST /comments/createcomment/{tid} text={commenttext}
      */
-    @PostMapping("/comments/createcomment/:tid")
-    fun createComment( text: String) {
+    @PostMapping("/comments/createcomment/{tid}")
+    fun createComment(@PathVariable tid: Int, text: String) {
         throw NotImplementedError()
     }
 
     /**
      * Endpoint to delete a comment of an issue.
-     * DELETE /comments/deletecomment/:cid
+     * DELETE /comments/deletecomment/{cid}
      */
-    @DeleteMapping("/comments/deletecomment/:cid")
-    fun deleteComment () {
+    @DeleteMapping("/comments/deletecomment/{cid}")
+    fun deleteComment (@PathVariable cid: Int) {
         throw NotImplementedError()
     }
 
