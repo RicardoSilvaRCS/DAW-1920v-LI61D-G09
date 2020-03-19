@@ -1,6 +1,8 @@
 package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.*
+import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
+import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping(PROJECTS_PATH)
-class ProjectsController {
+class ProjectsController() {
     //TODO: Do an exception handler
 
     /**
@@ -16,8 +18,8 @@ class ProjectsController {
      * GET /projects/getprojects
      */
     @GetMapping(GET_PROJECTS_PATH)
-    fun getProjects () {
-        throw NotImplementedError()
+    fun getProjects (): List<ProjectsOutputModel> {
+       return GetProjects.execute()
     }
 
     /**
@@ -25,8 +27,8 @@ class ProjectsController {
      * GET /projects/getproject name={ProjName}
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
-    fun getProject( name: String ) {
-        throw NotImplementedError()
+    fun getProject( name: String ): ProjectsInfoOutputModel {
+        return GetProject.execute()
     }
 
     /**
