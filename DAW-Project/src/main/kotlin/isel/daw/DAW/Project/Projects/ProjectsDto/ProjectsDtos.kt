@@ -22,11 +22,12 @@ class ProjectsOutputModel(val name: String, val descr: String)
  *
  */
 class ProjectsInfoOutputModel(
-        val name: String?,
-        val descr: String?,
-        val labels: Array<String>,
-        val initstate: String?,
-        val transitions: Array<String>,
-        val issuesurl: String
+        var name: String? = "",
+        var descr: String? = "",
+        var labels: Array<String> = emptyArray(),
+        var initstate: String? = "",
+        var states: Array<String> = emptyArray(),
+        var transitions: Array<Pair<String, String>> = emptyArray(),
+        var issuesurl: String = ""
 )
 

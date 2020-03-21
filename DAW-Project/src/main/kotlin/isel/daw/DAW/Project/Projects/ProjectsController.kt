@@ -7,13 +7,14 @@ import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import org.springframework.web.bind.annotation.*
 import java.sql.Connection
+import javax.sql.DataSource
 
 /**
  * Controller for Projects resources
  */
 @RestController
 @RequestMapping(PROJECTS_PATH)
-class ProjectsController() {
+class ProjectsController(private val ds: DataSource) {
     //TODO: Do an exception handler
 
     /**
@@ -31,7 +32,7 @@ class ProjectsController() {
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject( name: String ): ProjectsInfoOutputModel {
-        return GetProject.execute(name )
+        return GetProject.execute(name, ds.connection)
     }
 
     /**
