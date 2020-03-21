@@ -5,6 +5,7 @@ import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.sql.Connection
 import javax.sql.DataSource
@@ -14,8 +15,7 @@ import javax.sql.DataSource
  */
 @RestController
 @RequestMapping(PROJECTS_PATH)
-class ProjectsController(private val ds: DataSource) {
-    //TODO: Do an exception handler
+class ProjectsController(@Autowired val dbs: DataSource) {
 
     /**
      * Endpoint to obtain all existing projects. Might receive filtering parameters(creation-date, issue-number, etc.).
@@ -23,7 +23,7 @@ class ProjectsController(private val ds: DataSource) {
      */
     @GetMapping(GET_PROJECTS_PATH)
     fun getProjects (): List<ProjectsOutputModel> {
-       return GetProjects.execute()
+       return GetProjects.execute(dbs.connection)
     }
 
     /**
@@ -32,7 +32,7 @@ class ProjectsController(private val ds: DataSource) {
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject( name: String ): ProjectsInfoOutputModel {
-        return GetProject.execute(name, ds.connection)
+        return GetProject.execute(name, dbs.connection)
     }
 
     /**

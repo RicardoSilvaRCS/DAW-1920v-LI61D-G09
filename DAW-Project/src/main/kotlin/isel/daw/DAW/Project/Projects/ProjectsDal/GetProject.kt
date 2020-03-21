@@ -85,6 +85,8 @@ class GetProject {
 
             }catch ( ex : SQLException){
 
+            } finally {
+                conn.close()
             }
 
             return project
