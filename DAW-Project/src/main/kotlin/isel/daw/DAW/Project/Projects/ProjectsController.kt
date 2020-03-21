@@ -15,7 +15,7 @@ import javax.sql.DataSource
  */
 @RestController
 @RequestMapping(PROJECTS_PATH)
-class ProjectsController(@Autowired val dbs: DataSource) {
+class ProjectsController(val projectsrepo: ProjectsRepository) {
 
     /**
      * Endpoint to obtain all existing projects. Might receive filtering parameters(creation-date, issue-number, etc.).
@@ -23,7 +23,7 @@ class ProjectsController(@Autowired val dbs: DataSource) {
      */
     @GetMapping(GET_PROJECTS_PATH)
     fun getProjects (): List<ProjectsOutputModel> {
-       return GetProjects.execute(dbs.connection)
+       return projectsrepo.getAll()
     }
 
     /**
@@ -32,7 +32,7 @@ class ProjectsController(@Autowired val dbs: DataSource) {
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject( name: String ): ProjectsInfoOutputModel {
-        return GetProject.execute(name, dbs.connection)
+        return projectsrepo.getByName(name)
     }
 
     /**
@@ -46,7 +46,13 @@ class ProjectsController(@Autowired val dbs: DataSource) {
      */
     @PostMapping(CREATE_PROJECT_PATH)
     fun createProject( name: String , description: String , labels: List<String> , initstate: String , transitions: List<String> ) {
-        throw NotImplementedError()
+        return projectsrepo.create(
+                name,
+                description,
+                labels,
+                initstate,
+                transitions
+        )
     }
 
     /**
@@ -55,7 +61,7 @@ class ProjectsController(@Autowired val dbs: DataSource) {
      */
     @PutMapping(UPDATE_PROJECT_PATH)
     fun updateProject( description: String ) {
-        throw NotImplementedError()
+        return projectsrepo.update(description)
     }
 
     /**
@@ -64,6 +70,6 @@ class ProjectsController(@Autowired val dbs: DataSource) {
      */
     @DeleteMapping(DELETE_PROJECT_PATH)
     fun deleteProject( name: String ) {
-        throw NotImplementedError()
+        return projectsrepo.delete(name)
     }
 }
