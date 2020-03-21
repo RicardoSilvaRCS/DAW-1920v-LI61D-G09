@@ -1,4 +1,4 @@
-package isel.daw.DAW.Project.Projects
+package isel.daw.DAW.Project.Projects.ProjectsDto
 
 import com.fasterxml.jackson.annotation.JsonCreator
 
@@ -22,15 +22,11 @@ class ProjectsOutputModel(val name: String, val descr: String)
  *
  */
 class ProjectsInfoOutputModel(
-        val name: String,
-        val descr: String,
+        val name: String?,
+        val descr: String?,
         val labels: Array<String>,
-        val initstate: String,
+        val initstate: String?,
         val transitions: Array<String>,
         val issuesurl: String
 )
 
-/**
- * TODO:
- */
-class InvalidProjectException : Exception()

@@ -1,6 +1,6 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
-import isel.daw.DAW.Project.Projects.ProjectsOutputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 
 class GetProjects() {
 

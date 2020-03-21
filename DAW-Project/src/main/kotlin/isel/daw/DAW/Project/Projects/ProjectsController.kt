@@ -3,7 +3,10 @@ package isel.daw.DAW.Project.Projects
 import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import org.springframework.web.bind.annotation.*
+import java.sql.Connection
 
 /**
  * Controller for Projects resources
@@ -28,7 +31,7 @@ class ProjectsController() {
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject( name: String ): ProjectsInfoOutputModel {
-        return GetProject.execute()
+        return GetProject.execute(name )
     }
 
     /**
