@@ -1,5 +1,8 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
+import isel.daw.DAW.Project.Common.GET_ISSUES_PATH
+import isel.daw.DAW.Project.Common.GET_SINGLE_ISSUE_PATH
+import isel.daw.DAW.Project.Common.ISSUES_PATH
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -29,6 +32,7 @@ class GetProject {
         private const val GET_PROJECT_STATES_QUERY : String = "select stateName from ProjectState where projname=?"
         private const val GET_PROJECT_STATE_TRANSITIONS_QUERY : String = "select currState,nextState from StateTransitions where projname=?"
 
+        private const val ISSUES_URL : String = "$ISSUES_PATH$GET_SINGLE_ISSUE_PATH?tid={tid}"
         fun execute(projectName : String , conn : Connection): ProjectsInfoOutputModel {
 
             var project : ProjectsInfoOutputModel = ProjectsInfoOutputModel(projectName)
@@ -82,6 +86,8 @@ class GetProject {
                         }
                     }
                 }
+
+                project.issuesurl = ISSUES_URL.replace("{tid}", project.name)
 
             }catch ( ex : SQLException){
 

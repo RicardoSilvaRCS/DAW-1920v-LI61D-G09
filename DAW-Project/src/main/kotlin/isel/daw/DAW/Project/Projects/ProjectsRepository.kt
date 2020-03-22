@@ -4,6 +4,7 @@ import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
+import java.io.Console
 import javax.sql.DataSource
 
 /**
@@ -31,8 +33,9 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
     }
 
     @PostMapping(CREATE_PROJECT_PATH)
-    fun create( name: String , description: String , labels: List<String> , initstate: String , transitions: List<String> ) {
-        throw NotImplementedError()
+    fun create( newProject: ProjectsInputModel) {
+        print(newProject)
+        //throw NotImplementedError()
     }
 
     @PutMapping(UPDATE_PROJECT_PATH)

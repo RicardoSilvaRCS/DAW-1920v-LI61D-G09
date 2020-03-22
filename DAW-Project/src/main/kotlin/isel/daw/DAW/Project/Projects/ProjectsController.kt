@@ -4,6 +4,7 @@ import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
 import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -44,15 +45,9 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
      *  transitions:List<String>, possible state transitions.
      * POST /projects/createproject name={ProjName}&description={projDescr}&labels={onelabel}&labels={twolabel}&initstate={initialState}&transitions={onestate~otherstate}
      */
-    @PostMapping(CREATE_PROJECT_PATH)
-    fun createProject( name: String , description: String , labels: List<String> , initstate: String , transitions: List<String> ) {
-        return projectsrepo.create(
-                name,
-                description,
-                labels,
-                initstate,
-                transitions
-        )
+    @PostMapping(CREATE_PROJECT_PATH, consumes = ["application/json"])
+    fun createProject( @RequestBody newProject: ProjectsInputModel ) {
+        return projectsrepo.create(newProject)
     }
 
     /**
