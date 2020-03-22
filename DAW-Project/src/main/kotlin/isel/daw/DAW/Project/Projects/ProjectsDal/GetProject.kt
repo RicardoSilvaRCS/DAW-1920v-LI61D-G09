@@ -34,10 +34,9 @@ class GetProject {
                 "\tinner join statetransitions statetrans on proj.projname = statetrans.projname\n" +
                 "\twhere proj.projname = ?"
 
-        private const val ISSUES_URL : String = "$ISSUES_PATH$GET_SINGLE_ISSUE_PATH?tid={tid}"
         fun execute(projectName : String , conn : Connection): ProjectsInfoOutputModel {
 
-            var project : ProjectsInfoOutputModel = ProjectsInfoOutputModel(projectName)
+            var project = ProjectsInfoOutputModel()
             var ps : PreparedStatement
 
             try{
@@ -45,71 +44,39 @@ class GetProject {
                 ps.use {
                     ps.setString(1,projectName)
                     val rs = ps.executeQuery()
-                    var first : Boolean = true;
+                    var first = true;
                     rs.use {
                         while(rs.next()){
                            if(first) {
-                               project.descr = rs.getString("proj.projdescr")
+                               project.name = rs.getString("projname")
+                               project.descr = rs.getString("projdescr")
                                project.initstate = rs.getString("projinitstate")
                                first != first
                            }
-                            project.labels.plus(rs.getString("prjlabel.labelname"))
-                            project.states.plus(rs.getString("projectstate.statename"))
-                            project.transitions.plus(Pair(rs.getString("statetrans.currstate"),rs.getString("statetrans.nextstate")))
+
+                            val label = rs.getString("labelname")
+                            if(!project.labels.contains(label)) {
+                                project.labels.add(label)
+                            }
+
+                            val stateName = rs.getString("statename")
+                            if(!project.states.contains(stateName)) {
+                                project.states.add(stateName)
+                            }
+
+                            val trasictions = Pair(rs.getString("currstate"),rs.getString("nextstate"))
+                            if(!project.transitions.contains(trasictions)) {
+                                project.transitions.add(trasictions)
+                            }
                         }
                     }
                 }
-<<<<<<< HEAD
-=======
-
-                ps = conn.prepareStatement(GET_PROJECT_LABELS_QUERY)
-                ps.use {
-                    ps.setString(1, projectName)
-                    val rs = ps.executeQuery()
-                    rs.use {
-                        while(rs.next()){
-                            project.labels.plus(rs.getString("labelName"))
-                        }
-                    }
-                }
-
-                ps = conn.prepareStatement(GET_PROJECT_STATES_QUERY)
-                ps.use {
-                    ps.setString(1, projectName)
-                    val rs = ps.executeQuery()
-                    rs.use {
-                        while(rs.next()){
-                            project.states.plus(rs.getString("stateName"))
-                        }
-                    }
-                }
-
-                ps = conn.prepareStatement(GET_PROJECT_STATE_TRANSITIONS_QUERY)
-                ps.use {
-                    ps.setString(1, projectName)
-                    val rs = ps.executeQuery()
-                    rs.use {
-                        while(rs.next()){
-                            project.transitions.plus(Pair(
-                                    rs.getString("currState"),
-                                    rs.getString("nextState")
-                            ))
-                        }
-                    }
-                }
-
-                project.issuesurl = ISSUES_URL.replace("{tid}", project.name)
-
->>>>>>> 41f1318883f1bcc6ee3bdc3887e850157b6dbd6a
             }catch ( ex : SQLException){
 
             } finally {
                 conn.close()
             }
-
             return project
         }
-
     }
-
 }

@@ -24,10 +24,9 @@ class ProjectsOutputModel(val name: String, val descr: String)
 class ProjectsInfoOutputModel(
         var name: String = "",
         var descr: String? = "",
-        var labels: Array<String> = emptyArray(),
+        var labels: MutableList<String> = arrayListOf(),
         var initstate: String? = "",
-        var states: Array<String> = emptyArray(),
-        var transitions: Array<Pair<String, String>> = emptyArray(),
-        var issuesurl: String = ""
+        var states: MutableList<String> = arrayListOf(),
+        var transitions: MutableList<Pair<String, String>> = arrayListOf()
 )
 

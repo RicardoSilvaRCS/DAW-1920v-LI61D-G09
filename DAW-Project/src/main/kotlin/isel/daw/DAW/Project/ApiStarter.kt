@@ -12,11 +12,16 @@ class DatabaseConfig {
 
 	companion object {
 
-		private var DATABASE_NAME :String =  "dcf5mvm87oolo9"
-		private var HOST : String  = "jdbc:postgres://ec2-46-137-177-160.eu-west-1.compute.amazonaws.com:5432/".plus(DATABASE_NAME)
 		private var USERNAME : String  = "iiohkbwzrckwbj"
 		private var PASSWORD : String = "f0fd58143525668f986d1ea298ed9897a9eed23fe058873ecc7b47fe104d8b9c"
+		private var DATABASE_NAME :String =  "dcf5mvm87oolo9"
+		private var HOST : String  = "jdbc:postgresql://ec2-46-137-177-160.eu-west-1.compute.amazonaws.com:5432/"
+				.plus(DATABASE_NAME)
+				.plus("?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&sslmode=require")
+		
 	}
+
+
 
 	@Bean
 	fun getDataSource(): DataSource {
