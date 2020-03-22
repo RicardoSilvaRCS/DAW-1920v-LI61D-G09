@@ -27,10 +27,12 @@ class GetProject {
          * Since there is a lot of information about a Project that needs to be obtained
          * there will be the need of accessing multiple DB tables to get all the information.
          */
-        private const val GET_PROJECT_INFO_QUERY : String = "select projName,projDescr,projInitState from Project where projname=?"
-        private const val GET_PROJECT_LABELS_QUERY : String = "select labelName from ProjectLabel where projname=?"
-        private const val GET_PROJECT_STATES_QUERY : String = "select stateName from ProjectState where projname=?"
-        private const val GET_PROJECT_STATE_TRANSITIONS_QUERY : String = "select currState,nextState from StateTransitions where projname=?"
+        private const val GET_PROJECT_INFO_QUERY : String = "SELECT proj.projname, projdescr, projinitstate , prjlabel.labelname , projectstate.statename , statetrans.currstate,statetrans.nextstate\n" +
+                "\tFROM project proj inner join projectlabel prjlabel \n" +
+                "\ton proj.projname = prjlabel.projname \n" +
+                "\tinner join projectstate on proj.projname = projectstate.projname\n" +
+                "\tinner join statetransitions statetrans on proj.projname = statetrans.projname\n" +
+                "\twhere proj.projname = ?"
 
         private const val ISSUES_URL : String = "$ISSUES_PATH$GET_SINGLE_ISSUE_PATH?tid={tid}"
         fun execute(projectName : String , conn : Connection): ProjectsInfoOutputModel {
@@ -43,13 +45,22 @@ class GetProject {
                 ps.use {
                     ps.setString(1,projectName)
                     val rs = ps.executeQuery()
+                    var first : Boolean = true;
                     rs.use {
                         while(rs.next()){
-                            project.descr = rs.getString("projDescr")
-                            project.initstate = rs.getString("projInitState")
+                           if(first) {
+                               project.descr = rs.getString("proj.projdescr")
+                               project.initstate = rs.getString("projinitstate")
+                               first != first
+                           }
+                            project.labels.plus(rs.getString("prjlabel.labelname"))
+                            project.states.plus(rs.getString("projectstate.statename"))
+                            project.transitions.plus(Pair(rs.getString("statetrans.currstate"),rs.getString("statetrans.nextstate")))
                         }
                     }
                 }
+<<<<<<< HEAD
+=======
 
                 ps = conn.prepareStatement(GET_PROJECT_LABELS_QUERY)
                 ps.use {
@@ -89,6 +100,7 @@ class GetProject {
 
                 project.issuesurl = ISSUES_URL.replace("{tid}", project.name)
 
+>>>>>>> 41f1318883f1bcc6ee3bdc3887e850157b6dbd6a
             }catch ( ex : SQLException){
 
             } finally {
