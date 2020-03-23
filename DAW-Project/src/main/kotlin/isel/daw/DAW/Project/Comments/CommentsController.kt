@@ -15,7 +15,7 @@ class CommentsController {
      */
     @GetMapping(GET_COMMENTS_PATH)
     fun getComments(@PathVariable tid: Int) {
-        throw NotImplementedError()
+        throw NotImplementedError("TODO!")
     }
 
     /**
@@ -24,7 +24,7 @@ class CommentsController {
      */
     @PostMapping(CREATE_COMMENT_PATH)
     fun createComment(@PathVariable tid: Int, text: String) {
-        throw NotImplementedError()
+        throw NotImplementedError("TODO!")
     }
 
     /**
@@ -33,6 +33,6 @@ class CommentsController {
      */
     @DeleteMapping(DELETE_COMMENT_PATH)
     fun deleteComment (@PathVariable cid: Int) {
-        throw NotImplementedError()
+        throw NotImplementedError("TODO!")
     }
 }

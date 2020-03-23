@@ -9,6 +9,11 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 
+
+/**
+ *  TODO: Decide what to do when an exception/error occurs.
+ */
+
 class GetProject {
 
     /**
@@ -64,9 +69,9 @@ class GetProject {
                                 project.states.add(stateName)
                             }
 
-                            val trasictions = Pair(rs.getString("currstate"),rs.getString("nextstate"))
-                            if(!project.transitions.contains(trasictions)) {
-                                project.transitions.add(trasictions)
+                            val transitions = Pair(rs.getString("currstate"),rs.getString("nextstate"))
+                            if(!project.transitions.contains(transitions)) {
+                                project.transitions.add(transitions)
                             }
                         }
                     }

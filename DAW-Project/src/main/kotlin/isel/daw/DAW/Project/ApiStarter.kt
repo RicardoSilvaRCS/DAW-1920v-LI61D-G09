@@ -22,7 +22,6 @@ class DatabaseConfig {
 	}
 
 
-
 	@Bean
 	fun getDataSource(): DataSource {
 		val dataSourceBuilder = DataSourceBuilder.create()

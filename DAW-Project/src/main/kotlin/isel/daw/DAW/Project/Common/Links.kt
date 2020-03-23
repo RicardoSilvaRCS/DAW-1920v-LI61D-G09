@@ -9,8 +9,8 @@ const val PROJECTS_PATH = "/projects"
 const val GET_PROJECTS_PATH = "/getprojects"
 const val GET_SINGLE_PROJECT_PATH = "/getproject"
 const val CREATE_PROJECT_PATH = "/createproject"
-const val UPDATE_PROJECT_PATH = "/updateproject"
-const val DELETE_PROJECT_PATH = "/deleteproject"
+const val UPDATE_PROJECT_PATH = "/updateproject/{pname}"
+const val DELETE_PROJECT_PATH = "/deleteproject/{pname}"
 
 /*ISSUE PATHS*/
 const val ISSUES_PATH = "/issues"

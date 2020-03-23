@@ -29,7 +29,7 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
 
     /**
      * Endpoint to obtain detailed information of a single project. Must receive the @param name:String that identifies the project.
-     * GET /projects/getproject name={ProjName}
+     * GET /projects/getproject?name={ProjName}
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject( name: String ): ProjectsInfoOutputModel {
@@ -37,13 +37,13 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
     }
 
     /**
-     * Endpoint to create a new project. Must receive the following @params:
+     * Endpoint to create a new project. Must receive the following:
      *  name:String, the name of the project;
      *  description:String, a short description;
      *  labels:List<String>, the labels used in the projects context;
      *  initstate:String, initial state used in the projects context;
-     *  transitions:List<String>, possible state transitions.
-     * POST /projects/createproject name={ProjName}&description={projDescr}&labels={onelabel}&labels={twolabel}&initstate={initialState}&transitions={onestate~otherstate}
+     *  transitions:Array<Pair<String,String>>, possible state transitions.
+     * POST /projects/createproject
      */
     @PostMapping(CREATE_PROJECT_PATH, consumes = ["application/json"])
     fun createProject( @RequestBody newProject: ProjectsInputModel ) {
@@ -51,20 +51,20 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
     }
 
     /**
-     * Endpoint to update a projects information. For now only receives a new @param description:String.
-     * PUT /projects/updateproject description={newProjDescr}
+     * Endpoint to update a projects information.
+     * PUT /projects/updateproject/{pname}
      */
-    @PutMapping(UPDATE_PROJECT_PATH)
-    fun updateProject( description: String ) {
-        return projectsrepo.update(description)
+    @PutMapping(UPDATE_PROJECT_PATH, consumes = ["application/json"])
+    fun updateProject(@PathVariable pname: String,  @RequestBody newDescr: String  ) {
+        return projectsrepo.update(pname, newDescr)
     }
 
     /**
-     * Endpoint to delete a project. Must receive the @param name:String of the project.
-     * DELETE /projects/deleteproject name={projName}
+     * Endpoint to delete a project.
+     * DELETE /projects/deleteproject/{pname}
      */
     @DeleteMapping(DELETE_PROJECT_PATH)
-    fun deleteProject( name: String ) {
-        return projectsrepo.delete(name)
+    fun deleteProject(@PathVariable pname: String) {
+        return projectsrepo.delete(pname)
     }
 }

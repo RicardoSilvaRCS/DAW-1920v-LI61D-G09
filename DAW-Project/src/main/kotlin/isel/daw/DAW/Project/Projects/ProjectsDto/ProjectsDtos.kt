@@ -3,7 +3,7 @@ package isel.daw.DAW.Project.Projects.ProjectsDto
 import com.fasterxml.jackson.annotation.JsonCreator
 
 /**
- *
+ *  Data model for the creation of a new Project
  */
 class ProjectsInputModel @JsonCreator constructor(
         val name: String,
@@ -14,12 +14,12 @@ class ProjectsInputModel @JsonCreator constructor(
 )
 
 /**
- *
+ *  Data model for the representation of a Project
  */
 class ProjectsOutputModel(val name: String, val descr: String)
 
 /**
- *
+ * Data model for the full detailed representation of a Project
  */
 class ProjectsInfoOutputModel(
         var name: String = "",

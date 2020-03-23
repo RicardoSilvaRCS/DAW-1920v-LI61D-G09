@@ -1,8 +1,7 @@
 package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.*
-import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
-import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
+import isel.daw.DAW.Project.Projects.ProjectsDal.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
-import java.io.Console
 import javax.sql.DataSource
 
 /**
@@ -34,17 +32,16 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
 
     @PostMapping(CREATE_PROJECT_PATH)
     fun create( newProject: ProjectsInputModel) {
-        print(newProject)
-        //throw NotImplementedError()
+        return CreateProject.execute(newProject, dbs.connection)
     }
 
     @PutMapping(UPDATE_PROJECT_PATH)
-    fun update( description: String ) {
-        throw NotImplementedError()
+    fun update( name: String, newDescr: String ) {
+        return UpdateProject.execute(name, newDescr, dbs.connection)
     }
 
     @DeleteMapping(DELETE_PROJECT_PATH)
     fun delete( name: String ) {
-        throw NotImplementedError()
+        return DeleteProject.execute(name, dbs.connection)
     }
 }
