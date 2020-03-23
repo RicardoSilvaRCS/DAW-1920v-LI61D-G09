@@ -1,20 +1,22 @@
 package isel.daw.DAW.Project.Issues
 
 import isel.daw.DAW.Project.Common.*
+import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
+import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(ISSUES_PATH)
-class IssuesController {
+class IssuesController(val issuesrepo: IssuesRepository) {
 
     /**
-     * Endpoint to obtain all existing issues of a project. Must receive the @param project name. Might receive filtering parameters(creation-date, comment-number, etc.).
-     * GET /issues/getissues?projname={projName}
+     * Endpoint to obtain all existing issues of a project. Might receive filtering parameters(creation-date, comment-number, etc.).
+     * GET /issues/getissues/{pname}
      */
     @GetMapping(GET_ISSUES_PATH)
-    fun getissues( projName: String ) {
-        throw NotImplementedError("TODO!")
+    fun getissues( @PathVariable pname: String): List<IssuesOutputModel> {
+        return issuesrepo.getIssuesOfProj(pname)
     }
 
     /**
@@ -22,8 +24,8 @@ class IssuesController {
      * GET /issues/getissue?tid={issueId}
      */
     @GetMapping(GET_SINGLE_ISSUE_PATH)
-    fun getissue( tid: Int ) {
-        throw NotImplementedError("TODO!")
+    fun getissue( tid: Int ): IssuesInfoOutputModel {
+        return issuesrepo.getById(tid)
     }
 
     /**
@@ -31,7 +33,7 @@ class IssuesController {
      *  projname:String, the name of the project;
      *  issname:String, the name of the issue;
      *  description:String, short description of the issue;
-     *  labels:List<String>, the labels the issue has(might have none).
+     *  labels:Array<String>, the labels the issue has(might have none).
      * Might receive filtering parameters(creation-date, comment-number, etc.). The issues state must start with the initialstate defined in the project.
      * POST /issues/createissue
      */
@@ -44,7 +46,7 @@ class IssuesController {
      * Endpoint to update the issues information. Must receive the following (at least one of them)@params:
      *  issname:String, the new name of the issue;
      *  description:String, new description of the issue;
-     *  labels:List<String>, a new label for the issue.
+     *  labels:Array<String>, a new label for the issue.
      * PUT /issues/updateissue/{tid}
      */
     @PutMapping(UPDATE_ISSUE_PATH)

@@ -14,7 +14,7 @@ const val DELETE_PROJECT_PATH = "/deleteproject/{pname}"
 
 /*ISSUE PATHS*/
 const val ISSUES_PATH = "/issues"
-const val GET_ISSUES_PATH = "/getissues"
+const val GET_ISSUES_PATH = "/getissues/{pname}"
 const val GET_SINGLE_ISSUE_PATH = "/getissue"
 const val CREATE_ISSUE_PATH = "/createissue"
 const val UPDATE_ISSUE_PATH = "/updateissue/{tid}"

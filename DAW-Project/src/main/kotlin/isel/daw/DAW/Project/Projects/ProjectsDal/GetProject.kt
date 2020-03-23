@@ -1,12 +1,9 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
-import isel.daw.DAW.Project.Common.GET_ISSUES_PATH
-import isel.daw.DAW.Project.Common.GET_SINGLE_ISSUE_PATH
-import isel.daw.DAW.Project.Common.ISSUES_PATH
+
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import java.sql.Connection
 import java.sql.PreparedStatement
-import java.sql.ResultSet
 import java.sql.SQLException
 
 

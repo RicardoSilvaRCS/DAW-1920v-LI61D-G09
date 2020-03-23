@@ -21,7 +21,7 @@ class GetProjects {
         private const val GET_ALL_PROJECTS_QUERY : String = "select projName,projDescr from Project"
 
         fun execute(conn: Connection): List<ProjectsOutputModel> {
-            var projects: MutableList<ProjectsOutputModel> = arrayListOf()
+            val projects: MutableList<ProjectsOutputModel> = arrayListOf()
             try {
                 val ps = conn.prepareStatement(GET_ALL_PROJECTS_QUERY)
                 ps.use {
