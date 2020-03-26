@@ -80,5 +80,47 @@ class GetProject {
             }
             return project
         }
+
+        fun executev2(projectName : String , conn : Connection): ProjectsInfoOutputModel {
+
+            var project = ProjectsInfoOutputModel()
+            var ps : PreparedStatement
+
+            try{
+                ps = conn.prepareStatement(GET_PROJECT_INFO_QUERY)
+                ps.use {
+                    ps.setString(1,projectName)
+                    val rs = ps.executeQuery()
+                    rs.use {
+                        if(rs.next()) {
+                            project.name = rs.getString("projname")
+                            project.descr = rs.getString("projdescr")
+                            project.initstate = rs.getString("projinitstate")
+                            do {
+                                val label = rs.getString("labelname")
+                                if(!project.labels.contains(label)) {
+                                    project.labels.add(label)
+                                }
+
+                                val stateName = rs.getString("statename")
+                                if(!project.states.contains(stateName)) {
+                                    project.states.add(stateName)
+                                }
+
+                                val transitions = Pair(rs.getString("currstate"),rs.getString("nextstate"))
+                                if(!project.transitions.contains(transitions)) {
+                                    project.transitions.add(transitions)
+                                }
+                            } while(rs.next())
+                        }
+                    }
+                }
+            }catch ( ex : SQLException){
+
+            } finally {
+                conn.close()
+            }
+            return project
+        }
     }
 }

@@ -36,7 +36,13 @@ class CreateProject {
          * The creation of a new Project implies the insertion of tuples in various tables.
          */
 
+        /**
+         * A Project must always have the closed->archived transition
+         */
+        private val closedArchTrans: Pair<String, String> = Pair("closed", "archived")
+
         fun execute( newProject: ProjectsInputModel , conn : Connection) {
+
             throw NotImplementedError("TODO!")
         }
     }

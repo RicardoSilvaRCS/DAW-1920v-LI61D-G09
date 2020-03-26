@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Comments
 
+import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
 import isel.daw.DAW.Project.Common.COMMENTS_PATH
 import isel.daw.DAW.Project.Common.CREATE_COMMENT_PATH
 import isel.daw.DAW.Project.Common.DELETE_COMMENT_PATH
@@ -20,10 +21,10 @@ class CommentsController {
 
     /**
      * Endpoint to add a comment to an issue. Must receive the @param text:String.
-     * POST /comments/createcomment/{tid} text={commenttext}
+     * POST /comments/createcomment/{tid}
      */
     @PostMapping(CREATE_COMMENT_PATH)
-    fun createComment(@PathVariable tid: Int, text: String) {
+    fun createComment(@PathVariable tid: Int, @RequestBody comment: CommentsInputModel) {
         throw NotImplementedError("TODO!")
     }
 

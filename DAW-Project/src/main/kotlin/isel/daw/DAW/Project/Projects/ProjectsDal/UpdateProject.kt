@@ -1,6 +1,9 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.SQLException
 
 /**
  *  TODO: Figure out what are we going to allow the user to update on a Project.
@@ -27,8 +30,24 @@ class UpdateProject {
 
     companion object {
 
-        fun execute ( name: String, newDescr: String, conn: Connection) {
-            throw NotImplementedError("TODO!")
+        private val UPDATE_PROJECT_INFO_QUERY = "update project set projdescr = ? where projname = ? ;"
+
+        fun execute ( projname: String, newProj: ProjectsUpdateInputModel, conn: Connection) {
+            var ps : PreparedStatement
+
+            try{
+                ps = conn.prepareStatement(UPDATE_PROJECT_INFO_QUERY)
+                ps.use {
+                    ps.setString(1,newProj.newDescr)
+                    ps.setString(2,projname)
+                    ps.execute()
+                }
+
+            }catch ( ex : SQLException){
+
+            } finally {
+                conn.close()
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.sql.Connection
@@ -29,11 +30,11 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
 
     /**
      * Endpoint to obtain detailed information of a single project. Must receive the @param name:String that identifies the project.
-     * GET /projects/getproject?name={ProjName}
+     * GET /projects/getproject/{pname}
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
-    fun getProject( name: String ): ProjectsInfoOutputModel {
-        return projectsrepo.getByName(name)
+    fun getProject(@PathVariable pname: String): ProjectsInfoOutputModel {
+        return projectsrepo.getByName(pname)
     }
 
     /**
@@ -55,8 +56,8 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
      * PUT /projects/updateproject/{pname}
      */
     @PutMapping(UPDATE_PROJECT_PATH, consumes = ["application/json"])
-    fun updateProject(@PathVariable pname: String,  @RequestBody newDescr: String  ) {
-        return projectsrepo.update(pname, newDescr)
+    fun updateProject(@PathVariable pname: String,  @RequestBody newProj: ProjectsUpdateInputModel  ) {
+        return projectsrepo.update(pname, newProj)
     }
 
     /**

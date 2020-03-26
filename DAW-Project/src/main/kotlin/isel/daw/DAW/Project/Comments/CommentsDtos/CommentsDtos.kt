@@ -1,4 +1,4 @@
-package isel.daw.DAW.Project.Comments
+package isel.daw.DAW.Project.Comments.CommentsDtos
 
 import com.fasterxml.jackson.annotation.JsonCreator
 
@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
  *
  */
 class CommentsInputModel @JsonCreator constructor(
-        val taskid: Int,
         val text: String
 )
 

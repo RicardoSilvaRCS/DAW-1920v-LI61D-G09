@@ -22,13 +22,13 @@ class IssuesOutputModel(val name: String, val descr: String, val state: String)
  * Data model for the full detailed representation of an Issue
  */
 class IssuesInfoOutputModel(
-        val id: Int = -1,
-        val name: String = "",
-        val projname: String = "",
-        val descr: String = "",
-        val labels: Array<String> = emptyArray(),
-        val state: String = "",
-        val creationDate: Timestamp? = null,
-        val updateDate: Timestamp? = null,
-        val closeDate: Timestamp? = null
+        var id: Int = -1,
+        var name: String = "",
+        var projname: String = "",
+        var descr: String = "",
+        val labels: MutableList<String> = arrayListOf(),
+        var state: String = "",
+        var creationDate: Timestamp? = null,
+        var updateDate: Timestamp? = null,
+        var closeDate: Timestamp? = null
 )

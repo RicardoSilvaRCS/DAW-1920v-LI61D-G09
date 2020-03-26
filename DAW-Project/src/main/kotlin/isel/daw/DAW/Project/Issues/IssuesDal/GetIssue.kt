@@ -30,9 +30,13 @@ class GetIssue {
          * Since there is a lot of information about an Issue that needs to be obtained
          * there will be the need of accessing multiple DB tables to get all the information.
          */
-        private const val GET_ISSUE_INFO_QUERY : String = ""
+        private const val GET_ISSUE_INFO_QUERY : String =
+                "SELECT issue.*, issuelabel.labelname\n" +
+                "FROM issue\n" +
+                   "LEFT JOIN issuelabel on issue.id = issuelabel.issueid\n" +
+                "WHERE issue.id = ?"
 
-        fun execute(projectName : String , conn : Connection): IssuesInfoOutputModel {
+        fun execute(issueId : Int , conn : Connection): IssuesInfoOutputModel {
 
             var issue = IssuesInfoOutputModel()
             var ps : PreparedStatement
@@ -40,7 +44,23 @@ class GetIssue {
             try{
                 ps = conn.prepareStatement(GET_ISSUE_INFO_QUERY)
                 ps.use {
-
+                    ps.setInt(1, issueId)
+                    val rs = ps.executeQuery()
+                    rs.use {
+                        if(rs.next()) {
+                            issue.id = rs.getInt("id")
+                            issue.name = rs.getString("issuename")
+                            issue.descr = rs.getString("issuedescr")
+                            issue.creationDate = rs.getTimestamp("creationdate")
+                            issue.updateDate = rs.getTimestamp("updatedate")
+                            issue.closeDate = rs.getTimestamp("closedate")
+                            issue.projname = rs.getString("projname")
+                            issue.state = rs.getString("currstate")
+                            do {
+                                issue.labels.add(rs.getString("labelname")?:"")
+                            } while(rs.next())
+                        }
+                    }
                 }
             }catch ( ex : SQLException){
 

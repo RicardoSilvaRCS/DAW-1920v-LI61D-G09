@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Issues
 
+import isel.daw.DAW.Project.Issues.IssuesDal.GetIssue
 import isel.daw.DAW.Project.Issues.IssuesDal.GetProjIssues
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
@@ -21,7 +22,7 @@ class IssuesRepository(@Autowired val dbs: DataSource)  {
     }
 
     fun getById( tid: Int ): IssuesInfoOutputModel {
-        throw NotImplementedError("TODO!")
+        return GetIssue.execute(tid, dbs.connection)
     }
 
     fun create(newIssue: IssuesInputModel) {

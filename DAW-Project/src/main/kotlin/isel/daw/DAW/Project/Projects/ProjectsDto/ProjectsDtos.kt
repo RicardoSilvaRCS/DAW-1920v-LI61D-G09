@@ -14,6 +14,11 @@ class ProjectsInputModel @JsonCreator constructor(
 )
 
 /**
+ *  Data model for the representation of a projects info to update
+ */
+class ProjectsUpdateInputModel @JsonCreator constructor(val newDescr: String)
+
+/**
  *  Data model for the representation of a Project
  */
 class ProjectsOutputModel(val name: String, val descr: String)

@@ -5,6 +5,7 @@ import isel.daw.DAW.Project.Projects.ProjectsDal.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -36,8 +37,8 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
     }
 
     @PutMapping(UPDATE_PROJECT_PATH)
-    fun update( name: String, newDescr: String ) {
-        return UpdateProject.execute(name, newDescr, dbs.connection)
+    fun update( name: String, newProj: ProjectsUpdateInputModel ) {
+        return UpdateProject.execute(name, newProj, dbs.connection)
     }
 
     @DeleteMapping(DELETE_PROJECT_PATH)

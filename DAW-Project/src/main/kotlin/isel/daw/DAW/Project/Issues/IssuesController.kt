@@ -21,10 +21,10 @@ class IssuesController(val issuesrepo: IssuesRepository) {
 
     /**
      * Endpoint to obtain information of a specific issue. Must receive the @param id:Int.
-     * GET /issues/getissue?tid={issueId}
+     * GET /issues/getissue/{tid}
      */
     @GetMapping(GET_SINGLE_ISSUE_PATH)
-    fun getissue( tid: Int ): IssuesInfoOutputModel {
+    fun getissue( @PathVariable tid: Int ): IssuesInfoOutputModel {
         return issuesrepo.getById(tid)
     }
 
