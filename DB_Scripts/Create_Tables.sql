@@ -64,15 +64,15 @@ create table StateTransitions (
 
 create table Issue (
 	id serial,
-	name varchar(64) not null,
+	issueName varchar(64) not null,
 	issueDescr varchar(128) not null,
 	creationDate timestamp not null,
 	updateDate timestamp not null,
-	closeDate timestamp not null,
+	closeDate timestamp,
 	projName varchar(64) not null,
 	currState varchar(64) not null,
 	primary key (id),
-	unique(name, projName),
+	unique(issueName, projName),
 	
 	constraint project_of_issue foreign key (projName)
 		references Project(projName),

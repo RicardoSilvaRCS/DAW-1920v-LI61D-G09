@@ -4,7 +4,11 @@
 	
 INSERT INTO public.projectlabel(
 	labelname, projname)
-	VALUES ('Águias','SLB');
+	VALUES ('Aguias','SLB');
+
+INSERT INTO public.projectlabel(
+	labelname, projname)
+	VALUES ('Garra','SLB');
 	
 INSERT INTO public.projectlabel(
 	labelname, projname)
@@ -12,7 +16,7 @@ INSERT INTO public.projectlabel(
 	
 INSERT INTO public.projectlabel(
 	labelname, projname)
-	VALUES ('Dragões','Porto');
+	VALUES ('Dragoes','Porto');
 	
 INSERT INTO public.projectlabel(
 	labelname, projname)
