@@ -24,103 +24,57 @@ class GetProject {
      * -List of possible state transitions
      */
 
-    companion object{
+    companion object {
         /**
          * Since there is a lot of information about a Project that needs to be obtained
          * there will be the need of accessing multiple DB tables to get all the information.
          */
-        private const val GET_PROJECT_INFO_QUERY : String = "SELECT proj.projname, projdescr, projinitstate , prjlabel.labelname , projectstate.statename , statetrans.currstate,statetrans.nextstate\n" +
+        private const val GET_PROJECT_INFO_QUERY: String = "SELECT proj.projname, projdescr, projinitstate , prjlabel.labelname , projectstate.statename , statetrans.currstate,statetrans.nextstate\n" +
                 "\tFROM project proj inner join projectlabel prjlabel \n" +
                 "\ton proj.projname = prjlabel.projname \n" +
                 "\tinner join projectstate on proj.projname = projectstate.projname\n" +
                 "\tinner join statetransitions statetrans on proj.projname = statetrans.projname\n" +
                 "\twhere proj.projname = ?"
 
-        fun execute(projectName : String , conn : Connection): ProjectsInfoOutputModel {
+        fun execute(projectName: String, conn: Connection): ProjectsInfoOutputModel {
 
             var project = ProjectsInfoOutputModel()
-            var ps : PreparedStatement
-
-            try{
+            var ps: PreparedStatement
+            try {
                 ps = conn.prepareStatement(GET_PROJECT_INFO_QUERY)
                 ps.use {
-                    ps.setString(1,projectName)
-                    val rs = ps.executeQuery()
-                    var first = true;
-                    rs.use {
-                        while(rs.next()){
-                           if(first) {
-                               project.name = rs.getString("projname")
-                               project.descr = rs.getString("projdescr")
-                               project.initstate = rs.getString("projinitstate")
-                               first != first
-                           }
-
-                            val label = rs.getString("labelname")
-                            if(!project.labels.contains(label)) {
-                                project.labels.add(label)
-                            }
-
-                            val stateName = rs.getString("statename")
-                            if(!project.states.contains(stateName)) {
-                                project.states.add(stateName)
-                            }
-
-                            val transitions = Pair(rs.getString("currstate"),rs.getString("nextstate"))
-                            if(!project.transitions.contains(transitions)) {
-                                project.transitions.add(transitions)
-                            }
-                        }
-                    }
-                }
-            }catch ( ex : SQLException){
-
-            } finally {
-                conn.close()
-            }
-            return project
-        }
-
-        fun executev2(projectName : String , conn : Connection): ProjectsInfoOutputModel {
-
-            var project = ProjectsInfoOutputModel()
-            var ps : PreparedStatement
-
-            try{
-                ps = conn.prepareStatement(GET_PROJECT_INFO_QUERY)
-                ps.use {
-                    ps.setString(1,projectName)
+                    ps.setString(1, projectName)
                     val rs = ps.executeQuery()
                     rs.use {
-                        if(rs.next()) {
+
+                        if (rs.next()) {
                             project.name = rs.getString("projname")
                             project.descr = rs.getString("projdescr")
                             project.initstate = rs.getString("projinitstate")
                             do {
                                 val label = rs.getString("labelname")
-                                if(!project.labels.contains(label)) {
+                                if (!project.labels.contains(label)) {
                                     project.labels.add(label)
                                 }
-
                                 val stateName = rs.getString("statename")
-                                if(!project.states.contains(stateName)) {
+                                if (!project.states.contains(stateName)) {
                                     project.states.add(stateName)
                                 }
-
-                                val transitions = Pair(rs.getString("currstate"),rs.getString("nextstate"))
-                                if(!project.transitions.contains(transitions)) {
+                                val transitions = Pair(rs.getString("currstate"), rs.getString("nextstate"))
+                                if (!project.transitions.contains(transitions)) {
                                     project.transitions.add(transitions)
                                 }
-                            } while(rs.next())
+                            } while (rs.next())
                         }
                     }
                 }
-            }catch ( ex : SQLException){
+            } catch (ex: SQLException) {
 
             } finally {
                 conn.close()
             }
             return project
         }
+
     }
 }

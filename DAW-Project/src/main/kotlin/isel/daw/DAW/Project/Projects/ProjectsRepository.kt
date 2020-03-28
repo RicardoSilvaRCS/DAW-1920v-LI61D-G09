@@ -2,10 +2,7 @@ package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Projects.ProjectsDal.*
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -18,6 +15,8 @@ import javax.sql.DataSource
 /**
  * Repository for acessing Projects related data
  */
+
+//We need to make here our validations
 @Repository
 @Component
 class ProjectsRepository(@Autowired val dbs: DataSource) {
@@ -26,23 +25,70 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
         return GetProjects.execute(dbs.connection)
     }
 
-    @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getByName( name: String ): ProjectsInfoOutputModel {
         return GetProject.execute(name, dbs.connection)
     }
 
-    @PostMapping(CREATE_PROJECT_PATH)
     fun create( newProject: ProjectsInputModel) {
+        validateTrasitions(newProject)
         return CreateProject.execute(newProject, dbs.connection)
     }
 
-    @PutMapping(UPDATE_PROJECT_PATH)
     fun update( name: String, newProj: ProjectsUpdateInputModel ) {
         return UpdateProject.execute(name, newProj, dbs.connection)
     }
 
-    @DeleteMapping(DELETE_PROJECT_PATH)
     fun delete( name: String ) {
         return DeleteProject.execute(name, dbs.connection)
+    }
+
+    companion object {
+
+        private const val LAST_STATE : String = "archived"
+        private const val BEFORE_LAST_STATE : String = "closed"
+
+        fun validateTrasitions ( newProject : ProjectsInputModel) : Boolean{
+            var teste : Array<Pair<String,String>> = arrayOf( Pair("A","B") , Pair("B","A") , Pair("A","C") , Pair("C","closed") , Pair("closed","C") , Pair("closed","archived"))
+            val graph = createGraph(teste)
+            //return verifyTransitions(newProject.initstate,graph)
+            return verifyTransitions("A",graph)
+        }
+
+        fun createGraph (transitions : Array<Pair<String, String>> ) : MutableMap<String , TransitionNode> {
+            var graph : MutableMap <String , TransitionNode> = mutableMapOf()
+
+            transitions.forEach {
+                var aux = graph.get(it.first)
+
+                if(aux != null){
+                    aux.nexts.add(TransitionNode(it.second))
+                }else{
+                    var auxNode = TransitionNode(it.first)
+                    auxNode.nexts.add(TransitionNode(it.second))
+                    graph[it.first] = auxNode
+                }
+            }
+            return graph
+        }
+
+        fun verifyTransitions( currState : String , graph : MutableMap<String, TransitionNode>) : Boolean {
+            var curr = graph[currState]
+
+            for (it in curr!!.nexts){
+                if(!it.active){
+
+                    it.active = true
+                    if(currState.equals(BEFORE_LAST_STATE)) {
+                        if (it.equals(LAST_STATE)) {
+                                return true
+                        }
+                    }
+                    if(!verifyTransitions(it.curr,graph)){
+                        return false
+                    }
+                }
+            }
+            return false
+        }
     }
 }

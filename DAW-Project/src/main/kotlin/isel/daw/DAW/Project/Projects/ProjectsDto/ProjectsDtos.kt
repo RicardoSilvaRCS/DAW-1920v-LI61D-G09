@@ -35,3 +35,10 @@ class ProjectsInfoOutputModel(
         var transitions: MutableList<Pair<String, String>> = arrayListOf()
 )
 
+class TransitionNode (
+        var curr : String,
+        var nexts : MutableList<TransitionNode> = arrayListOf(),
+        var active : Boolean = false
+)
+
+
