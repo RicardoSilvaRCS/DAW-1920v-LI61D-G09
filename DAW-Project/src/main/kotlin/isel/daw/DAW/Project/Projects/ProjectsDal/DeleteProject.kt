@@ -1,6 +1,8 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
 import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.SQLException
 
 /**
  * TODO: We need to decide how are we gonna delete all the values.
@@ -25,8 +27,23 @@ class DeleteProject {
         /**
          * The removal of a Project implies the removal of several tuples in various tables.
          */
+        private val DELETE_PROJECT_QUERY = "delete from project where projname = ? ;"
+
         fun execute(name: String, conn: Connection) {
-            throw NotImplementedError("TODO!")
+            var ps : PreparedStatement
+
+            try{
+                ps = conn.prepareStatement(DeleteProject.DELETE_PROJECT_QUERY)
+                ps.use {
+                    ps.setString(1,name)
+                    ps.execute()
+                }
+
+            }catch ( ex : SQLException){
+                print(ex)
+            } finally {
+                conn.close()
+            }
         }
     }
 }

@@ -69,6 +69,6 @@ class IssuesController(val issuesrepo: IssuesRepository) {
      */
     @DeleteMapping(DELETE_ISSUE_PATH)
     fun deleteissue(@PathVariable tid: Int) {
-        throw NotImplementedError("TODO!")
+        return issuesrepo.delete(tid)
     }
 }

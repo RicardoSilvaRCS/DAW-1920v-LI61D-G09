@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Issues
 
+import isel.daw.DAW.Project.Issues.IssuesDal.DeleteIssue
 import isel.daw.DAW.Project.Issues.IssuesDal.GetIssue
 import isel.daw.DAW.Project.Issues.IssuesDal.GetProjIssues
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
@@ -38,6 +39,6 @@ class IssuesRepository(@Autowired val dbs: DataSource)  {
     }
 
     fun delete( tid: Int) {
-        throw NotImplementedError("TODO!")
+        return DeleteIssue.execute(tid,dbs.connection)
     }
 }
