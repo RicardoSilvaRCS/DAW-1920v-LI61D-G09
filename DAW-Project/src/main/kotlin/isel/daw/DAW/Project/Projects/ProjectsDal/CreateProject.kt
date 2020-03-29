@@ -1,47 +1,108 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import java.sql.Connection
-import java.sql.PreparedStatement
+import java.sql.SQLException
 
-
-/**
- * TODO: We need to decide how are we gonna insert all the values.
- *      If we are going to do a stored procedure that inserts in all the necessary tables.(PBBLY THIS ONE)
- *      Or if we are gonna connect multiple times to the db inserting in a diferent table each time.
- *
- * TODO: We need to figure out what to return in this function.
- *
- * TODO: We need to decide what to return when an exception/error occurs
- */
-
+//TODO we need to make Transaction scopes
 
 class CreateProject {
 
-    /**
-     * Endpoint responsible for creating a new Project
-     * Needs to receive:
-     * -Name;
-     * -Description;
-     * -Initial State;
-     * -List of defined labels
-     * -List of possible state transitions
-     */
-
     companion object {
-        /**
-         * The creation of a new Project implies the insertion of tuples in various tables.
-         */
 
-        /**
-         * A Project must always have the closed->archived transition
-         */
-        private val closedArchTrans: Pair<String, String> = Pair("closed", "archived")
+        private const val INSERT_PROJECT : String  ="INSERT INTO public.project\n" +
+                "\t (projname, projdescr, projinitstate)\n" +
+                "\t VALUES (?,?, ?);"
 
-        fun execute( newProject: ProjectsInputModel , conn : Connection) {
+        fun execute( newProject : ProjectsInputModel , conn : Connection) {
 
-            throw NotImplementedError("TODO!")
+            try {
+                val ps = conn.prepareStatement(INSERT_PROJECT)
+
+                ps.use {
+                    ps.setString(1, newProject.name)
+                    ps.setString(2,newProject.descr)
+                    ps.setString(3,newProject.initstate)
+                    ps.execute()
+                }
+
+                insertLabels(newProject.name , newProject.labels , conn)
+                insertStates(newProject.name , newProject.transitions , conn)
+                insertTransitions(newProject.name , newProject.transitions , conn)
+            } catch (ex: SQLException) {
+                conn.rollback()
+                println(ex.message)
+            }finally {
+                conn.close()
+            }
         }
+
+        //--------------------------------Insert Labels---------------------------------------//
+        private const val INSERT_LABEL : String  = "INSERT INTO public.projectlabel\n" +
+                "\t(labelname, projname)\n" +
+                "\tVALUES (?,?); "
+
+        fun insertLabels (projectName : String , labels : Array<String> , conn : Connection) {
+
+            val ps = conn.prepareStatement(INSERT_LABEL)
+            ps.use {
+                ps.setString(2, projectName)
+                for(currLabel in labels){
+                    ps.setString(1,currLabel)
+                    ps.execute()
+                }
+            }
+
+        }
+
+        //--------------------------------Insert States---------------------------------------//
+        private const val INSERT_STATE : String  = "INSERT INTO public.projectstate\n" +
+                "\t (statename, projname)\n" +
+                "\t VALUES (?, ?);"
+
+        private fun insertStates(projectName: String, transitions: Array<Pair<String, String>>, conn: Connection) {
+            val states : Set<String> = getStates(transitions)
+
+            val ps = conn.prepareStatement(INSERT_STATE)
+            ps.use {
+                ps.setString(2, projectName)
+                for(currState in states){
+                    ps.setString(1,currState)
+                    ps.execute()
+                }
+            }
+
+        }
+
+        private fun getStates (transitions: Array<Pair<String, String>>) : MutableSet<String> {
+            val aux = mutableSetOf<String>()
+            transitions.forEach {
+                if(!aux.contains(it.first)){
+                    aux.add(it.first)
+                }
+                if(!aux.contains(it.second)){
+                    aux.add(it.second)
+                }
+            }
+            return aux;
+        }
+
+        //--------------------------------Insert Transitions----------------------------------//
+        private const val INSERT_TRANSITION: String  = "INSERT INTO public.statetransitions\n" +
+                "\t (currstate, nextstate, projname)\n" +
+                "\t VALUES (?, ?, ?);"
+
+        private fun insertTransitions (projectName: String, transitions: Array<Pair<String, String>>, conn: Connection) {
+            val ps = conn.prepareStatement(INSERT_TRANSITION)
+            ps.use {
+                ps.setString(3, projectName)
+                for(currTran in transitions){
+                    ps.setString(1, currTran.first)
+                    ps.setString(2, currTran.second)
+                    ps.execute()
+                }
+            }
+        }
+
     }
 }

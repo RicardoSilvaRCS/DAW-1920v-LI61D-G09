@@ -22,6 +22,7 @@ class ProjectsInputModel @JsonCreator constructor(
      */
 
     companion object {
+
         private val CLOSED_ARCH_TRANS: Pair<String,String> = Pair("closed", "archived")
         private val FINAL_STATE: String = "archived"
 
@@ -105,12 +106,6 @@ class ProjectsInfoOutputModel(
         var initstate: String? = "",
         var states: MutableList<String> = arrayListOf(),
         var transitions: MutableList<Pair<String, String>> = arrayListOf()
-)
-
-class TransitionNode (
-        var curr : String,
-        var nexts : MutableList<TransitionNode> = arrayListOf(),
-        var active : Boolean = false
 )
 
 

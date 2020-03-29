@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import java.lang.Error
+import java.lang.Exception
 import java.util.*
 import javax.sql.DataSource
 
@@ -33,7 +34,27 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
         return GetProject.execute(name, dbs.connection)
     }
 
-    fun create( newProject: ProjectsInputModel) {
+    fun create (newProject : ProjectsInputModel ) {
+        if(!newProject.name.isNullOrEmpty() && !newProject.name.isBlank()&& !newProject.initstate.isNullOrEmpty() && newProject.verifyTransitions()){
+            return CreateProject.execute(newProject, dbs.connection)
+        }else{
+            throw Exception ("This project is not valid")
+        }
+    }
+
+    fun update( name: String, newProj: ProjectsUpdateInputModel ) {
+        return UpdateProject.execute(name, newProj, dbs.connection)
+    }
+
+    fun delete( name: String ) {
+        return DeleteProject.execute(name, dbs.connection)
+    }
+
+
+
+
+
+    /*fun create( newProject: ProjectsInputModel) {
         /**
          * Moved the algorithm to the ProjectsInputModel class. To test this:
          *
@@ -81,16 +102,7 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
              * TODO: Transitions are not valid :)
              */
         }
-
-        return CreateProject.execute(newProject, dbs.connection)
-    }
-
-    fun update( name: String, newProj: ProjectsUpdateInputModel ) {
-        return UpdateProject.execute(name, newProj, dbs.connection)
-    }
-
-    fun delete( name: String ) {
-        return DeleteProject.execute(name, dbs.connection)
-    }
+          return CreateProject.execute(newProject, dbs.connection)
+    }*/
 
 }
