@@ -13,8 +13,6 @@ import java.sql.PreparedStatement
  *
  * TODO: We need to figure out what to return in this function.
  *
- * TODO: We have to implement the algorithm to check if the transitions given are valid
- *
  * TODO: We need to decide what to return when an exception/error occurs
  */
 

@@ -14,9 +14,6 @@ class DeleteIssue {
      */
 
     companion object {
-        /**
-         * The removal of a Project implies the removal of several tuples in various tables.
-         */
         private val DELETE_ISSUE_QUERY = "delete from Issue where Id = ? ;"
 
         fun execute(tid: Int, conn: Connection) {

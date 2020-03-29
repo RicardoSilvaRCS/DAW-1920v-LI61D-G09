@@ -6,8 +6,6 @@ import java.sql.PreparedStatement
 import java.sql.SQLException
 
 /**
- *  TODO: The query to get all info, with all the joins and stuff
- *
  *  TODO: Decide what to do when an exception/error occurs.
  */
 class GetIssue {

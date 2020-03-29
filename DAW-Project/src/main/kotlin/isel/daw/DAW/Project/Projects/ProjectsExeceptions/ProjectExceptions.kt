@@ -6,3 +6,11 @@ package isel.daw.DAW.Project.Projects.ProjectsExeceptions
  */
 
 class InvalidProjectException (msg : String ): Exception(msg)
+
+class InvalidStateTransitionException (msg: String): Exception(msg) {
+    val DEFAULT_MSG: String = "Invalid state transition:\n"
+    override val message: String?
+        get() {
+            return DEFAULT_MSG.plus(super.message)
+        }
+}

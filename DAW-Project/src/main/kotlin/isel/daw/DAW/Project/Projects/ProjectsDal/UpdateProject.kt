@@ -6,12 +6,6 @@ import java.sql.PreparedStatement
 import java.sql.SQLException
 
 /**
- *  TODO: Figure out what are we going to allow the user to update on a Project.
- *        For now it's only "description" but we have to decide if we will allow
- *        labels, states and transitions to be changed
- *        In the case we allow this 3 attributes to be updated we will need to:
- *          -Make sure the labels/states were also updated in the respective issues;
- *          -Implement the algorithm to check if the transitions given are valid.
  *
  *  TODO: We need to figure out what to return in this function.
  *
