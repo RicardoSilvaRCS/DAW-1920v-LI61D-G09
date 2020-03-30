@@ -4,6 +4,12 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
+/**
+ *  TODO: Decide what to do when an exception/error occurs.
+ *
+ *  TODO: We need to figure out what to return in this function.
+ */
+
 class DeleteProject {
 
     companion object {

@@ -4,7 +4,13 @@ import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import java.sql.Connection
 import java.sql.SQLException
 
-//TODO we need to make Transaction scopes
+/**
+ *  TODO: Decide what to do when an exception/error occurs.
+ *
+ *  TODO: We need to figure out what to return in this function.
+ *
+ *  TODO we need to make Transaction scopes
+ */
 
 class CreateProject {
 
