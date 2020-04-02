@@ -32,3 +32,8 @@ class IssuesInfoOutputModel(
         var updateDate: Timestamp? = null,
         var closeDate: Timestamp? = null
 )
+
+/**
+ * Data model for the update state of an Issue
+ */
+class IssuesStateInputModel(val state: String)

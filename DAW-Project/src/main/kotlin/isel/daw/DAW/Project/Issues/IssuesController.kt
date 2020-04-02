@@ -4,6 +4,7 @@ import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
+import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -59,8 +60,8 @@ class IssuesController(val issuesrepo: IssuesRepository) {
      * PUT /issues/updateissue/{tid}/updatestate
      */
     @PutMapping(UPDATE_ISSUE_STATE_PATH, consumes = ["application/json"])
-    fun updateissuetate( @PathVariable tid: Int, @RequestBody state: String) {
-        throw NotImplementedError("TODO!")
+    fun updateissuetate( @PathVariable tid: Int, @RequestBody state: IssuesStateInputModel) {
+        return issuesrepo.updatestate(tid, state)
     }
 
     /**

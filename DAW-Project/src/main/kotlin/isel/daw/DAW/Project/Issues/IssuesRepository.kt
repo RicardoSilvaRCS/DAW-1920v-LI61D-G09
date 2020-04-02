@@ -3,9 +3,11 @@ package isel.daw.DAW.Project.Issues
 import isel.daw.DAW.Project.Issues.IssuesDal.DeleteIssue
 import isel.daw.DAW.Project.Issues.IssuesDal.GetIssue
 import isel.daw.DAW.Project.Issues.IssuesDal.GetProjIssues
+import isel.daw.DAW.Project.Issues.IssuesDal.UpdateIssueState
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
+import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -34,8 +36,8 @@ class IssuesRepository(@Autowired val dbs: DataSource)  {
         throw NotImplementedError("TODO!")
     }
 
-    fun updatestate( tid: Int, newState: String) {
-        throw NotImplementedError("TODO!")
+    fun updatestate( tid: Int, newState: IssuesStateInputModel) {
+        return UpdateIssueState.execute(tid, newState, dbs.connection)
     }
 
     fun delete( tid: Int) {
