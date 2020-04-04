@@ -1,10 +1,7 @@
 package isel.daw.DAW.Project.Comments
 
 import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
-import isel.daw.DAW.Project.Common.COMMENTS_PATH
-import isel.daw.DAW.Project.Common.CREATE_COMMENT_PATH
-import isel.daw.DAW.Project.Common.DELETE_COMMENT_PATH
-import isel.daw.DAW.Project.Common.GET_COMMENTS_PATH
+import isel.daw.DAW.Project.Common.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -25,6 +22,15 @@ class CommentsController {
      */
     @PostMapping(CREATE_COMMENT_PATH)
     fun createComment(@PathVariable tid: Int, @RequestBody comment: CommentsInputModel) {
+        throw NotImplementedError("TODO!")
+    }
+
+    /**
+     * Endpoint to update an issue comment. Must receive the @param text:String.
+     * PUT /comments/updatecomment/{tid}
+     */
+    @PutMapping(UPDATE_COMMENT_PATH)
+    fun updateComment(@PathVariable tid: Int, @RequestBody comment: CommentsInputModel) {
         throw NotImplementedError("TODO!")
     }
 

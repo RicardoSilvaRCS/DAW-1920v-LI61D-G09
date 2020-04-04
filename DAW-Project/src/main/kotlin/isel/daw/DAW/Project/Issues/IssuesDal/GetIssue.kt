@@ -8,31 +8,18 @@ import java.sql.SQLException
 /**
  *  TODO: Decide what to do when an exception/error occurs.
  */
+
 class GetIssue {
-    /**
-     * Endpoint responsible for obtaining the detailed information of an Issue
-     * Needs to return:
-     * -Id;
-     * -Name;
-     * -Description;
-     * -Creation Date;
-     * -Updated Date;
-     * -Close Date;
-     * -Current State;
-     * -Assigned Labels
-     * -Project Name
-     */
 
     companion object{
-        /**
-         * Since there is a lot of information about an Issue that needs to be obtained
-         * there will be the need of accessing multiple DB tables to get all the information.
-         */
+
         private const val GET_ISSUE_INFO_QUERY : String =
-                "SELECT issue.*, issuelabel.labelname\n" +
-                "FROM issue\n" +
-                   "LEFT JOIN issuelabel on issue.id = issuelabel.issueid\n" +
-                "WHERE issue.id = ?"
+                " SELECT issue.*, issuelabel.labelname , statetransitions.currstate as currstatetran  , statetransitions.nextstate" +
+                        "FROM issue" +
+                        "LEFT JOIN issuelabel on issue.id = issuelabel.issueid" +
+                        "INNER JOIN statetransitions on statetransitions.projname = issue.projname" +
+                        "where issue.currstate in (statetransitions.currstate , statetransitions.nextstate)" +
+                        "and issue.id = ?"
 
         fun execute(issueId : Int , conn : Connection): IssuesInfoOutputModel {
 
@@ -53,9 +40,18 @@ class GetIssue {
                             issue.updateDate = rs.getTimestamp("updatedate")
                             issue.closeDate = rs.getTimestamp("closedate")
                             issue.projname = rs.getString("projname")
-                            issue.state = rs.getString("currstate")
+                            issue.currState = rs.getString("currstate")
                             do {
+
                                 issue.labels.add(rs.getString("labelname")?:"")
+                                var auxCurrState = rs.getString("currstatetran")
+                                var auxNextState = rs.getString("nextstate")
+
+                                if(issue.currState.equals(auxCurrState)){
+                                    issue.possibleNextStates.add(auxNextState)
+                                }else{
+                                    issue.possibleNextStates.add(auxCurrState)
+                                }
                             } while(rs.next())
                         }
                     }

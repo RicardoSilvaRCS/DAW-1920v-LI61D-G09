@@ -14,7 +14,7 @@ class DeleteIssue {
      */
 
     companion object {
-        private val DELETE_ISSUE_QUERY = "delete from Issue where Id = ? ;"
+        private const val DELETE_ISSUE_QUERY = "delete from Issue where Id = ? ;"
 
         fun execute(tid: Int, conn: Connection) {
             var ps : PreparedStatement

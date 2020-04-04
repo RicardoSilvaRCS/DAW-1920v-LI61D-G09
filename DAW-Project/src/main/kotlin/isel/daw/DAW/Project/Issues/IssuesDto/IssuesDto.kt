@@ -27,7 +27,8 @@ class IssuesInfoOutputModel(
         var projname: String = "",
         var descr: String = "",
         val labels: MutableList<String> = arrayListOf(),
-        var state: String = "",
+        var currState: String = "",
+        var possibleNextStates : MutableList<String> = mutableListOf(),
         var creationDate: Timestamp? = null,
         var updateDate: Timestamp? = null,
         var closeDate: Timestamp? = null

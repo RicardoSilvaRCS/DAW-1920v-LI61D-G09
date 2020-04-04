@@ -21,7 +21,7 @@ class GetProjIssues {
         private const val GET_ALL_ISSUES_FROM_PROJECT_QUERY : String = "select issuename,issuedescr,currstate from Issue where projname = ?;"
 
         fun execute(projName: String, conn: Connection): List<IssuesOutputModel> {
-            val issues: MutableList<IssuesOutputModel> = arrayListOf()
+            val issues: MutableList<IssuesOutputModel> = mutableListOf()
             try {
                 val ps = conn.prepareStatement(GET_ALL_ISSUES_FROM_PROJECT_QUERY)
                 ps.use {

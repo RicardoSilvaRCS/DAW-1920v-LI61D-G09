@@ -17,7 +17,7 @@ class UpdateIssueState {
 
     companion object {
 
-        private val UPDATE_ISSUE_STATE_QUERY = "update issue set currstate = ? where id = ? ;"
+        private const val UPDATE_ISSUE_STATE_QUERY = "update issue set currstate = ? where id = ? ;"
 
         fun execute (tid: Int, newState: IssuesStateInputModel, conn: Connection) {
             var ps : PreparedStatement

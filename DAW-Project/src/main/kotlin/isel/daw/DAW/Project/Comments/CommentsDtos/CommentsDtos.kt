@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Comments.CommentsDtos
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import java.util.*
 
 /**
  *
@@ -21,7 +22,7 @@ class CommentsInfoOutputModel(
         val id: Int,
         val taskid: Int,
         val text: String,
-        val creationdate: String
+        val creationdate: Date
 )
 
 /**
