@@ -5,7 +5,6 @@ import isel.daw.DAW.Project.Common.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(COMMENTS_PATH)
 class CommentsController {
     /**
      * Endpoint to get all comments of an issue.

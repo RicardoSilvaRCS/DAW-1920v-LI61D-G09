@@ -16,7 +16,6 @@ import javax.sql.DataSource
  * Controller for Projects resources
  */
 @RestController
-@RequestMapping(PROJECTS_PATH)
 class ProjectsController(val projectsrepo: ProjectsRepository) {
 
     /**

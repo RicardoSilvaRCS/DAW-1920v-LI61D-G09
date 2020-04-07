@@ -2,28 +2,27 @@ package isel.daw.DAW.Project.Common
 
 /**
  * All paths on the API
+ * TODO Perguntar se em projetos maiores compensa colocar os nomes do endpoints identicos ao nome das pastas
+ *  para ser de mais facil resolução em caso de erro
  */
 
 /*PROJECT PATHS*/
-const val PROJECTS_PATH = "/projects"
-const val GET_PROJECTS_PATH = "/getprojects"
-const val GET_SINGLE_PROJECT_PATH = "/getproject/{pname}"
-const val CREATE_PROJECT_PATH = "/createproject"
-const val UPDATE_PROJECT_PATH = "/updateproject/{pname}"
-const val DELETE_PROJECT_PATH = "/deleteproject/{pname}"
+const val GET_PROJECTS_PATH = "/projects"
+const val GET_SINGLE_PROJECT_PATH = "/projects/{pname}"
+const val CREATE_PROJECT_PATH = "/projects"
+const val UPDATE_PROJECT_PATH = "/projects/{pname}"
+const val DELETE_PROJECT_PATH = "/projects/{pname}"
 
 /*ISSUE PATHS*/
-const val ISSUES_PATH = "/issues"
-const val GET_ISSUES_PATH = "/getissues/{pname}"
-const val GET_SINGLE_ISSUE_PATH = "/getissue/{tid}"
-const val CREATE_ISSUE_PATH = "/createissue"
-const val UPDATE_ISSUE_PATH = "/updateissue/{tid}"
+const val GET_ISSUES_PATH = "/issues/{pname}"
+const val GET_SINGLE_ISSUE_PATH = "/issues/{tid}"
+const val CREATE_ISSUE_PATH = "/issues"
+const val UPDATE_ISSUE_PATH = "/issues/{tid}"
 const val UPDATE_ISSUE_STATE_PATH = "${UPDATE_ISSUE_PATH}/updatestate"
-const val DELETE_ISSUE_PATH = "/deleteissue/{tid}"
+const val DELETE_ISSUE_PATH = "/issues/{tid}"
 
 /*COMMENT PATHS*/
-const val COMMENTS_PATH = "/comments"
-const val GET_COMMENTS_PATH = "/getcomments/{tid}"
-const val CREATE_COMMENT_PATH = "/createcomment/{tid}"
-const val UPDATE_COMMENT_PATH = "/updatecomment/{tid}"
-const val DELETE_COMMENT_PATH = "/deletecomment/{cid}"
+const val GET_COMMENTS_PATH = "/comments/{tid}"
+const val CREATE_COMMENT_PATH = "/comments/{tid}"
+const val UPDATE_COMMENT_PATH = "/comments/{tid}"
+const val DELETE_COMMENT_PATH = "/comments/{cid}"

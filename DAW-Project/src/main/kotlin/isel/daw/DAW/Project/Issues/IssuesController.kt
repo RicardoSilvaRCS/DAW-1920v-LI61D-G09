@@ -8,7 +8,6 @@ import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(ISSUES_PATH)
 class IssuesController(val issuesrepo: IssuesRepository) {
 
     /**
