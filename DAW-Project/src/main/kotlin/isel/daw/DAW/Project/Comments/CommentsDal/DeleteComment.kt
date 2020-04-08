@@ -1,4 +1,4 @@
-package isel.daw.DAW.Project.Comments.Dal
+package isel.daw.DAW.Project.Comments.CommentsDal
 
 import java.sql.Connection
 import java.sql.PreparedStatement

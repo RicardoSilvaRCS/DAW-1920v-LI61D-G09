@@ -1,4 +1,4 @@
-package isel.daw.DAW.Project.Comments.Dal
+package isel.daw.DAW.Project.Comments.CommentsDal
 
 import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
 import java.sql.Connection

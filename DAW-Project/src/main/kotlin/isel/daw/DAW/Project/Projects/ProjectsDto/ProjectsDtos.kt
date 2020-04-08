@@ -1,8 +1,7 @@
 package isel.daw.DAW.Project.Projects.ProjectsDto
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import isel.daw.DAW.Project.Projects.ProjectsExeceptions.InvalidStateTransitionException
-
+import isel.daw.DAW.Project.Common.InvalidStateTransitionException
 /**
  *  Data model for the creation of a new Project
  */
@@ -17,7 +16,7 @@ class ProjectsInputModel @JsonCreator constructor(
      * Changed this verification code here for now because it's a better place than DAL layer or Repository
      * Its functionality is limited by the existence of this object, soo i think its not that bad of an option
      *
-     * TODO: I'm still not 100% sure of the functionallity of this algorithm, i did a few tests soo it works so far,
+     * TODO: I'm still not 100% sure of the functionality of this algorithm, i did a few tests soo it works so far,
      *       We need to test this in a more detailed manner, and maybe redo the code, it might not be that pretty.
      */
 

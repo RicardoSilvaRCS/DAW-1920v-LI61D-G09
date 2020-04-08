@@ -16,24 +16,24 @@ import javax.sql.DataSource
  * Controller for Projects resources
  */
 @RestController
-class ProjectsController(val projectsrepo: ProjectsRepository) {
+class ProjectsController(private val projectservices: ProjectsServices) {
 
     /**
      * Endpoint to obtain all existing projects. Might receive filtering parameters(creation-date, issue-number, etc.).
-     * GET /projects/getprojects
+     * GET /projects
      */
     @GetMapping(GET_PROJECTS_PATH)
     fun getProjects (): List<ProjectsOutputModel> {
-       return projectsrepo.getAll()
+       return projectservices.getProjects()
     }
 
     /**
      * Endpoint to obtain detailed information of a single project. Must receive the @param name:String that identifies the project.
-     * GET /projects/getproject/{pname}
+     * GET /projects/{pname}
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject(@PathVariable pname: String): ProjectsInfoOutputModel {
-        return projectsrepo.getByName(pname)
+        return projectservices.getProject(pname)
     }
 
     /**
@@ -43,28 +43,28 @@ class ProjectsController(val projectsrepo: ProjectsRepository) {
      *  labels:List<String>, the labels used in the projects context;
      *  initstate:String, initial state used in the projects context;
      *  transitions:Array<Pair<String,String>>, possible state transitions.
-     * POST /projects/createproject
+     * POST /projects
      */
     @PostMapping(CREATE_PROJECT_PATH, consumes = ["application/json"])
     fun createProject( @RequestBody newProject: ProjectsInputModel ) {
-        return projectsrepo.create(newProject)
+        return projectservices.createProject(newProject)
     }
 
     /**
      * Endpoint to update a projects information.
-     * PUT /projects/updateproject/{pname}
+     * PUT /projects/{pname}
      */
     @PutMapping(UPDATE_PROJECT_PATH, consumes = ["application/json"])
     fun updateProject(@PathVariable pname: String,  @RequestBody newProj: ProjectsUpdateInputModel  ) {
-        return projectsrepo.update(pname, newProj)
+        return projectservices.updateProject(pname, newProj)
     }
 
     /**
      * Endpoint to delete a project.
-     * DELETE /projects/deleteproject/{pname}
+     * DELETE /projects/{pname}
      */
     @DeleteMapping(DELETE_PROJECT_PATH)
     fun deleteProject(@PathVariable pname: String) {
-        return projectsrepo.delete(pname)
+        return projectservices.deleteProject(pname)
     }
 }

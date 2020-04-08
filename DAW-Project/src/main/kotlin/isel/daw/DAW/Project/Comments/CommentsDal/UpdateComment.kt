@@ -1,11 +1,9 @@
-package isel.daw.DAW.Project.Comments.Dal
+package isel.daw.DAW.Project.Comments.CommentsDal
 
 import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
 import java.sql.Connection
-import java.sql.Date
 import java.sql.PreparedStatement
 import java.sql.SQLException
-import java.time.LocalDate
 
 class UpdateComment {
 

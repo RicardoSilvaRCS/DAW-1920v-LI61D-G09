@@ -8,24 +8,24 @@ import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class IssuesController(val issuesrepo: IssuesRepository) {
+class IssuesController(private val issueservices: IssuesServices) {
 
     /**
      * Endpoint to obtain all existing issues of a project. Might receive filtering parameters(creation-date, comment-number, etc.).
-     * GET /issues/getissues/{pname}
+     * GET /issues/{pname}
      */
     @GetMapping(GET_ISSUES_PATH)
     fun getissues( @PathVariable pname: String): List<IssuesOutputModel> {
-        return issuesrepo.getIssuesOfProj(pname)
+        return issueservices.getIssues(pname)
     }
 
     /**
      * Endpoint to obtain information of a specific issue. Must receive the @param id:Int.
-     * GET /issues/getissue/{tid}
+     * GET /issue/{tid}
      */
     @GetMapping(GET_SINGLE_ISSUE_PATH)
     fun getissue( @PathVariable tid: Int ): IssuesInfoOutputModel {
-        return issuesrepo.getById(tid)
+        return issueservices.getIssue(tid)
     }
 
     /**
@@ -35,11 +35,11 @@ class IssuesController(val issuesrepo: IssuesRepository) {
      *  description:String, short description of the issue;
      *  labels:Array<String>, the labels the issue has(might have none).
      * Might receive filtering parameters(creation-date, comment-number, etc.). The issues state must start with the initialstate defined in the project.
-     * POST /issues/createissue
+     * POST /issues
      */
     @PostMapping(CREATE_ISSUE_PATH, consumes = ["application/json"])
     fun createissue(@RequestBody newIssue: IssuesInputModel) {
-        throw NotImplementedError("TODO!")
+        return issueservices.createIssue(newIssue)
     }
 
     /**
@@ -47,28 +47,28 @@ class IssuesController(val issuesrepo: IssuesRepository) {
      *  issname:String, the new name of the issue;
      *  description:String, new description of the issue;
      *  labels:Array<String>, a new label for the issue.
-     * PUT /issues/updateissue/{tid}
+     * PUT /issues/{tid}
      */
     @PutMapping(UPDATE_ISSUE_PATH)
     fun updateissueInfo(@PathVariable tid: Int, @RequestBody newIssue: IssuesInputModel) {
-        throw NotImplementedError("TODO!")
+        return issueservices.updateIssue(tid, newIssue)
     }
 
     /**
      * Endpoint to update the issue state. Must receive the @param state:String.
-     * PUT /issues/updateissue/{tid}/updatestate
+     * PUT /issues/{tid}/updatestate
      */
     @PutMapping(UPDATE_ISSUE_STATE_PATH, consumes = ["application/json"])
     fun updateissuetate( @PathVariable tid: Int, @RequestBody state: IssuesStateInputModel) {
-        return issuesrepo.updatestate(tid, state)
+        return issueservices.updateState(tid, state)
     }
 
     /**
      * Endpoint to delete an issue.
-     * DELETE /issues/deleteissue/{tid}
+     * DELETE /issues/{tid}
      */
     @DeleteMapping(DELETE_ISSUE_PATH)
     fun deleteissue(@PathVariable tid: Int) {
-        return issuesrepo.delete(tid)
+        return issueservices.deleteIssue(tid)
     }
 }
