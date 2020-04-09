@@ -13,8 +13,7 @@ class InvalidCommentException (msg : String ): Exception(msg)
 class InvalidIssueException (msg : String ): Exception(msg)
 
 /**
- * This represents an invalid project exception.
- * Thrown when the project does not match his structure
+ * This represents an invalid project exception. * Thrown when the project does not match his structure
  */
 class InvalidProjectException (msg : String ): Exception(msg)
 

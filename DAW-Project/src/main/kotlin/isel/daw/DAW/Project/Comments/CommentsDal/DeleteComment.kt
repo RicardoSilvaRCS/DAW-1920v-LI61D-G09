@@ -9,8 +9,8 @@ class DeleteComment {
 
 companion object{
 
-    private const val DELETE_ISSUE_COMMENT_QUERY : String  = "DELETE FROM issuecomment\n" +
-                                                                "\t WHERE commentid = ? ;"
+    private const val DELETE_ISSUE_COMMENT_QUERY : String  = "DELETE FROM issuecomment " +
+                                                                " WHERE commentid = ? ;"
 
     fun execute (commentId : Int ,conn: Connection) {
         val ps : PreparedStatement

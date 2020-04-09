@@ -8,7 +8,7 @@ import java.sql.SQLException
 class UpdateComment {
 
     companion object {
-        const val UPDATE_ISSUE_COMMENT_QUERY = "UPDATE public.issuecomment " +
+        const val UPDATE_ISSUE_COMMENT_QUERY = "UPDATE issuecomment " +
                                                     " SET commenttext = ? " +
                                                     " WHERE commentid = ? "
 
@@ -16,7 +16,7 @@ class UpdateComment {
             val ps : PreparedStatement
 
             try{
-                ps = conn.prepareStatement(InsertComment.INSERT_COMMENT_INTO_ISSUE_QUERY)
+                ps = conn.prepareStatement(UPDATE_ISSUE_COMMENT_QUERY)
                 ps.use {
                     ps.setString(1,comment.text)
                     ps.setInt(2,commentId)

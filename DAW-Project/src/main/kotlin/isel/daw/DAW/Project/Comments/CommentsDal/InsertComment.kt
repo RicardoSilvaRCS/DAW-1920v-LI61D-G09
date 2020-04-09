@@ -24,7 +24,7 @@ class InsertComment {
                     ps.setString(1,comment.text)
                     ps.setDate(2, Date.valueOf(LocalDate.now()))
                     ps.setInt(3,issueid)
-                    ps.executeQuery()
+                    ps.execute()
                 }
             }catch ( ex : SQLException){
                 conn.rollback()

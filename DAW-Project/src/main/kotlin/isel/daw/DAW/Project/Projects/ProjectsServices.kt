@@ -1,14 +1,12 @@
 package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.InvalidProjectException
-import isel.daw.DAW.Project.Common.InvalidStateTransitionException
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
-import java.lang.Exception
 
 /**
  * Services layer for Projects related operations. All the business logic is implemented in this layer.

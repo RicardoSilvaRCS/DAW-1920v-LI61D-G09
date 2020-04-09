@@ -15,11 +15,11 @@ class GetIssue {
 
         private const val GET_ISSUE_INFO_QUERY : String =
                 " SELECT issue.*, issuelabel.labelname , statetransitions.currstate as currstatetran  , statetransitions.nextstate" +
-                        "FROM issue" +
-                        "LEFT JOIN issuelabel on issue.id = issuelabel.issueid" +
-                        "INNER JOIN statetransitions on statetransitions.projname = issue.projname" +
-                        "where issue.currstate in (statetransitions.currstate , statetransitions.nextstate)" +
-                        "and issue.id = ?"
+                        " FROM issue" +
+                        " LEFT JOIN issuelabel on issue.id = issuelabel.issueid" +
+                        " INNER JOIN statetransitions on statetransitions.projname = issue.projname" +
+                        " where issue.currstate in (statetransitions.currstate , statetransitions.nextstate)" +
+                        " and issue.id = ?"
 
         fun execute(issueId : Int , conn : Connection): IssuesInfoOutputModel {
 
@@ -57,7 +57,7 @@ class GetIssue {
                     }
                 }
             }catch ( ex : SQLException){
-
+                var msg = ex.message
             } finally {
                 conn.close()
             }

@@ -11,8 +11,8 @@ class GetIssueComments {
 
 
         private const val GET_ISSUE_COMMENTS_QUERY = "SELECT commentid, commenttext, commentcreation, issueid " +
-                                                    "FROM public.issuecomment" +
-                                                    "where issueid = ? "
+                                                    " FROM issuecomment" +
+                                                    " where issueid=? "
 
         fun execute (issueId : Int ,conn: Connection) : List<CommentsInfoOutputModel>{
             val ps : PreparedStatement

@@ -24,8 +24,3 @@ class CommentsInfoOutputModel(
         val text: String,
         val creationdate: Date
 )
-
-/**
- * TODO:
- */
-class InvalidCommentsException : Exception()
