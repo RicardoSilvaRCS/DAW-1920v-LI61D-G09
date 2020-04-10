@@ -23,8 +23,12 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * GET /projects
      */
     @GetMapping(GET_PROJECTS_PATH)
-    fun getProjects (): List<ProjectsOutputModel> {
-       return projectservices.getProjects()
+    fun getProjects (): List<SirenEntity<ProjectsOutputModel>>{
+       val projects: MutableList<SirenEntity<ProjectsOutputModel>> = mutableListOf()
+        projectservices.getProjects().forEach{
+            projects.add(it.toSirenObject())
+        }
+        return projects
     }
 
     /**
@@ -32,8 +36,8 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * GET /projects/{pname}
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
-    fun getProject(@PathVariable pname: String): ProjectsInfoOutputModel {
-        return projectservices.getProject(pname)
+    fun getProject(@PathVariable pname: String): SirenEntity<ProjectsInfoOutputModel> {
+        return projectservices.getProject(pname).toSirenObject()
     }
 
     /**

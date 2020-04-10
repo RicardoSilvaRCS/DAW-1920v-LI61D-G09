@@ -1,7 +1,13 @@
 package isel.daw.DAW.Project.Projects.ProjectsDto
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import isel.daw.DAW.Project.Common.InvalidStateTransitionException
+import isel.daw.DAW.Project.Common.*
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import java.net.URI
+
+/**---------------------------------------------------INPUT DTOS--------------------------------------------*/
+
 /**
  *  Data model for the creation of a new Project
  */
@@ -90,10 +96,22 @@ class ProjectsInputModel @JsonCreator constructor(
  */
 class ProjectsUpdateInputModel @JsonCreator constructor(val newDescr: String)
 
+/**---------------------------------------------------OUTPUT DTOS--------------------------------------------*/
+
 /**
  *  Data model for the representation of a Project
  */
-class ProjectsOutputModel(val name: String, val descr: String)
+class ProjectsOutputModel(val name: String, val descr: String){
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectsInfo"),
+            links = listOf(
+                    SirenLink(rel = listOf("project-detailed-info"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}",this.name))),
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}",this.name)))
+            ),
+            actions = listOf(GET_SINGLEPROJECT_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
+    )
+}
 
 /**
  * Data model for the full detailed representation of a Project
@@ -105,6 +123,66 @@ class ProjectsInfoOutputModel(
         var initstate: String? = "",
         var states: MutableList<String> = arrayListOf(),
         var transitions: MutableList<Pair<String, String>> = arrayListOf()
+){
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectsInfo"),
+            links = listOf(
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}",this.name))),
+                    SirenLink(rel = listOf("update-project"), href = URI(UPDATE_PROJECT_PATH.replace("{pname}",this.name))),
+                    SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}",this.name)))
+            ),
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
+    )
+}
+
+
+/**---------------------------SIREN ACTIONS------------------------------------------*/
+
+/**This describe the possible actions*/
+
+val GET_PROJECTS_ACTION = SirenAction(
+        name = "get-project",
+        title = "Get the project with the pname",
+        href = URI(GET_PROJECTS_PATH),
+        method = HttpMethod.GET
 )
+
+
+val GET_SINGLEPROJECT_ACTION = SirenAction(
+        name = "get-project",
+        title = "Get the specified project",
+        href = URI(PROJECTS_PATH),
+        method = HttpMethod.GET,
+        fields = listOf(SirenAction.Field("pname" , "string"))
+)
+
+
+val CREATE_PROJECT_ACTION = SirenAction(
+        name = "create-new-project",
+        title = "Create a new project",
+        href = URI(CREATE_PROJECT_PATH),
+        method = HttpMethod.POST,
+        type = MediaType.APPLICATION_JSON
+)
+
+val UPDATE_PROJECT_ACTION = SirenAction(
+        name = "update-new-project",
+        title = "Update the project info",
+        href = URI(PROJECTS_PATH),
+        method = HttpMethod.PUT,
+        type = MediaType.APPLICATION_JSON,
+        fields = listOf(SirenAction.Field("pname" , "string"))
+)
+
+val DELETE_PROJECT_ACTION = SirenAction(
+        name = "delete-project",
+        title = "Delete specified project",
+        href = URI(PROJECTS_PATH),
+        method = HttpMethod.DELETE,
+        fields = listOf(SirenAction.Field("pname" , "string"))
+)
+
+
 
 

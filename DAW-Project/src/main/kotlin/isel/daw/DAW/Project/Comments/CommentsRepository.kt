@@ -25,8 +25,8 @@ class CommentsRepository(@Autowired val dbs: DataSource) {
         return InsertComment.execute(tid, comment, dbs.connection)
     }
 
-    fun update(tid: Int, comment: CommentsInputModel) {
-        return UpdateComment.execute(tid, comment, dbs.connection)
+    fun update(cid: Int, comment: CommentsInputModel) {
+        return UpdateComment.execute(cid, comment, dbs.connection)
     }
 
     fun deleteFromIssue(cid: Int) {

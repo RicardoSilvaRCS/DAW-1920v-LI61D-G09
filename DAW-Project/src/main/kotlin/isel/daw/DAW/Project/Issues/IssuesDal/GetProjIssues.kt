@@ -18,7 +18,7 @@ class GetProjIssues {
 
     companion object{
 
-        private const val GET_ALL_ISSUES_FROM_PROJECT_QUERY : String = "select issuename,issuedescr,currstate from Issue where projname = ?;"
+        private const val GET_ALL_ISSUES_FROM_PROJECT_QUERY : String = "select id,issuename,issuedescr,currstate from Issue where projname = ?;"
 
         fun execute(projName: String, conn: Connection): List<IssuesOutputModel> {
             val issues: MutableList<IssuesOutputModel> = mutableListOf()
@@ -32,7 +32,8 @@ class GetProjIssues {
                             issues.add(IssuesOutputModel(
                                     rs.getString("issuename"),
                                     rs.getString("issuedescr"),
-                                    rs.getString("currstate")
+                                    rs.getString("currstate"),
+                                    rs.getInt("id")
                             ))
                         }
                     }

@@ -12,8 +12,12 @@ class CommentsController(private val commentservices: CommentsServices) {
      * GET /comments{tid}
      */
     @GetMapping(GET_COMMENTS_PATH)
-    fun getComments(@PathVariable tid: Int): List<CommentsInfoOutputModel> {
-        return commentservices.getComments(tid)
+    fun getComments(@PathVariable tid: Int): MutableList<SirenEntity<CommentsInfoOutputModel>> {
+        val comments : MutableList<SirenEntity<CommentsInfoOutputModel>> = mutableListOf()
+        commentservices.getComments(tid).forEach{
+            comments.add(it.toSirenObject())
+        }
+        return comments
     }
 
     /**
@@ -30,8 +34,8 @@ class CommentsController(private val commentservices: CommentsServices) {
      * PUT /comments/{tid}
      */
     @PutMapping(UPDATE_COMMENT_PATH)
-    fun updateComment(@PathVariable tid: Int, @RequestBody comment: CommentsInputModel) {
-        return commentservices.updateComment(tid, comment)
+    fun updateComment(@PathVariable cid: Int, @RequestBody comment: CommentsInputModel) {
+        return commentservices.updateComment(cid, comment)
     }
 
     /**

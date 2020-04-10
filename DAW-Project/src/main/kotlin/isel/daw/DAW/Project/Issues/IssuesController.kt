@@ -15,8 +15,12 @@ class IssuesController(private val issueservices: IssuesServices) {
      * GET /issues/{pname}
      */
     @GetMapping(GET_ISSUES_PATH)
-    fun getissues( @PathVariable pname: String): List<IssuesOutputModel> {
-        return issueservices.getIssues(pname)
+    fun getissues( @PathVariable pname: String): MutableList<SirenEntity<IssuesOutputModel>> {
+        val issues : MutableList<SirenEntity<IssuesOutputModel>> = mutableListOf()
+        issueservices.getIssues(pname).forEach{
+            issues.add(it.toSirenObject())
+        }
+        return issues
     }
 
     /**
@@ -24,8 +28,8 @@ class IssuesController(private val issueservices: IssuesServices) {
      * GET /issue/{tid}
      */
     @GetMapping(GET_SINGLE_ISSUE_PATH)
-    fun getissue( @PathVariable tid: Int ): IssuesInfoOutputModel {
-        return issueservices.getIssue(tid)
+    fun getissue( @PathVariable tid: Int ): SirenEntity<IssuesInfoOutputModel>{
+        return issueservices.getIssue(tid).toSirenObject()
     }
 
     /**
