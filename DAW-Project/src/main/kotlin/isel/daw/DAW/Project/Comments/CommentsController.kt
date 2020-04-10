@@ -31,7 +31,7 @@ class CommentsController(private val commentservices: CommentsServices) {
 
     /**
      * Endpoint to update an issue comment. Must receive the @param text:String.
-     * PUT /comments/{tid}
+     * PUT /comments/{cid}
      */
     @PutMapping(UPDATE_COMMENT_PATH)
     fun updateComment(@PathVariable cid: Int, @RequestBody comment: CommentsInputModel) {

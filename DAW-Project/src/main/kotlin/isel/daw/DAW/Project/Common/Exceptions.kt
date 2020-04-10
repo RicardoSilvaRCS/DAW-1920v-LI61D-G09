@@ -31,12 +31,12 @@ class InvalidStateTransitionException (msg: String): Exception(msg) {
 
 /**
  * This represents a failure on the insertion of information in db.
- * Thrown when an error ocorred on the insertion process
+ * Thrown when an error occurred on the insertion process
  */
 class InsertionFailed (msg: String): Exception(msg)
 
 /**
  * This represents a failure on the update of information in db.
- * Thrown when an error ocorred on the update process
+ * Thrown when an error occurred on the update process
  */
 class UpdateFailed (msg: String): Exception(msg)

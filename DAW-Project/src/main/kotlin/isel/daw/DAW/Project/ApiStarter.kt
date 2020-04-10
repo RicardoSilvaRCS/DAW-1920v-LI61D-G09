@@ -53,7 +53,7 @@ class SampleInterceptor : HandlerInterceptor {
 	private val logger = LoggerFactory.getLogger(SampleInterceptor::class.java)
 
 	override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-		logger.info("preHandle() called")
+		logger.info("[preHandle][Method:${request.method}][URI:${request.requestURI}]")
 		return true
 	}
 }

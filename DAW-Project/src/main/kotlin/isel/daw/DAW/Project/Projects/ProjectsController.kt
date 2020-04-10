@@ -8,6 +8,7 @@ import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.sql.Connection
 import javax.sql.DataSource
