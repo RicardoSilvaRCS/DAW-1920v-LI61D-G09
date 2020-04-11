@@ -38,7 +38,8 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      */
     @GetMapping(GET_SINGLE_PROJECT_PATH)
     fun getProject(@PathVariable pname: String): SirenEntity<ProjectsInfoOutputModel> {
-        return projectservices.getProject(pname).toSirenObject()
+        throw NotImplementedError("Throwin another exception for testing purposes")
+        //return projectservices.getProject(pname).toSirenObject()
     }
 
     /**

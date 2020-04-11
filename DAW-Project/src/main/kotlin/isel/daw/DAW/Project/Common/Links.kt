@@ -15,8 +15,8 @@ const val PROJECTS_PATH = "/projects"
 const val GET_PROJECTS_PATH = "$PROJECTS_PATH"
 const val GET_SINGLE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"
 const val CREATE_PROJECT_PATH = PROJECTS_PATH
-const val UPDATE_PROJECT_PATH = "/$PROJECTS_PATH/{pname}"
-const val DELETE_PROJECT_PATH = "/$PROJECTS_PATH/{pname}"
+const val UPDATE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"
+const val DELETE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"
 
 /*ISSUE PATHS*/
 const val ISSUES_PATH = "/issues"
