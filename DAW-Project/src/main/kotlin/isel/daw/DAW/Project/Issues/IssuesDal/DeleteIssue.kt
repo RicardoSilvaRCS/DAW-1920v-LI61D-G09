@@ -1,6 +1,6 @@
 package isel.daw.DAW.Project.Issues.IssuesDal
 
-import isel.daw.DAW.Project.Projects.ProjectsDal.DeleteProject
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -27,7 +27,9 @@ class DeleteIssue {
                 }
 
             }catch ( ex : SQLException){
-                print(ex)
+                conn.rollback()
+                throw InternalProcedureException("Error during issue deletion procedure." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

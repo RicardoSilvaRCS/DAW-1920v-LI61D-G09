@@ -1,13 +1,10 @@
 package isel.daw.DAW.Project.Issues.IssuesDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
-
-/**
- *  TODO: Decide what to do when an exception/error occurs.
- */
 
 class GetIssue {
 
@@ -23,8 +20,8 @@ class GetIssue {
 
         fun execute(issueId : Int , conn : Connection): IssuesInfoOutputModel {
 
-            var issue = IssuesInfoOutputModel()
-            var ps : PreparedStatement
+            val issue = IssuesInfoOutputModel()
+            val ps : PreparedStatement
 
             try{
                 ps = conn.prepareStatement(GET_ISSUE_INFO_QUERY)
@@ -44,8 +41,8 @@ class GetIssue {
                             do {
 
                                 issue.labels.add(rs.getString("labelname")?:"")
-                                var auxCurrState = rs.getString("currstatetran")
-                                var auxNextState = rs.getString("nextstate")
+                                val auxCurrState = rs.getString("currstatetran")
+                                val auxNextState = rs.getString("nextstate")
 
                                 if(issue.currState.equals(auxCurrState)){
                                     issue.possibleNextStates.add(auxNextState)
@@ -57,7 +54,9 @@ class GetIssue {
                     }
                 }
             }catch ( ex : SQLException){
-                var msg = ex.message
+                conn.rollback()
+                throw InternalProcedureException("Error obtaining issue with id '$issueId', during access to internal database." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

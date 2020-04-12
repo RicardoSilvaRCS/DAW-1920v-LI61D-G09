@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Services layer for Projects related operations. All the business logic is implemented in this layer.
- *
- * TODO: We need to make our validations.
  */
 
 

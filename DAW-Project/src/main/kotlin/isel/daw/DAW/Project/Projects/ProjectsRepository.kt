@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import javax.sql.DataSource
 
 /**
- * Repository for acessing Projects related data
+ * Repository for accessing Projects related data
  */
 
 @Repository

@@ -1,12 +1,11 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import java.sql.Connection
 import java.sql.SQLException
 
 /**
- *  TODO: Decide what to do when an exception/error occurs.
- *
  *  TODO: We need to figure out what to return in this function.
  *
  *  TODO we need to make Transaction scopes
@@ -23,6 +22,7 @@ class CreateProject {
         fun execute( newProject : ProjectsInputModel , conn : Connection) {
 
             try {
+                conn.autoCommit = false
                 val ps = conn.prepareStatement(INSERT_PROJECT)
 
                 ps.use {
@@ -35,9 +35,11 @@ class CreateProject {
                 insertLabels(newProject.name , newProject.labels , conn)
                 insertStates(newProject.name , newProject.transitions , conn)
                 insertTransitions(newProject.name , newProject.transitions , conn)
+                conn.commit()
             } catch (ex: SQLException) {
                 conn.rollback()
-                println(ex.message)
+                throw InternalProcedureException("Error during project creation procedure." +
+                        "Detailed problem: ${ex.message}")
             }finally {
                 conn.close()
             }
@@ -50,14 +52,22 @@ class CreateProject {
 
         fun insertLabels (projectName : String , labels : Array<String> , conn : Connection) {
 
-            val ps = conn.prepareStatement(INSERT_LABEL)
-            ps.use {
-                ps.setString(2, projectName)
-                for(currLabel in labels){
-                    ps.setString(1,currLabel)
-                    ps.execute()
+            try {
+                val ps = conn.prepareStatement(INSERT_LABEL)
+                ps.use {
+                    ps.setString(2, projectName)
+                    for(currLabel in labels){
+                        ps.setString(1,currLabel)
+                        ps.execute()
+                    }
                 }
+            } catch (ex: SQLException) {
+                conn.rollback()
+                throw InternalProcedureException("Error during project labels insertion procedure." +
+                        "Detailed problem: ${ex.message}")
             }
+
+
 
         }
 
@@ -67,15 +77,21 @@ class CreateProject {
                 "\t VALUES (?, ?);"
 
         private fun insertStates(projectName: String, transitions: Array<Pair<String, String>>, conn: Connection) {
-            val states : Set<String> = getStates(transitions)
+            try {
+                val states : Set<String> = getStates(transitions)
 
-            val ps = conn.prepareStatement(INSERT_STATE)
-            ps.use {
-                ps.setString(2, projectName)
-                for(currState in states){
-                    ps.setString(1,currState)
-                    ps.execute()
+                val ps = conn.prepareStatement(INSERT_STATE)
+                ps.use {
+                    ps.setString(2, projectName)
+                    for(currState in states){
+                        ps.setString(1,currState)
+                        ps.execute()
+                    }
                 }
+            } catch (ex: SQLException) {
+                conn.rollback()
+                throw InternalProcedureException("Error during project states insertion procedure." +
+                        "Detailed problem: ${ex.message}")
             }
 
         }
@@ -99,15 +115,23 @@ class CreateProject {
                 "\t VALUES (?, ?, ?);"
 
         private fun insertTransitions (projectName: String, transitions: Array<Pair<String, String>>, conn: Connection) {
-            val ps = conn.prepareStatement(INSERT_TRANSITION)
-            ps.use {
-                ps.setString(3, projectName)
-                for(currTran in transitions){
-                    ps.setString(1, currTran.first)
-                    ps.setString(2, currTran.second)
-                    ps.execute()
+
+            try {
+                val ps = conn.prepareStatement(INSERT_TRANSITION)
+                ps.use {
+                    ps.setString(3, projectName)
+                    for(currTran in transitions){
+                        ps.setString(1, currTran.first)
+                        ps.setString(2, currTran.second)
+                        ps.execute()
+                    }
                 }
+            } catch (ex: SQLException) {
+                conn.rollback()
+                throw InternalProcedureException("Error during project state-transitions insertion procedure." +
+                        "Detailed problem: ${ex.message}")
             }
+
         }
 
     }

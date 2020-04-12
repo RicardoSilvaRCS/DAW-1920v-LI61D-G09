@@ -1,10 +1,8 @@
 package isel.daw.DAW.Project.Comments.CommentsDal
 
 import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
-import java.sql.Connection
-import java.sql.Date
-import java.sql.PreparedStatement
-import java.sql.SQLException
+import isel.daw.DAW.Project.Common.InternalProcedureException
+import java.sql.*
 import java.time.LocalDate
 
 class InsertComment {
@@ -19,16 +17,19 @@ class InsertComment {
             val ps : PreparedStatement
 
             try{
+                conn.autoCommit = false
                 ps = conn.prepareStatement(INSERT_COMMENT_INTO_ISSUE_QUERY)
                 ps.use {
                     ps.setString(1,comment.text)
-                    ps.setDate(2, Date.valueOf(LocalDate.now()))
+                    ps.setTimestamp(2, Timestamp(System.currentTimeMillis()))
                     ps.setInt(3,issueid)
                     ps.execute()
                 }
+                conn.commit()
             }catch ( ex : SQLException){
                 conn.rollback()
-                print(ex)
+                throw InternalProcedureException("Error during comment insertion procedure." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

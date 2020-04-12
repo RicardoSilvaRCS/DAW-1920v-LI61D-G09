@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Issues.IssuesDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDal.CreateProject
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
@@ -10,10 +11,6 @@ import java.sql.SQLException
 import java.time.LocalDate
 
 /**
- *  TODO: Needs to be implemented :)
- *
- *  TODO: Decide what to do when an exception/error occurs.
- *
  *  TODO: We need to figure out what to return in this function.
  *
  *  TODO we need to make Transaction scopes
@@ -30,6 +27,7 @@ class CreateIssue {
             val ps : PreparedStatement
 
             try{
+                conn.autoCommit = false
                 ps = conn.prepareStatement(INSERT_ISSUE_QUERY)
 
                 ps.use {
@@ -44,8 +42,11 @@ class CreateIssue {
                             insertLabels(newIssue, rs.getInt("id"), conn)
                         }
                 }
+                conn.commit()
             }catch ( ex : SQLException){
-                print(ex)
+                conn.rollback()
+                throw InternalProcedureException("Error during issue creation procedure." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }
@@ -57,17 +58,22 @@ class CreateIssue {
                 " VALUES (?, ?, ?);"
 
         private fun insertLabels (newIssue: IssuesInputModel, id : Int, conn: Connection) {
-            val ps = conn.prepareStatement(INSERT_ISSUE_LABELS_QUERY)
+            try {
+                val ps = conn.prepareStatement(INSERT_ISSUE_LABELS_QUERY)
 
-            ps.use {
-                newIssue.labels.forEach {
-                    ps.setInt(1,id)
-                    ps.setString(2,it)
-                    ps.setString(3,newIssue.projname)
+                ps.use {
+                    newIssue.labels.forEach {
+                        ps.setInt(1,id)
+                        ps.setString(2,it)
+                        ps.setString(3,newIssue.projname)
+                    }
+                    ps.execute()
                 }
-                ps.execute()
+            } catch (ex: SQLException) {
+                conn.rollback()
+                throw InternalProcedureException("Error during issue labels insertion procedure." +
+                        "Detailed problem: ${ex.message}")
             }
-
         }
 
     }

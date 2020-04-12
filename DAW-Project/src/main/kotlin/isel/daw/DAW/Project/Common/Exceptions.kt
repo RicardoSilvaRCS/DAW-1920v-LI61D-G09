@@ -72,6 +72,37 @@ class InvalidIssueLabelException (val details: String) : ApiException(details) {
 }
 
 /**
+ * This represents an illegal issue state value exception.
+ * Thrown if during the creation/update of an issue, the state received has an illegal value,
+ *  and by illegal it means, it's non existent in the projects context or it's not a real state(empty or blank).
+ */
+class IllegalIssueStateException (val details: String) : ApiException(details) {
+    override val type: String
+        get() = "/issues/problems/illegal-state"
+    override val title: String
+        get() = "Illegal Issue State"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.BAD_REQUEST
+}
+
+/**
+ * This represents the non-existence of issues in the specified project.
+ * Thrown when a request for issues finds no issues.
+ */
+class IssuesNotFoundException(val details: String): ApiException(details) {
+    override val type: String
+        get() = "/issues/problems/not-found"
+    override val title: String
+        get() = "Issues not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+}
+
+/**
  * This represents an invalid project exception.
  * Thrown when the project received does not match his structure
  */
@@ -147,52 +178,3 @@ class InternalProcedureException (val details: String): ApiException(details) {
         get() = HttpStatus.INTERNAL_SERVER_ERROR
 
 }
-
-@ControllerAdvice
-class APIExceptionHandler : ResponseEntityExceptionHandler() {
-    @ExceptionHandler(ApiException::class)
-    fun handleException(ex: ApiException) =
-            ResponseEntity
-                    .status(ex.status)
-                    .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                    .body(ProblemJson(
-                            timestamp = ex.timestamp,
-                            date = ex.date,
-                            type = ex.type,
-                            title = ex.title,
-                            detail = ex.detail,
-                            status = ex.status.value()
-                    ))
-}
-
-@ControllerAdvice
-class OtherExceptionHandler : ResponseEntityExceptionHandler() {
-    @ExceptionHandler(Exception::class)
-    fun handleException(ex: Exception): ResponseEntity<Any> {
-        val timestamp =  Timestamp(System.currentTimeMillis())
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                .body(ProblemJson(
-                        timestamp =  Timestamp(System.currentTimeMillis()),
-                        date = timestamp.toString(),
-                        type = "/internal/problems/internal-error",
-                        title = "Internal Error",
-                        detail = ex.message?: "Internal Error",
-                        status = HttpStatus.INTERNAL_SERVER_ERROR.value()
-                ))
-    }
-}
-
-/**
- * Class used for error models, based on the [Problem Json spec](https://tools.ietf.org/html/rfc7807)
- */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-data class ProblemJson(
-        val timestamp: Timestamp,
-        val date: String,
-        val type: String,
-        val title: String,
-        val detail: String,
-        val status: Int
-)

@@ -17,12 +17,20 @@ class IssuesInputModel @JsonCreator constructor(
         val descr: String,
         val currState: String,
         val labels: Array<String>
-)
+) {
+    fun isValid(): Boolean {
+        return !(name.isEmpty() || name.isBlank()) && !(projname.isEmpty() || name.isBlank()) && !(currState.isEmpty() || currState.isBlank())
+    }
+}
 
 /**
  * Data model for the update state of an Issue
  */
-class IssuesStateInputModel(val state: String)
+class IssuesStateInputModel(val state: String) {
+    fun isValid(): Boolean {
+        return !(state.isEmpty() || state.isBlank())
+    }
+}
 
 
 /**---------------------------------------------------OUTPUT DTOS--------------------------------------------*/
@@ -71,6 +79,15 @@ class IssuesInfoOutputModel(
             ),
             actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
     )
+
+    /**
+     * This function might be used to check if a request to GET issue returned any issue or not.
+     * For now it's here but it might be a little PG
+     * Only checks if the is -1 because if it is we know the request did not found an issue.
+     */
+    fun isDefault(): Boolean {
+        return id < 0
+    }
 }
 
 /**---------------------------SIREN ACTIONS------------------------------------------*/

@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Comments.CommentsDal
 
 import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInfoOutputModel
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -28,12 +29,14 @@ class GetIssueComments {
                                     rs.getInt("commentid"),
                                     rs.getInt("issueid"),
                                     rs.getString("commenttext"),
-                                    rs.getDate("commentcreation")))
+                                    rs.getTimestamp("commentcreation")))
                         }
                     }
                 }
             }catch ( ex : SQLException){
-                print(ex)
+                conn.rollback()
+                throw InternalProcedureException("Error obtaining issue's '$issueId' comments." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

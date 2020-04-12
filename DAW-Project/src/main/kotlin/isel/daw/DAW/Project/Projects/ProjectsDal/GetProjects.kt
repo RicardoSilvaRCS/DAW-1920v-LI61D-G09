@@ -5,10 +5,6 @@ import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import java.sql.Connection
 import java.sql.SQLException
 
-/**
- *  TODO: Decide what to do when an exception/error occurs.
- */
-
 class GetProjects {
     /**
      * Endpoint responsible for obtaining the information of all existing Projects
@@ -38,7 +34,8 @@ class GetProjects {
                 }
             } catch ( ex : SQLException){
                 conn.rollback()
-                throw InternalProcedureException("Error obtaining existing projects, during access to internal database.")
+                throw InternalProcedureException("Error obtaining existing projects, during access to internal database." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

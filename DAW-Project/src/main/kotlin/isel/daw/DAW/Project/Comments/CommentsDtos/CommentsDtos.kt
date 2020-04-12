@@ -5,6 +5,7 @@ import isel.daw.DAW.Project.Common.*
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import java.net.URI
+import java.sql.Timestamp
 import java.util.*
 
 /**---------------------------------------------------INPUT DTOS--------------------------------------------*/
@@ -14,7 +15,11 @@ import java.util.*
  */
 class CommentsInputModel @JsonCreator constructor(
         val text: String
-)
+) {
+    fun isValid(): Boolean {
+        return !(text.isEmpty() || text.isBlank())
+    }
+}
 
 
 /**---------------------------------------------------OUTPUT DTOS--------------------------------------------*/
@@ -38,7 +43,7 @@ class CommentsInfoOutputModel(
         val id: Int,
         val taskid: Int,
         val text: String,
-        val creationdate: Date
+        val creationdate: Timestamp
 ){
     fun toSirenObject() = SirenEntity(
             properties = this,

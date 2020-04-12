@@ -7,11 +7,6 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
-
-/**
- *  TODO: Decide what to do when an exception/error occurs.
- */
-
 class GetProject {
 
     /**
@@ -30,6 +25,7 @@ class GetProject {
          * Since there is a lot of information about a Project that needs to be obtained
          * there will be the need of accessing multiple DB tables to get all the information.
          */
+
         private const val GET_PROJECT_INFO_QUERY: String = "SELECT proj.projname, projdescr, projinitstate , prjlabel.labelname , projectstate.statename , statetrans.currstate,statetrans.nextstate\n" +
                 "\tFROM project proj inner join projectlabel prjlabel \n" +
                 "\ton proj.projname = prjlabel.projname \n" +
@@ -39,8 +35,8 @@ class GetProject {
 
         fun execute(projectName: String, conn: Connection): ProjectsInfoOutputModel {
 
-            var project = ProjectsInfoOutputModel()
-            var ps: PreparedStatement
+            val project = ProjectsInfoOutputModel()
+            val ps: PreparedStatement
             try {
                 ps = conn.prepareStatement(GET_PROJECT_INFO_QUERY)
                 ps.use {
@@ -70,7 +66,8 @@ class GetProject {
                     }
                 }
             } catch (ex: SQLException) {
-                throw InternalProcedureException("Error during access to internal database obtaining project $projectName.")
+                throw InternalProcedureException("Error during access to internal database obtaining project $projectName." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

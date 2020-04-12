@@ -1,12 +1,11 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 
 /**
- *  TODO: Decide what to do when an exception/error occurs.
- *
  *  TODO: We need to figure out what to return in this function.
  */
 
@@ -16,15 +15,17 @@ class DeleteProject {
         private val DELETE_PROJECT_QUERY = "delete from project where projname = ? ;"
 
         fun execute(name: String, conn: Connection) {
-            var ps : PreparedStatement
+            val ps : PreparedStatement
             try{
-                ps = conn.prepareStatement(DeleteProject.DELETE_PROJECT_QUERY)
+                ps = conn.prepareStatement(DELETE_PROJECT_QUERY)
                 ps.use {
                     ps.setString(1,name)
                     ps.execute()
                 }
             }catch ( ex : SQLException){
-                print(ex)
+                conn.rollback()
+                throw InternalProcedureException("Error during project $name deletion." +
+                        "Detailed pproblem: ${ex.message}")
             } finally {
                 conn.close()
             }

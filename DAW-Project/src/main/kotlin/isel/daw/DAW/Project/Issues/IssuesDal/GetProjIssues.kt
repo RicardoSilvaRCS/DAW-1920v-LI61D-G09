@@ -1,12 +1,10 @@
 package isel.daw.DAW.Project.Issues.IssuesDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
 import java.sql.Connection
 import java.sql.SQLException
 
-/**
- *  TODO: Decide what to do when an exception/error occurs.
- */
 class GetProjIssues {
     /**
      * Endpoint responsible for obtaining the information of all existing issues of the specified Project
@@ -40,7 +38,9 @@ class GetProjIssues {
                 }
 
             } catch ( ex : SQLException){
-
+                conn.rollback()
+                throw InternalProcedureException("Error obtaining existing issues of project $projName, during access to internal database." +
+                        "Detailed problem: ${ex.message}")
             } finally {
                 conn.close()
             }

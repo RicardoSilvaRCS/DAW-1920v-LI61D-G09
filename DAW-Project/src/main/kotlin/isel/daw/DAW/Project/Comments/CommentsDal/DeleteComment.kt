@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Comments.CommentsDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -24,7 +25,8 @@ companion object{
 
         }catch ( ex : SQLException){
             conn.rollback()
-            print(ex)
+            throw InternalProcedureException("Error during deletion procedure of comment with id '$commentId'." +
+                    "Detailed problem: ${ex.message}")
         } finally {
             conn.close()
         }

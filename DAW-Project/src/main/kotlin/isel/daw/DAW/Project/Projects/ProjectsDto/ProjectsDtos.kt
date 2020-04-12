@@ -142,6 +142,15 @@ class ProjectsInfoOutputModel(
             ),
             actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
     )
+
+    /**
+     * This function might be used to check if a request to GET projects returned any project or not.
+     * For now it's here but it might be a little PG
+     * Only checks if the name is empty because if it is we know the request did not found a project-
+     */
+    fun isDefault(): Boolean {
+        return name.isEmpty()
+    }
 }
 
 
