@@ -15,6 +15,7 @@ class IssuesInputModel @JsonCreator constructor(
         val name: String,
         val projname: String,
         val descr: String,
+        val currState: String,
         val labels: Array<String>
 )
 
