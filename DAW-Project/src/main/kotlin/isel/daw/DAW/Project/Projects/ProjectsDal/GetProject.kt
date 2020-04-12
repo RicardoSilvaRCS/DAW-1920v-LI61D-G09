@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -69,7 +70,7 @@ class GetProject {
                     }
                 }
             } catch (ex: SQLException) {
-
+                throw InternalProcedureException("Error during access to internal database obtaining project $projectName.")
             } finally {
                 conn.close()
             }

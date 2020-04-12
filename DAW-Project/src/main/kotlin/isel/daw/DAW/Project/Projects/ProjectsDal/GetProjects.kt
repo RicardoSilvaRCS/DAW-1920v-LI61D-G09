@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
+import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
 import java.sql.Connection
 import java.sql.SQLException
@@ -35,9 +36,9 @@ class GetProjects {
                         }
                     }
                 }
-
             } catch ( ex : SQLException){
-
+                conn.rollback()
+                throw InternalProcedureException("Error obtaining existing projects, during access to internal database.")
             } finally {
                 conn.close()
             }

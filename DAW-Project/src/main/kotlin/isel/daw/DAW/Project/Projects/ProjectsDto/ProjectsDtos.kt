@@ -84,10 +84,18 @@ class ProjectsInputModel @JsonCreator constructor(
             }
             return nodeProgress
         }
+
+        fun isUsable(s: String?): Boolean {
+            return !(s.isNullOrEmpty() || s.isBlank())
+        }
     }
 
     fun verifyTransitions(): Boolean {
         return transVerify(transGraphInit(transitions), initstate)
+    }
+
+    fun isValid(): Boolean {
+        return isUsable(this.name) && isUsable(this.initstate) && this.verifyTransitions()
     }
 }
 
