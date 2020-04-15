@@ -3,8 +3,10 @@ package isel.daw.DAW.Project.Projects.ProjectsDto
 import com.fasterxml.jackson.annotation.JsonCreator
 import isel.daw.DAW.Project.Common.*
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import java.net.URI
+import java.sql.Timestamp
 
 /**---------------------------------------------------INPUT DTOS--------------------------------------------*/
 
@@ -27,9 +29,6 @@ class ProjectsInputModel @JsonCreator constructor(
      */
 
     companion object {
-
-        private val CLOSED_ARCH_TRANS: Pair<String,String> = Pair("closed", "archived")
-        private val FINAL_STATE: String = "archived"
 
         fun transGraphInit(transitions: Array<Pair<String, String>>): MutableMap<String , MutableList<String>> {
             val graph : MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -99,6 +98,9 @@ class ProjectsInputModel @JsonCreator constructor(
     }
 }
 
+val CLOSED_ARCH_TRANS: Pair<String,String> = Pair("closed", "archived")
+val FINAL_STATE: String = "archived"
+
 /**
  *  Data model for the representation of a projects info to update
  */
@@ -151,6 +153,72 @@ class ProjectsInfoOutputModel(
     fun isDefault(): Boolean {
         return name.isEmpty()
     }
+}
+
+/**
+ * Data model returned when a Project is successfully created
+ */
+class ProjectCreationResponse(
+        val name: String
+){
+    val message: String = "Project created with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.CREATED
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectCreation"),
+            links = listOf(
+                    SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("update-project"), href = URI(UPDATE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
+            ),
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
+    )
+}
+
+/**
+ * Data model returned when a Project is successfully updated
+ */
+class ProjectUpdatedResponse(
+        val name: String
+){
+    val message: String = "Project updated with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.OK
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectUpdated"),
+            links = listOf(
+                    SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
+            ),
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
+    )
+}
+
+/**
+ * Data model returned when a Project is successfully deleted
+ */
+class ProjectDeletedResponse(){
+    val message: String = "Project deleted with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.OK
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectDeleted"),
+            links = listOf(
+                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH))
+            ),
+            actions = listOf(CREATE_PROJECT_ACTION)
+    )
 }
 
 

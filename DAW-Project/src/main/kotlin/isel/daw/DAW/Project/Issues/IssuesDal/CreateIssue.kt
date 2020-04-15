@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Issues.IssuesDal
 
 import isel.daw.DAW.Project.Common.InternalProcedureException
+import isel.daw.DAW.Project.Issues.IssuesDto.IssueCreationResponse
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
 import isel.daw.DAW.Project.Projects.ProjectsDal.CreateProject
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
@@ -11,8 +12,6 @@ import java.sql.SQLException
 import java.time.LocalDate
 
 /**
- *  TODO: We need to figure out what to return in this function.
- *
  *  TODO we need to make Transaction scopes
  */
 class CreateIssue {
@@ -23,8 +22,9 @@ class CreateIssue {
                 " (issuename, issuedescr, creationdate, updatedate, projname, currstate)" +
                 " VALUES (?, ?, ?, ?, ?, ?) returning issue.id"
 
-        fun execute(newIssue: IssuesInputModel, conn: Connection) {
+        fun execute(newIssue: IssuesInputModel, conn: Connection): IssueCreationResponse {
             val ps : PreparedStatement
+            var tid: Int = -1
 
             try{
                 conn.autoCommit = false
@@ -39,8 +39,10 @@ class CreateIssue {
                         ps.setString(6,newIssue.currState)
                         val rs = ps.executeQuery()
                         if(rs.next()) {
-                            insertLabels(newIssue, rs.getInt("id"), conn)
+                            tid = rs.getInt("id")
+                            insertLabels(newIssue, tid, conn)
                         }
+
                 }
                 conn.commit()
             }catch ( ex : SQLException){
@@ -50,6 +52,7 @@ class CreateIssue {
             } finally {
                 conn.close()
             }
+            return IssueCreationResponse(tid, newIssue.projname)
         }
 
         /**-----------------------------------------INSER LABELS-----------------------------------------------------*/

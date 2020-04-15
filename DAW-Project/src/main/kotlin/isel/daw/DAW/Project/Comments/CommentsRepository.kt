@@ -4,8 +4,7 @@ import isel.daw.DAW.Project.Comments.CommentsDal.DeleteComment
 import isel.daw.DAW.Project.Comments.CommentsDal.GetIssueComments
 import isel.daw.DAW.Project.Comments.CommentsDal.InsertComment
 import isel.daw.DAW.Project.Comments.CommentsDal.UpdateComment
-import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInfoOutputModel
-import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
+import isel.daw.DAW.Project.Comments.CommentsDtos.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -21,15 +20,15 @@ class CommentsRepository(@Autowired val dbs: DataSource) {
         return GetIssueComments.execute(tid, dbs.connection)
     }
 
-    fun addToIssue(tid: Int, comment: CommentsInputModel) {
+    fun addToIssue(tid: Int, comment: CommentsInputModel): CommentsCreatedResponse {
         return InsertComment.execute(tid, comment, dbs.connection)
     }
 
-    fun update(cid: Int, comment: CommentsInputModel) {
+    fun update(cid: Int, comment: CommentsInputModel): CommentsUpdatedResponse {
         return UpdateComment.execute(cid, comment, dbs.connection)
     }
 
-    fun deleteFromIssue(cid: Int) {
+    fun deleteFromIssue(cid: Int): CommentsDeletedResponse {
         return DeleteComment.execute(cid, dbs.connection)
     }
 

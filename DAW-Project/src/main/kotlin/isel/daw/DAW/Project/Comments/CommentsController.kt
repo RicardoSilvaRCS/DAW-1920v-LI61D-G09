@@ -1,7 +1,6 @@
 package isel.daw.DAW.Project.Comments
 
-import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInfoOutputModel
-import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
+import isel.daw.DAW.Project.Comments.CommentsDtos.*
 import isel.daw.DAW.Project.Common.*
 import org.springframework.web.bind.annotation.*
 
@@ -25,8 +24,8 @@ class CommentsController(private val commentservices: CommentsServices) {
      * POST /comments/{tid}
      */
     @PostMapping(CREATE_COMMENT_PATH)
-    fun createComment(@PathVariable tid: Int, @RequestBody comment: CommentsInputModel) {
-        return commentservices.createComment(tid, comment)
+    fun createComment(@PathVariable tid: Int, @RequestBody comment: CommentsInputModel): SirenEntity<CommentsCreatedResponse> {
+        return commentservices.createComment(tid, comment).toSirenObject()
     }
 
     /**
@@ -34,8 +33,8 @@ class CommentsController(private val commentservices: CommentsServices) {
      * PUT /comments/{cid}
      */
     @PutMapping(UPDATE_COMMENT_PATH)
-    fun updateComment(@PathVariable cid: Int, @RequestBody comment: CommentsInputModel) {
-        return commentservices.updateComment(cid, comment)
+    fun updateComment(@PathVariable cid: Int, @RequestBody comment: CommentsInputModel): SirenEntity<CommentsUpdatedResponse> {
+        return commentservices.updateComment(cid, comment).toSirenObject()
     }
 
     /**
@@ -43,7 +42,7 @@ class CommentsController(private val commentservices: CommentsServices) {
      * DELETE /comments/{cid}
      */
     @DeleteMapping(DELETE_COMMENT_PATH)
-    fun deleteComment (@PathVariable cid: Int) {
-        return commentservices.deleteComment(cid)
+    fun deleteComment (@PathVariable cid: Int): SirenEntity<CommentsDeletedResponse> {
+        return commentservices.deleteComment(cid).toSirenObject()
     }
 }

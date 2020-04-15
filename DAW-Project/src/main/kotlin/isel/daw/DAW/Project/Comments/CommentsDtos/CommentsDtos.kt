@@ -2,7 +2,12 @@ package isel.daw.DAW.Project.Comments.CommentsDtos
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import isel.daw.DAW.Project.Common.*
+import isel.daw.DAW.Project.Projects.ProjectsDto.CREATE_PROJECT_ACTION
+import isel.daw.DAW.Project.Projects.ProjectsDto.DELETE_PROJECT_ACTION
+import isel.daw.DAW.Project.Projects.ProjectsDto.GET_PROJECTS_ACTION
+import isel.daw.DAW.Project.Projects.ProjectsDto.UPDATE_PROJECT_ACTION
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import java.net.URI
 import java.sql.Timestamp
@@ -56,6 +61,73 @@ class CommentsInfoOutputModel(
             actions = listOf(GET_SINGLE_COMMENT_ACTION, CREATE_COMMENT_ACTION, UPDATE_COMMENT_ACTION, DELETE_COMMENT_ACTION)
     )
 }
+
+/**
+ * Data model returned when a Comment is successfully created
+ */
+class CommentsCreatedResponse(
+        val tid: Int,
+        val cid: Int
+){
+    val message: String = "Comment created with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.CREATED
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("CommentCreation"),
+            links = listOf(
+                    SirenLink(rel = listOf("issue-comment-owner"), href = URI(GET_SINGLE_ISSUE_PATH.replace("{tid}",this.tid.toString()))),
+                    SirenLink(rel = listOf("update-comment"), href = URI(UPDATE_COMMENT_PATH.replace("{cid}",this.cid.toString()))),
+                    SirenLink(rel = listOf("delete-comment"), href = URI(DELETE_COMMENT_PATH.replace("{cid}",this.cid.toString())))
+            ),
+            actions = listOf(GET_SINGLE_COMMENT_ACTION, CREATE_COMMENT_ACTION, UPDATE_COMMENT_ACTION, DELETE_COMMENT_ACTION)
+    )
+}
+
+/**
+ * Data model returned when a Comment is successfully updated
+ */
+class CommentsUpdatedResponse(
+        val cid: Int
+){
+    val message: String = "Comment updated with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.OK
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("CommentUpdated"),
+            links = listOf(
+                    SirenLink(rel = listOf("issue-comment-owner"), href = URI(GET_SINGLE_ISSUE_PATH.replace("{tid}",this.cid.toString()))),
+                    SirenLink(rel = listOf("delete-comment"), href = URI(DELETE_COMMENT_PATH.replace("{cid}",this.cid.toString())))
+            ),
+            actions = listOf(GET_SINGLE_COMMENT_ACTION, CREATE_COMMENT_ACTION, UPDATE_COMMENT_ACTION, DELETE_COMMENT_ACTION)
+    )
+}
+
+
+/**
+ * Data model returned when a Comment is successfully deleted
+ */
+class CommentsDeletedResponse(
+        val cid: Int
+){
+    val message: String = "Comment deleted with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.OK
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("CommentDeleted"),
+            links = listOf(),
+            actions = listOf(GET_SINGLE_COMMENT_ACTION, CREATE_COMMENT_ACTION, UPDATE_COMMENT_ACTION, DELETE_COMMENT_ACTION)
+    )
+}
+
 
 /**---------------------------SIREN ACTIONS------------------------------------------*/
 /**This describe the possible actions*/

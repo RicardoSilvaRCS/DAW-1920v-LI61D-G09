@@ -4,10 +4,7 @@ import isel.daw.DAW.Project.Common.IllegalIssueStateException
 import isel.daw.DAW.Project.Common.InvalidIssueException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
 import isel.daw.DAW.Project.Common.IssuesNotFoundException
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
+import isel.daw.DAW.Project.Issues.IssuesDto.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsRepository
 import org.springframework.stereotype.Component
@@ -39,7 +36,7 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         return issuesrepo.getById(tid)
     }
 
-    fun createIssue(newIssue: IssuesInputModel) {
+    fun createIssue(newIssue: IssuesInputModel): IssueCreationResponse {
         if(!newIssue.isValid()) {
             throw InvalidIssueException("Invalid information received for the creation of an issue.")
         }
@@ -53,11 +50,11 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         return issuesrepo.create(newIssue)
     }
 
-    fun updateIssue(tid: Int, newIssue: IssuesInputModel) {
+    fun updateIssue(tid: Int, newIssue: IssuesInputModel): IssueUpdatedResponse {
         return issuesrepo.updateInfo(tid, newIssue)
     }
 
-    fun updateState( tid: Int, newState: IssuesStateInputModel) {
+    fun updateState( tid: Int, newState: IssuesStateInputModel): IssueStateUpdatedResponse {
         if(tid<0) {
             throw InvalidResourceRequestedException("Issue id received is invalid, can't be negative.")
         }
@@ -67,7 +64,7 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         return issuesrepo.updatestate(tid, newState)
     }
 
-    fun deleteIssue( tid: Int) {
+    fun deleteIssue( tid: Int): IssueDeletedResponse {
         if(tid<0) {
             throw InvalidResourceRequestedException("Issue id received is invalid, can't be negative.")
         }

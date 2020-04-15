@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Projects
 
+import isel.daw.DAW.Project.Common.ResourceCreatedResponse
 import isel.daw.DAW.Project.Projects.ProjectsDal.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,15 +24,15 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
         return GetProject.execute(name, dbs.connection)
     }
 
-    fun create (newProject : ProjectsInputModel ) {
+    fun create (newProject : ProjectsInputModel ): ProjectCreationResponse {
         return CreateProject.execute(newProject, dbs.connection)
     }
 
-    fun update( name: String, newProj: ProjectsUpdateInputModel ) {
+    fun update( name: String, newProj: ProjectsUpdateInputModel ): ProjectUpdatedResponse {
         return UpdateProject.execute(name, newProj, dbs.connection)
     }
 
-    fun delete( name: String ) {
+    fun delete( name: String ): ProjectDeletedResponse {
         return DeleteProject.execute(name, dbs.connection)
     }
 

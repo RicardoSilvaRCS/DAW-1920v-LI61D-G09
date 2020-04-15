@@ -1,17 +1,9 @@
 package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.*
-import isel.daw.DAW.Project.Projects.ProjectsDal.GetProject
-import isel.daw.DAW.Project.Projects.ProjectsDal.GetProjects
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
-import org.springframework.beans.factory.annotation.Autowired
+import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.sql.Connection
-import javax.sql.DataSource
 
 /**
  * Controller for Projects resources
@@ -51,17 +43,17 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * POST /projects
      */
     @PostMapping(CREATE_PROJECT_PATH, consumes = ["application/json"])
-    fun createProject( @RequestBody newProject: ProjectsInputModel ) {
-        return projectservices.createProject(newProject)
+    fun createProject( @RequestBody newProject: ProjectsInputModel ): SirenEntity<ProjectCreationResponse> {
+        return projectservices.createProject(newProject).toSirenObject()
     }
 
     /**
-     * Endpoint to update a projects information.
-     * PUT /projects/{pname}
-     */
+    * Endpoint to update a projects information.
+    * PUT /projects/{pname}
+    */
     @PutMapping(UPDATE_PROJECT_PATH, consumes = ["application/json"])
-    fun updateProject(@PathVariable pname: String,  @RequestBody newProj: ProjectsUpdateInputModel  ) {
-        return projectservices.updateProject(pname, newProj)
+    fun updateProject(@PathVariable pname: String,  @RequestBody newProj: ProjectsUpdateInputModel  ): SirenEntity<ProjectUpdatedResponse> {
+        return projectservices.updateProject(pname, newProj).toSirenObject()
     }
 
     /**
@@ -69,7 +61,7 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * DELETE /projects/{pname}
      */
     @DeleteMapping(DELETE_PROJECT_PATH)
-    fun deleteProject(@PathVariable pname: String) {
-        return projectservices.deleteProject(pname)
+    fun deleteProject(@PathVariable pname: String): SirenEntity<ProjectDeletedResponse> {
+        return projectservices.deleteProject(pname).toSirenObject()
     }
 }

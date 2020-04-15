@@ -1,7 +1,6 @@
 package isel.daw.DAW.Project.Comments
 
-import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInfoOutputModel
-import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
+import isel.daw.DAW.Project.Comments.CommentsDtos.*
 import isel.daw.DAW.Project.Common.InvalidCommentException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
@@ -24,7 +23,7 @@ class CommentsServices(private val commentsrepo: CommentsRepository, private val
         return commentsrepo.getCommentsOfIssue(tid)
     }
 
-    fun createComment(tid: Int, comment: CommentsInputModel) {
+    fun createComment(tid: Int, comment: CommentsInputModel): CommentsCreatedResponse {
         if(tid<0) {
             throw InvalidResourceRequestedException("Issue id received is invalid, can't be negative.")
         }
@@ -38,14 +37,14 @@ class CommentsServices(private val commentsrepo: CommentsRepository, private val
         return commentsrepo.addToIssue(tid, comment)
     }
 
-    fun updateComment(cid: Int, comment: CommentsInputModel) {
+    fun updateComment(cid: Int, comment: CommentsInputModel): CommentsUpdatedResponse {
         if(cid<0) {
             throw InvalidResourceRequestedException("Comment id received is invalid, can't be negative.")
         }
         return commentsrepo.update(cid, comment)
     }
 
-    fun deleteComment(cid: Int) {
+    fun deleteComment(cid: Int): CommentsDeletedResponse {
         if(cid<0) {
             throw InvalidResourceRequestedException("Comment id received is invalid, can't be negative.")
         }

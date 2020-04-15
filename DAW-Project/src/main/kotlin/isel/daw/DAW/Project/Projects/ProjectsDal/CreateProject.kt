@@ -1,13 +1,13 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
 import isel.daw.DAW.Project.Common.InternalProcedureException
+import isel.daw.DAW.Project.Common.ResourceCreatedResponse
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectCreationResponse
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
 import java.sql.Connection
 import java.sql.SQLException
 
 /**
- *  TODO: We need to figure out what to return in this function.
- *
  *  TODO we need to make Transaction scopes
  */
 
@@ -19,7 +19,7 @@ class CreateProject {
                 "\t (projname, projdescr, projinitstate)\n" +
                 "\t VALUES (?,?, ?);"
 
-        fun execute( newProject : ProjectsInputModel , conn : Connection) {
+        fun execute( newProject : ProjectsInputModel , conn : Connection): ProjectCreationResponse {
 
             try {
                 conn.autoCommit = false
@@ -43,6 +43,7 @@ class CreateProject {
             }finally {
                 conn.close()
             }
+            return ProjectCreationResponse(newProject.name)
         }
 
         //--------------------------------Insert Labels---------------------------------------//

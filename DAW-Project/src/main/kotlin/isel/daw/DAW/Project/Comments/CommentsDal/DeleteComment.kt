@@ -1,5 +1,6 @@
 package isel.daw.DAW.Project.Comments.CommentsDal
 
+import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsDeletedResponse
 import isel.daw.DAW.Project.Common.InternalProcedureException
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -13,7 +14,7 @@ companion object{
     private const val DELETE_ISSUE_COMMENT_QUERY : String  = "DELETE FROM issuecomment " +
                                                                 " WHERE commentid = ? ;"
 
-    fun execute (commentId : Int ,conn: Connection) {
+    fun execute (commentId : Int ,conn: Connection): CommentsDeletedResponse {
         val ps : PreparedStatement
 
         try{
@@ -30,6 +31,7 @@ companion object{
         } finally {
             conn.close()
         }
+        return CommentsDeletedResponse(commentId)
     }
 
 }

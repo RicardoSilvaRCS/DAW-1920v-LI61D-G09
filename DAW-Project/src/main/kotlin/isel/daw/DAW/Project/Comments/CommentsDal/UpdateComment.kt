@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Comments.CommentsDal
 
 import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsInputModel
+import isel.daw.DAW.Project.Comments.CommentsDtos.CommentsUpdatedResponse
 import isel.daw.DAW.Project.Common.InternalProcedureException
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -13,7 +14,7 @@ class UpdateComment {
                                                     " SET commenttext = ? " +
                                                     " WHERE commentid = ? "
 
-        fun execute ( commentId : Int , comment :CommentsInputModel , conn : Connection) {
+        fun execute ( commentId : Int , comment :CommentsInputModel , conn : Connection): CommentsUpdatedResponse {
             val ps : PreparedStatement
 
             try{
@@ -32,6 +33,7 @@ class UpdateComment {
             } finally {
                 conn.close()
             }
+            return CommentsUpdatedResponse(commentId)
         }
     }
 }

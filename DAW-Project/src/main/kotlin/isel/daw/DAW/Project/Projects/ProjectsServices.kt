@@ -3,10 +3,8 @@ package isel.daw.DAW.Project.Projects
 import isel.daw.DAW.Project.Common.InvalidProjectException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
 import isel.daw.DAW.Project.Common.ProjectNameConflictException
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsOutputModel
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
+import isel.daw.DAW.Project.Common.ResourceCreatedResponse
+import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 
@@ -30,7 +28,7 @@ class ProjectsServices(private val projectsrepo: ProjectsRepository) {
         return projectsrepo.getByName(name)
     }
 
-    fun createProject(newProject : ProjectsInputModel) {
+    fun createProject(newProject : ProjectsInputModel): ProjectCreationResponse {
         if(newProject.isValid()) {
             if(projectsrepo.getByName(newProject.name).name.isNotEmpty()) {
                 throw ProjectNameConflictException("A project with the name '${newProject.name}' already exists.")
@@ -41,14 +39,14 @@ class ProjectsServices(private val projectsrepo: ProjectsRepository) {
         }
     }
 
-    fun updateProject(name: String, newProj: ProjectsUpdateInputModel) {
+    fun updateProject(name: String, newProj: ProjectsUpdateInputModel): ProjectUpdatedResponse {
         if(projectsrepo.getByName(name).name.isEmpty()) {
             throw InvalidResourceRequestedException("There is no project with the name '$name' in the system.")
         }
         return projectsrepo.update(name, newProj)
     }
 
-    fun deleteProject( name: String ) {
+    fun deleteProject( name: String ): ProjectDeletedResponse {
         if(name.isEmpty() || name.isBlank()) {
             throw InvalidResourceRequestedException("No project name was sent.")
         }

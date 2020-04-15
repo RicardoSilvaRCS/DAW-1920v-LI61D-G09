@@ -1,7 +1,10 @@
 package isel.daw.DAW.Project.Issues.IssuesDal
 
 import isel.daw.DAW.Project.Common.InternalProcedureException
+import isel.daw.DAW.Project.Issues.IssuesDto.IssueStateUpdatedResponse
+import isel.daw.DAW.Project.Issues.IssuesDto.IssueUpdatedResponse
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.FINAL_STATE
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -21,12 +24,18 @@ class UpdateIssueState {
 
         private const val UPDATE_ISSUE_STATE_QUERY = "update issue set currstate = ? , updatedate = ? where id = ? ;"
 
-        fun execute (tid: Int, newState: IssuesStateInputModel, conn: Connection) {
+        private const val UPDATE_ISSUE_STATE_ARCHIVED_QUERY = "update issue set currstate = ? , closedate = ? where id = ? ;"
+
+        fun execute (tid: Int, newState: IssuesStateInputModel, conn: Connection): IssueStateUpdatedResponse {
             var ps : PreparedStatement
 
             try{
                 conn.autoCommit = false
-                ps = conn.prepareStatement(UPDATE_ISSUE_STATE_QUERY)
+                if(newState.state.equals(FINAL_STATE)) {
+                    ps = conn.prepareStatement(UPDATE_ISSUE_STATE_ARCHIVED_QUERY)
+                } else {
+                    ps = conn.prepareStatement(UPDATE_ISSUE_STATE_QUERY)
+                }
                 ps.use {
                     ps.setString(1, newState.state)
                     ps.setTimestamp(2, Timestamp(System.currentTimeMillis()))
@@ -41,6 +50,7 @@ class UpdateIssueState {
             } finally {
                 conn.close()
             }
+            return IssueStateUpdatedResponse(tid)
         }
     }
 }

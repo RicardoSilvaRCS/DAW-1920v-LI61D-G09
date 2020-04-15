@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
 import isel.daw.DAW.Project.Common.InternalProcedureException
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectUpdatedResponse
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsUpdateInputModel
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -24,7 +25,7 @@ class UpdateProject {
 
         private val UPDATE_PROJECT_INFO_QUERY = "update project set projdescr = ? where projname = ? ;"
 
-        fun execute (projname: String, newProj: ProjectsUpdateInputModel, conn: Connection) {
+        fun execute (projname: String, newProj: ProjectsUpdateInputModel, conn: Connection): ProjectUpdatedResponse {
 
             val ps : PreparedStatement
             try{
@@ -43,6 +44,7 @@ class UpdateProject {
             } finally {
                 conn.close()
             }
+            return ProjectUpdatedResponse(projname)
         }
     }
 }

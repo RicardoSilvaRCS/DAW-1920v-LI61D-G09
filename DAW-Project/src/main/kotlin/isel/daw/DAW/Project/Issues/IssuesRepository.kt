@@ -1,10 +1,7 @@
 package isel.daw.DAW.Project.Issues
 
 import isel.daw.DAW.Project.Issues.IssuesDal.*
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
+import isel.daw.DAW.Project.Issues.IssuesDto.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
@@ -25,19 +22,19 @@ class IssuesRepository(@Autowired val dbs: DataSource)  {
         return GetIssue.execute(tid, dbs.connection)
     }
 
-    fun create(newIssue: IssuesInputModel) {
+    fun create(newIssue: IssuesInputModel): IssueCreationResponse {
         return CreateIssue.execute(newIssue, dbs.connection)
     }
 
-    fun updateInfo(tid: Int, newIssue: IssuesInputModel) {
+    fun updateInfo(tid: Int, newIssue: IssuesInputModel): IssueUpdatedResponse {
         return UpdateIssue.execute(tid, newIssue, dbs.connection)
     }
 
-    fun updatestate( tid: Int, newState: IssuesStateInputModel) {
+    fun updatestate( tid: Int, newState: IssuesStateInputModel): IssueStateUpdatedResponse {
         return UpdateIssueState.execute(tid, newState, dbs.connection)
     }
 
-    fun delete( tid: Int) {
+    fun delete( tid: Int): IssueDeletedResponse {
         return DeleteIssue.execute(tid,dbs.connection)
     }
 }

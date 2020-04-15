@@ -1,10 +1,7 @@
 package isel.daw.DAW.Project.Issues
 
 import isel.daw.DAW.Project.Common.*
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesOutputModel
-import isel.daw.DAW.Project.Issues.IssuesDto.IssuesStateInputModel
+import isel.daw.DAW.Project.Issues.IssuesDto.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -42,8 +39,8 @@ class IssuesController(private val issueservices: IssuesServices) {
      * POST /issues
      */
     @PostMapping(CREATE_ISSUE_PATH, consumes = ["application/json"])
-    fun createissue(@RequestBody newIssue: IssuesInputModel) {
-        return issueservices.createIssue(newIssue)
+    fun createissue(@RequestBody newIssue: IssuesInputModel): SirenEntity<IssueCreationResponse> {
+        return issueservices.createIssue(newIssue).toSirenObject()
     }
 
     /**
@@ -54,8 +51,8 @@ class IssuesController(private val issueservices: IssuesServices) {
      * PUT /issues/{tid}
      */
     @PutMapping(UPDATE_ISSUE_PATH)
-    fun updateissueInfo(@PathVariable tid: Int, @RequestBody newIssue: IssuesInputModel) {
-        return issueservices.updateIssue(tid, newIssue)
+    fun updateissueInfo(@PathVariable tid: Int, @RequestBody newIssue: IssuesInputModel): SirenEntity<IssueUpdatedResponse> {
+        return issueservices.updateIssue(tid, newIssue).toSirenObject()
     }
 
     /**
@@ -63,8 +60,8 @@ class IssuesController(private val issueservices: IssuesServices) {
      * PUT /issues/{tid}/updatestate
      */
     @PutMapping(UPDATE_ISSUE_STATE_PATH, consumes = ["application/json"])
-    fun updateissuetate( @PathVariable tid: Int, @RequestBody state: IssuesStateInputModel) {
-        return issueservices.updateState(tid, state)
+    fun updateissuetate( @PathVariable tid: Int, @RequestBody state: IssuesStateInputModel): SirenEntity<IssueStateUpdatedResponse> {
+        return issueservices.updateState(tid, state).toSirenObject()
     }
 
     /**
@@ -72,7 +69,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * DELETE /issues/{tid}
      */
     @DeleteMapping(DELETE_ISSUE_PATH)
-    fun deleteissue(@PathVariable tid: Int) {
-        return issueservices.deleteIssue(tid)
+    fun deleteissue(@PathVariable tid: Int): SirenEntity<IssueDeletedResponse> {
+        return issueservices.deleteIssue(tid).toSirenObject()
     }
 }
