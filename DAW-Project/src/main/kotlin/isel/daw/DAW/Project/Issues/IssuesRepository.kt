@@ -37,4 +37,12 @@ class IssuesRepository(@Autowired val dbs: DataSource)  {
     fun delete( tid: Int): IssueDeletedResponse {
         return DeleteIssue.execute(tid,dbs.connection)
     }
+
+    fun createLabel(tid : Int, issuesLabelInputModel: IssuesLabelInputModel): IssueLabelPostResponse{
+        return CreateIssueLabel.execute(tid,issuesLabelInputModel, dbs.connection)
+    }
+
+    fun deleteLabel(tid: Int, projName: String): IssueLabelDeletedResponse{
+        return DeleteIssueLabel.execute(tid, projName, dbs.connection)
+    }
 }

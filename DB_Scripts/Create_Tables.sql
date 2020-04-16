@@ -5,6 +5,17 @@
  drop table ProjectState;
  drop table ProjectLabel;
  drop table Project;
+ drop table Person;
+
+--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
+
+CREATE table Person (
+	userName varchar(64) not null,
+	fullName varchar(64) not null,
+	email varchar(64) not null,
+	pass varchar(64) not null,
+	primary key (userName)
+);
 
 --||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
 

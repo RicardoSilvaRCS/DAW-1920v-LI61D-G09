@@ -26,6 +26,8 @@ const val CREATE_ISSUE_PATH = "$ISSUES_PATH"
 const val UPDATE_ISSUE_PATH = "$ISSUES_PATH/{tid}"
 const val UPDATE_ISSUE_STATE_PATH = "${UPDATE_ISSUE_PATH}/updatestate"
 const val DELETE_ISSUE_PATH = "$ISSUES_PATH/{tid}"
+const val POST_ISSUE_LABEL_PATH = "$ISSUES_PATH/{tid}/labels"
+const val DELETE_ISSUE_LABEL_PATH = "$ISSUES_PATH/{tid}/labels/{labelName}"
 
 /*COMMENT PATHS*/
 const val COMMENTS_PATH = "/comments"

@@ -37,6 +37,17 @@ class IssuesStateInputModel(val state: String) {
     }
 }
 
+/**
+ * Data model for the creation of a new Issue Label
+ */
+class IssuesLabelInputModel @JsonCreator constructor(
+        val labelName: String,
+        val projname: String
+) {
+    fun isValid(): Boolean {
+        return !(labelName.isEmpty() || labelName.isBlank()) && projname.isNotEmpty()
+    }
+}
 
 /**---------------------------------------------------OUTPUT DTOS--------------------------------------------*/
 /**
@@ -190,6 +201,50 @@ class IssueDeletedResponse{
             actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
     )
 }
+/**
+ * Data model returned when an Issue label is successfully created
+ * TODO
+ * parametros
+ * toSirenObject
+ */
+class IssueLabelPostResponse(){
+    val message: String = "Issue label created with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.CREATED
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("IssueUpdated"),
+            links = listOf(
+                    SirenLink(rel = listOf("get-projects"), href = URI(GET_PROJECTS_PATH))
+            ),
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+    )
+}
+
+/**
+ * Data model returned when an Issue label is successfully removed
+ * TODO
+ * parametros
+ * toSirenObject
+ */
+class IssueLabelDeletedResponse(){
+    val message: String = "Issue label deleted with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.NO_CONTENT  //204 ?
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("IssueUpdated"),
+            links = listOf(
+                    SirenLink(rel = listOf("get-projects"), href = URI(GET_PROJECTS_PATH))
+            ),
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+    )
+}
+
 /**---------------------------SIREN ACTIONS------------------------------------------*/
 /**This describe the possible actions*/
 

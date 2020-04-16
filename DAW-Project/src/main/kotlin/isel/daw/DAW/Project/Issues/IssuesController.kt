@@ -72,4 +72,22 @@ class IssuesController(private val issueservices: IssuesServices) {
     fun deleteissue(@PathVariable tid: Int): SirenEntity<IssueDeletedResponse> {
         return issueservices.deleteIssue(tid).toSirenObject()
     }
+
+    /**
+    * Endpoint to create an issueLabel
+    * POST /issues/{tid}/issuelabel
+    * */
+    @PostMapping(POST_ISSUE_LABEL_PATH)
+    fun postIssueLabel(@PathVariable tid: Int, @RequestBody newIssueLabel: IssuesLabelInputModel): SirenEntity<IssueLabelPostResponse> {
+        return issueservices.createIssueLabel(tid, newIssueLabel).toSirenObject()
+    }
+
+    /**
+     * Endpoint to delete an issue.
+     * DELETE /issues/{tid}
+     */
+    @DeleteMapping(DELETE_ISSUE_LABEL_PATH)
+    fun deleteIssueLabel(@PathVariable tid: Int, @PathVariable labelName: String): SirenEntity<IssueLabelDeletedResponse> {
+        return issueservices.deleteIssueLabel(tid, labelName).toSirenObject()
+    }
 }
