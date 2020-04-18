@@ -18,6 +18,9 @@ const val CREATE_PROJECT_PATH = PROJECTS_PATH
 const val UPDATE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"
 const val DELETE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"
 
+const val POST_PROJECT_LABEL_PATH = "$PROJECTS_PATH/{pname}/label/{labelName}"
+const val DELETE_PROJECT_LABEL_PATH = "$PROJECTS_PATH/{pname}/label/{labelName}"
+
 /*ISSUE PATHS*/
 const val ISSUES_PATH = "/issues"
 const val GET_ISSUES_PATH = "$ISSUES_PATH/{pname}"
@@ -26,8 +29,8 @@ const val CREATE_ISSUE_PATH = "$ISSUES_PATH"
 const val UPDATE_ISSUE_PATH = "$ISSUES_PATH/{tid}"
 const val UPDATE_ISSUE_STATE_PATH = "${UPDATE_ISSUE_PATH}/updatestate"
 const val DELETE_ISSUE_PATH = "$ISSUES_PATH/{tid}"
-const val POST_ISSUE_LABEL_PATH = "$ISSUES_PATH/{tid}/labels"
-const val DELETE_ISSUE_LABEL_PATH = "$ISSUES_PATH/{tid}/labels/{labelName}"
+const val POST_ISSUE_LABEL_PATH = "$ISSUES_PATH/{tid}/label"
+const val DELETE_ISSUE_LABEL_PATH = "$ISSUES_PATH/{tid}/label/{labelName}"
 
 /*COMMENT PATHS*/
 const val COMMENTS_PATH = "/comments"

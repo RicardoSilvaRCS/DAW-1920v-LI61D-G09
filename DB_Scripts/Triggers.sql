@@ -33,7 +33,20 @@ begin
 END $_$ LANGUAGE 'plpgsql';	
 
 
-delete from project where projname='SLB'
+
+
+
+CREATE TRIGGER tr_deleteProjectLabel BEFORE DELETE
+	ON projectlabel
+	FOR EACH ROW
+	EXECUTE PROCEDURE projectLabelDelete()
+	
+CREATE OR replace FUNCTION projectLabelDelete() RETURNS TRIGGER AS $_$
+BEGIN
+	DELETE FROM issuelabel where projname = OLD.projname AND labelname = OLD.labelname;
+	
+	RETURN OLD;
+END $_$ LANGUAGE 'plpgsql';	
 
 
 

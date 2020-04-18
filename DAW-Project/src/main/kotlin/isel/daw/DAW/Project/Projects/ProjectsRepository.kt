@@ -36,4 +36,12 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
         return DeleteProject.execute(name, dbs.connection)
     }
 
+    fun createLabel( projectName : String, labelName : String) : ProjectLabelPostResponse{
+        return CreateProjectLabel.execute(projectName, labelName, dbs.connection)
+    }
+
+    fun deleteLabel( projectName : String, labelName : String) : ProjectLabelDeleteResponse{
+        return DeleteProjectLabel.execute(projectName, labelName, dbs.connection)
+    }
+
 }

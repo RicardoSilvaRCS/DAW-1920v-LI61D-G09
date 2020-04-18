@@ -75,7 +75,7 @@ class IssuesController(private val issueservices: IssuesServices) {
 
     /**
     * Endpoint to create an issueLabel
-    * POST /issues/{tid}/issuelabel
+    * POST /issues/{tid}/label
     * */
     @PostMapping(POST_ISSUE_LABEL_PATH)
     fun postIssueLabel(@PathVariable tid: Int, @RequestBody newIssueLabel: IssuesLabelInputModel): SirenEntity<IssueLabelPostResponse> {
@@ -83,8 +83,8 @@ class IssuesController(private val issueservices: IssuesServices) {
     }
 
     /**
-     * Endpoint to delete an issue.
-     * DELETE /issues/{tid}
+     * Endpoint to delete an issue label.
+     * DELETE /issues/{tid}/label/{labelName}
      */
     @DeleteMapping(DELETE_ISSUE_LABEL_PATH)
     fun deleteIssueLabel(@PathVariable tid: Int, @PathVariable labelName: String): SirenEntity<IssueLabelDeletedResponse> {

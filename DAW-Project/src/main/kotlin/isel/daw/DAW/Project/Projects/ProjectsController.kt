@@ -64,4 +64,22 @@ class ProjectsController(private val projectservices: ProjectsServices) {
     fun deleteProject(@PathVariable pname: String): SirenEntity<ProjectDeletedResponse> {
         return projectservices.deleteProject(pname).toSirenObject()
     }
+
+    /**
+     * Endpoint to create a project label.
+     * Post /projects/{pname}/label/{labelName}
+     */
+    @PostMapping(POST_PROJECT_LABEL_PATH)
+    fun postProjectLabel(@PathVariable pname: String, @PathVariable labelName: String): SirenEntity<ProjectLabelPostResponse> {
+        return projectservices.postProjectLabel(pname, labelName).toSirenObject()
+    }
+
+    /**
+     * Endpoint to delete a project label.
+     * DELETE /projects/{pname}/label/{labelName}
+     */
+    @DeleteMapping(DELETE_PROJECT_LABEL_PATH)
+    fun deleteProjectLabel(@PathVariable pname: String, @PathVariable labelName: String): SirenEntity<ProjectLabelDeleteResponse> {
+        return projectservices.deleteProjectLabel(pname, labelName).toSirenObject()
+    }
 }

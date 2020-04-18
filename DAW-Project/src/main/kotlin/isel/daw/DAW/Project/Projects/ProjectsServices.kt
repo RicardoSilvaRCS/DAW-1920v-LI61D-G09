@@ -52,4 +52,12 @@ class ProjectsServices(private val projectsrepo: ProjectsRepository) {
         }
         return projectsrepo.delete(name)
     }
+
+    fun postProjectLabel(projName : String, labelName : String): ProjectLabelPostResponse{
+        return projectsrepo.createLabel(projName, labelName)
+    }
+
+    fun deleteProjectLabel(projName : String, labelName : String): ProjectLabelDeleteResponse{
+        return projectsrepo.deleteLabel(projName, labelName)
+    }
 }

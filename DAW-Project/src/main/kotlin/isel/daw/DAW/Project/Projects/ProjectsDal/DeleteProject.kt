@@ -9,7 +9,7 @@ import java.sql.SQLException
 class DeleteProject {
 
     companion object {
-        private val DELETE_PROJECT_QUERY = "delete from project where projname = ? ;"
+        private const val DELETE_PROJECT_QUERY = "delete from project where projname = ? ;"
 
         fun execute(name: String, conn: Connection): ProjectDeletedResponse {
             val ps : PreparedStatement

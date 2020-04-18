@@ -221,6 +221,47 @@ class ProjectDeletedResponse(){
     )
 }
 
+/**
+ * Data model returned when a Project label is successfully created
+ * TODO
+ * tosirenObject
+ */
+class ProjectLabelPostResponse(){
+    val message: String = "Project label created with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.CREATED
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectDeleted"),
+            links = listOf(
+                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH))
+            ),
+            actions = listOf(CREATE_PROJECT_ACTION)
+    )
+}
+
+/**
+ * Data model returned when a Project label is successfully deleted
+ * TODO
+ * tosirenObject
+ */
+class ProjectLabelDeleteResponse(){
+    val message: String = "Project label deleted with success."
+    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val date: String = timestamp.toString()
+    val status: HttpStatus = HttpStatus.NO_CONTENT // 204 ? or 200
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("ProjectDeleted"),
+            links = listOf(
+                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH))
+            ),
+            actions = listOf(CREATE_PROJECT_ACTION)
+    )
+}
 
 /**---------------------------SIREN ACTIONS------------------------------------------*/
 
