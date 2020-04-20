@@ -3,7 +3,6 @@ package isel.daw.DAW.Project.Projects
 import isel.daw.DAW.Project.Common.InvalidProjectException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
 import isel.daw.DAW.Project.Common.ProjectNameConflictException
-import isel.daw.DAW.Project.Common.ResourceCreatedResponse
 import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
@@ -53,7 +52,7 @@ class ProjectsServices(private val projectsrepo: ProjectsRepository) {
         return projectsrepo.delete(name)
     }
 
-    fun postProjectLabel(projName : String, labelName : String): ProjectLabelPostResponse{
+    fun postProjectLabel(projName : String, labelName : String): ProjectLabelCreationResponse{
         return projectsrepo.createLabel(projName, labelName)
     }
 

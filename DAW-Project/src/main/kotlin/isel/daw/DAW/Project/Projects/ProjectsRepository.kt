@@ -1,6 +1,5 @@
 package isel.daw.DAW.Project.Projects
 
-import isel.daw.DAW.Project.Common.ResourceCreatedResponse
 import isel.daw.DAW.Project.Projects.ProjectsDal.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,7 +35,7 @@ class ProjectsRepository(@Autowired val dbs: DataSource) {
         return DeleteProject.execute(name, dbs.connection)
     }
 
-    fun createLabel( projectName : String, labelName : String) : ProjectLabelPostResponse{
+    fun createLabel( projectName : String, labelName : String) : ProjectLabelCreationResponse{
         return CreateProjectLabel.execute(projectName, labelName, dbs.connection)
     }
 

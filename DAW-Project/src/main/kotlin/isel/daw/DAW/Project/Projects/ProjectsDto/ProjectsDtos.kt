@@ -175,7 +175,7 @@ class ProjectCreationResponse(
                     SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
             ),
-            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION, CREATE_PROJECT_LABEL_ACTION, DELETE_PROJECT_LABEL_ACTION)
     )
 }
 
@@ -198,7 +198,7 @@ class ProjectUpdatedResponse(
                     SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
             ),
-            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION, CREATE_PROJECT_LABEL_ACTION, DELETE_PROJECT_LABEL_ACTION)
     )
 }
 
@@ -223,10 +223,10 @@ class ProjectDeletedResponse(){
 
 /**
  * Data model returned when a Project label is successfully created
- * TODO
- * tosirenObject
  */
-class ProjectLabelPostResponse(){
+class ProjectLabelCreationResponse(
+        val name: String
+){
     val message: String = "Project label created with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
     val date: String = timestamp.toString()
@@ -234,32 +234,38 @@ class ProjectLabelPostResponse(){
 
     fun toSirenObject() = SirenEntity(
             properties = this,
-            clazz = listOf("ProjectDeleted"),
+            clazz = listOf("ProjectLabelCreated"),
             links = listOf(
-                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH))
+                    SirenLink(rel = listOf("delete-project-label"), href = URI(DELETE_PROJECT_LABEL_PATH)),
+                    SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
             ),
-            actions = listOf(CREATE_PROJECT_ACTION)
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION, DELETE_PROJECT_LABEL_ACTION)
     )
 }
 
 /**
  * Data model returned when a Project label is successfully deleted
- * TODO
- * tosirenObject
  */
-class ProjectLabelDeleteResponse(){
+class ProjectLabelDeleteResponse(
+        val name: String
+){
     val message: String = "Project label deleted with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
     val date: String = timestamp.toString()
-    val status: HttpStatus = HttpStatus.NO_CONTENT // 204 ? or 200
+    val status: HttpStatus = HttpStatus.OK
 
     fun toSirenObject() = SirenEntity(
             properties = this,
-            clazz = listOf("ProjectDeleted"),
+            clazz = listOf("ProjectLabelDeleted"),
             links = listOf(
-                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH))
+                    SirenLink(rel = listOf("create-project-label"), href = URI(CREATE_PROJECT_LABEL_PATH)),
+                    SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
             ),
-            actions = listOf(CREATE_PROJECT_ACTION)
+            actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION, CREATE_PROJECT_LABEL_ACTION)
     )
 }
 
@@ -307,6 +313,29 @@ val DELETE_PROJECT_ACTION = SirenAction(
         href = URI(PROJECTS_PATH),
         method = HttpMethod.DELETE,
         fields = listOf(SirenAction.Field("pname" , "string"))
+)
+
+val CREATE_PROJECT_LABEL_ACTION = SirenAction(
+        name = "create-new-project-label",
+        title = "Create a new project label",
+        href = URI(CREATE_PROJECT_LABEL_PATH),
+        method = HttpMethod.POST,
+        type = MediaType.APPLICATION_JSON,
+        fields = listOf(
+                SirenAction.Field("pname" , "string"),
+                SirenAction.Field("labelname" , "string")
+        )
+)
+
+val DELETE_PROJECT_LABEL_ACTION = SirenAction(
+        name = "delete-project-label",
+        title = "Delete a project label",
+        href = URI(DELETE_PROJECT_LABEL_PATH),
+        method = HttpMethod.DELETE,
+        fields = listOf(
+                SirenAction.Field("pname" , "string"),
+                SirenAction.Field("labelname" , "string")
+        )
 )
 
 

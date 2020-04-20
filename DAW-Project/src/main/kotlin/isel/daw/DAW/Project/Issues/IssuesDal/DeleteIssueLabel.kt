@@ -37,7 +37,7 @@ class DeleteIssueLabel {
                 conn.close()
             }
 
-            return IssueLabelDeletedResponse()
+            return IssueLabelDeletedResponse(tid)
         }
     }
 }

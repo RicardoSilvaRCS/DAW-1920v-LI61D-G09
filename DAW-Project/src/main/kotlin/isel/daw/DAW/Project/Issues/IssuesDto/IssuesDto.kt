@@ -64,7 +64,7 @@ class IssuesOutputModel(val name: String, val descr: String, val state: String ,
                     SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
 
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, CREATE_ISSUE_LABEL_ACTION, DELETE_ISSUE_LABEL_ACTION)
     )
 }
 
@@ -93,7 +93,7 @@ class IssuesInfoOutputModel(
                     SirenLink(rel = listOf("update-issue-state"), href = URI(UPDATE_ISSUE_STATE_PATH.replace("{tid}",this.id.toString()))),
                     SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, CREATE_ISSUE_LABEL_ACTION, DELETE_ISSUE_LABEL_ACTION)
     )
 
     /**
@@ -129,7 +129,7 @@ class IssueCreationResponse(
                     SirenLink(rel = listOf("update-issue-state"), href = URI(UPDATE_ISSUE_STATE_PATH.replace("{tid}",this.id.toString()))),
                     SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, CREATE_ISSUE_LABEL_ACTION, DELETE_ISSUE_LABEL_ACTION)
     )
 }
 
@@ -155,7 +155,7 @@ class IssueUpdatedResponse(
                     SirenLink(rel = listOf("update-issue"), href = URI(UPDATE_ISSUE_PATH.replace("{tid}",this.id.toString()))),
                     SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, CREATE_ISSUE_LABEL_ACTION, DELETE_ISSUE_LABEL_ACTION)
     )
 }
 
@@ -179,7 +179,7 @@ class IssueStateUpdatedResponse(
                     SirenLink(rel = listOf("update-issue-state"), href = URI(UPDATE_ISSUE_STATE_PATH.replace("{tid}",this.id.toString()))),
                     SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, CREATE_ISSUE_LABEL_ACTION, DELETE_ISSUE_LABEL_ACTION)
     )
 }
 
@@ -203,11 +203,10 @@ class IssueDeletedResponse{
 }
 /**
  * Data model returned when an Issue label is successfully created
- * TODO
- * parametros
- * toSirenObject
  */
-class IssueLabelPostResponse(){
+class IssueLabelCreationResponse(
+        val id: Int
+){
     val message: String = "Issue label created with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
     val date: String = timestamp.toString()
@@ -215,33 +214,38 @@ class IssueLabelPostResponse(){
 
     fun toSirenObject() = SirenEntity(
             properties = this,
-            clazz = listOf("IssueUpdated"),
+            clazz = listOf("IssueLabelCreated"),
             links = listOf(
-                    SirenLink(rel = listOf("get-projects"), href = URI(GET_PROJECTS_PATH))
+                    SirenLink(rel = listOf("issue-comments"), href = URI(GET_COMMENTS_PATH.replace("{tid}",this.id.toString()))),
+                    SirenLink(rel = listOf("get-issue"), href = URI(GET_SINGLE_ISSUE_PATH.replace("{tid}",this.id.toString()))),
+                    SirenLink(rel = listOf("update-issue-state"), href = URI(UPDATE_ISSUE_STATE_PATH.replace("{tid}",this.id.toString()))),
+                    SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, DELETE_ISSUE_LABEL_ACTION)
     )
 }
 
 /**
  * Data model returned when an Issue label is successfully removed
- * TODO
- * parametros
- * toSirenObject
  */
-class IssueLabelDeletedResponse(){
+class IssueLabelDeletedResponse(
+        val id: Int
+){
     val message: String = "Issue label deleted with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
     val date: String = timestamp.toString()
-    val status: HttpStatus = HttpStatus.NO_CONTENT  //204 ?
+    val status: HttpStatus = HttpStatus.OK
 
     fun toSirenObject() = SirenEntity(
             properties = this,
-            clazz = listOf("IssueUpdated"),
+            clazz = listOf("IssueLabelDeleted"),
             links = listOf(
-                    SirenLink(rel = listOf("get-projects"), href = URI(GET_PROJECTS_PATH))
+                    SirenLink(rel = listOf("issue-comments"), href = URI(GET_COMMENTS_PATH.replace("{tid}",this.id.toString()))),
+                    SirenLink(rel = listOf("get-issue"), href = URI(GET_SINGLE_ISSUE_PATH.replace("{tid}",this.id.toString()))),
+                    SirenLink(rel = listOf("update-issue-state"), href = URI(UPDATE_ISSUE_STATE_PATH.replace("{tid}",this.id.toString()))),
+                    SirenLink(rel = listOf("delete-issue"), href = URI(DELETE_ISSUE_PATH.replace("{tid}",this.id.toString())))
             ),
-            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
+            actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION, CREATE_ISSUE_LABEL_ACTION)
     )
 }
 
@@ -295,6 +299,26 @@ val DELETE_ISSUE_ACTION = SirenAction(
         href = URI(ISSUES_PATH),
         method = HttpMethod.DELETE,
         fields = listOf(SirenAction.Field("tid" , "number"))
+)
+
+val CREATE_ISSUE_LABEL_ACTION = SirenAction(
+        name = "create-issue-label",
+        title = "Create new issue label",
+        href = URI(CREATE_ISSUE_LABEL_PATH),
+        method = HttpMethod.POST,
+        type = MediaType.APPLICATION_JSON,
+        fields = listOf(SirenAction.Field("tid" , "number"))
+)
+
+val DELETE_ISSUE_LABEL_ACTION = SirenAction(
+        name = "delete-issue-label",
+        title = "Delete an issue label",
+        href = URI(DELETE_ISSUE_LABEL_PATH),
+        method = HttpMethod.DELETE,
+        fields = listOf(
+                SirenAction.Field("tid" , "number"),
+                SirenAction.Field("labelname" , "string")
+        )
 )
 
 

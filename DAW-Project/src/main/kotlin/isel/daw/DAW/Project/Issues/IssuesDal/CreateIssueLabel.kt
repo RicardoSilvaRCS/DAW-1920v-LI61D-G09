@@ -3,10 +3,8 @@ package isel.daw.DAW.Project.Issues.IssuesDal
 import isel.daw.DAW.Project.Common.InternalProcedureException
 import isel.daw.DAW.Project.Issues.IssuesDto.*
 import java.sql.Connection
-import java.sql.Date
 import java.sql.PreparedStatement
 import java.sql.SQLException
-import java.time.LocalDate
 
 class CreateIssueLabel {
     /**
@@ -21,9 +19,8 @@ class CreateIssueLabel {
         private const val INSERT_ISSUE_LABEL_QUERY = "insert into issuelabel(issueid, labelname, projname) " +
                 "values (?, ?, ?)"
 
-        fun execute(tid: Int, newIssueLabel: IssuesLabelInputModel, conn: Connection): IssueLabelPostResponse {
+        fun execute(tid: Int, newIssueLabel: IssuesLabelInputModel, conn: Connection): IssueLabelCreationResponse {
             val ps: PreparedStatement
-            var tid: Int = -1
 
             try {
                 conn.autoCommit = false
@@ -33,8 +30,7 @@ class CreateIssueLabel {
                     ps.setInt(1, tid)
                     ps.setString(2, newIssueLabel.labelName)
                     ps.setString(3, newIssueLabel.projname)
-
-                    val rs = ps.executeQuery()
+                    ps.execute()
                 }
                 conn.commit()
             } catch (ex: SQLException) {
@@ -44,7 +40,7 @@ class CreateIssueLabel {
             } finally {
                 conn.close()
             }
-            return IssueLabelPostResponse()
+            return IssueLabelCreationResponse(tid)
         }
     }
 }

@@ -71,7 +71,7 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         return issuesrepo.delete(tid)
     }
 
-    fun createIssueLabel(tid: Int, newIssueLabel : IssuesLabelInputModel) : IssueLabelPostResponse{
+    fun createIssueLabel(tid: Int, newIssueLabel : IssuesLabelInputModel) : IssueLabelCreationResponse{
         return issuesrepo.createLabel(tid, newIssueLabel)
     }
 

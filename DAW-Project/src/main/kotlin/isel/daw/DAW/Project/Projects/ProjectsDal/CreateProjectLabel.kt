@@ -1,9 +1,7 @@
 package isel.daw.DAW.Project.Projects.ProjectsDal
 
 import isel.daw.DAW.Project.Common.InternalProcedureException
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectCreationResponse
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectLabelPostResponse
-import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInputModel
+import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectLabelCreationResponse
 import java.sql.Connection
 import java.sql.SQLException
 
@@ -19,7 +17,7 @@ class CreateProjectLabel {
         private const val INSERT_PROJECT_LABEL: String = "insert into projectlabel(labelname, projname); " +
                 "values(?,?)"
 
-        fun execute(projectName: String, labelName: String, conn: Connection): ProjectLabelPostResponse {
+        fun execute(projectName: String, labelName: String, conn: Connection): ProjectLabelCreationResponse {
 
             try {
                 conn.autoCommit = false
@@ -39,7 +37,7 @@ class CreateProjectLabel {
             } finally {
                 conn.close()
             }
-            return ProjectLabelPostResponse()
+            return ProjectLabelCreationResponse(projectName)
         }
     }
 }

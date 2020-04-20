@@ -77,8 +77,8 @@ class IssuesController(private val issueservices: IssuesServices) {
     * Endpoint to create an issueLabel
     * POST /issues/{tid}/label
     * */
-    @PostMapping(POST_ISSUE_LABEL_PATH)
-    fun postIssueLabel(@PathVariable tid: Int, @RequestBody newIssueLabel: IssuesLabelInputModel): SirenEntity<IssueLabelPostResponse> {
+    @PostMapping(CREATE_ISSUE_LABEL_PATH)
+    fun createIssueLabel(@PathVariable tid: Int, @RequestBody newIssueLabel: IssuesLabelInputModel): SirenEntity<IssueLabelCreationResponse> {
         return issueservices.createIssueLabel(tid, newIssueLabel).toSirenObject()
     }
 

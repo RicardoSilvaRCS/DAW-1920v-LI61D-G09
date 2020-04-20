@@ -2,7 +2,6 @@ package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.*
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -69,8 +68,8 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * Endpoint to create a project label.
      * Post /projects/{pname}/label/{labelName}
      */
-    @PostMapping(POST_PROJECT_LABEL_PATH)
-    fun postProjectLabel(@PathVariable pname: String, @PathVariable labelName: String): SirenEntity<ProjectLabelPostResponse> {
+    @PostMapping(CREATE_PROJECT_LABEL_PATH)
+    fun createProjectLabel(@PathVariable pname: String, @PathVariable labelName: String): SirenEntity<ProjectLabelCreationResponse> {
         return projectservices.postProjectLabel(pname, labelName).toSirenObject()
     }
 
