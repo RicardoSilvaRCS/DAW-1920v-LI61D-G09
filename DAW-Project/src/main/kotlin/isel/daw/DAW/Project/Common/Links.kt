@@ -10,6 +10,12 @@ package isel.daw.DAW.Project.Common
 /*HOME PATH*/
 const val PROJECT_MANAGER_PATH = "/home"
 
+/*USER PAHTS*/
+const val USERS_PATH = "/user"
+const val REGISTER_USER_PATH = "${USERS_PATH}/register"
+const val LOG_IN_USER_PATH = "${USERS_PATH}/login"
+const val LOG_OUT_USER_PATH = "${USERS_PATH}/logout"
+
 /*PROJECT PATHS*/
 const val PROJECTS_PATH = "/projects"
 const val GET_PROJECTS_PATH = "$PROJECTS_PATH"
