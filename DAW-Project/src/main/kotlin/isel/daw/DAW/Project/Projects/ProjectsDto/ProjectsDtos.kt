@@ -320,7 +320,7 @@ val DELETE_PROJECT_ACTION = SirenAction(
 val CREATE_PROJECT_LABEL_ACTION = SirenAction(
         name = "create-new-project-label",
         title = "Create a new project label",
-        href = URI(CREATE_PROJECT_LABEL_PATH),
+        href = URI(PROJECTS_PATH),
         method = HttpMethod.POST,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(
@@ -332,7 +332,7 @@ val CREATE_PROJECT_LABEL_ACTION = SirenAction(
 val DELETE_PROJECT_LABEL_ACTION = SirenAction(
         name = "delete-project-label",
         title = "Delete a project label",
-        href = URI(DELETE_PROJECT_LABEL_PATH),
+        href = URI(PROJECTS_PATH),
         method = HttpMethod.DELETE,
         fields = listOf(
                 SirenAction.Field("pname" , "string"),
