@@ -10,9 +10,10 @@ class GetUserFriendsList {
 
     companion object {
 
-        private const val GET_ALL_FRIENDS_QUERY = "SELECT friendname" +
+        private const val GET_ALL_FRIENDS_QUERY = "SELECT friendname " +
                 "FROM friendslist " +
-                "where username = ? "
+                "where username = ? " +
+                "and accepted = 1"
 
         fun execute(userName: String, conn: Connection): List<UsersNameOutputModel> {
             val ps: PreparedStatement
@@ -25,7 +26,7 @@ class GetUserFriendsList {
                     rs.use {
                         while (rs.next()) {
                             user.add(UsersNameOutputModel(
-                                    rs.getString("username")
+                                    rs.getString("friendname")
                             )
                             )
                         }

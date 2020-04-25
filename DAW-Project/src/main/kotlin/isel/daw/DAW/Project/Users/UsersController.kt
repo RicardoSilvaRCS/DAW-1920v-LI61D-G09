@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class UsersController (private val userServices : UsersServices) {
 
-    @GetMapping(GET_USERS)
+    @GetMapping(GET_ALL_USERS)
     fun getUsers(@PathVariable startName : String) : List<SirenEntity<UsersNameOutputModel>>{
         val users: MutableList<SirenEntity<UsersNameOutputModel>> = mutableListOf()
         userServices.getUsers(startName).forEach{
@@ -44,7 +44,7 @@ class UsersController (private val userServices : UsersServices) {
     }
 
     @DeleteMapping(DELETE_USER)
-    fun deleteUser(userName : String) : SirenEntity<UserDeletedResponse>{
+    fun deleteUser(@PathVariable userName : String) : SirenEntity<UserDeletedResponse>{
         return userServices.deleteUser(userName).toSirenObject()
     }
 
@@ -63,8 +63,8 @@ class UsersController (private val userServices : UsersServices) {
     /**USER ASSOCIATION WITH PROJECT**/
 
     @PutMapping(ADD_USER_TO_PROJECT)
-    fun addUserToProject(@PathVariable userName : String , @PathVariable projectName : String) : SirenEntity<UserAddedToProjectResponse> {
-        return userServices.addUserToProject(userName , projectName).toSirenObject()
+    fun addUserToProject(@PathVariable userName : String , @PathVariable pname : String) : SirenEntity<UserAddedToProjectResponse> {
+        return userServices.addUserToProject(userName , pname).toSirenObject()
     }
 
     /**FRIENDS SECTION**/
@@ -72,7 +72,7 @@ class UsersController (private val userServices : UsersServices) {
     @GetMapping(GET_USER_FRIENDS_LIST)
     fun getFriends(@PathVariable userName : String) : List<SirenEntity<UsersNameOutputModel>>{
         val friends: MutableList<SirenEntity<UsersNameOutputModel>> = mutableListOf()
-        userServices.getUsers(userName).forEach{
+        userServices.getUserFriendsList(userName).forEach{
             friends.add(it.toSirenObject())
         }
         return friends

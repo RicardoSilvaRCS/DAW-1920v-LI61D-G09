@@ -143,7 +143,7 @@ create table FriendsList (
 	
 	constraint userName foreign key (userName) references Users (userName),
 	constraint friendName foreign key (userName) references Users(userName),
-	accepted bit(1) not null,
+	accepted int not null,
 	
 	primary key (userName, friendName)
 );

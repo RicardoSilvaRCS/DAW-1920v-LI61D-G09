@@ -25,7 +25,7 @@ class UpdateFriendListAccepted {
                 if(friendship.accepted) {
                    val  ps = conn.prepareStatement(UPDATE_ACCEPTED_QUERY)
                     ps.use {
-                        ps.setBoolean(1,friendship.accepted)
+                        ps.setInt(1,1)
                         ps.setString(2,friendship.requestedUser)
                         ps.setString(3,friendship.currentUser)
                         ps.execute()

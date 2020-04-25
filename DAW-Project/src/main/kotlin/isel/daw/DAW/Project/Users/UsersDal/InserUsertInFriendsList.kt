@@ -15,13 +15,13 @@ class InserUsertInFriendsList (){
 
         fun execute (userName : String , friendName : String , conn : Connection) : UserAddedToFriendsList {
             try {
-
+                conn.autoCommit = false
                 val ps = conn.prepareStatement(INSERT_USER_IN_FRIENDS_LIST_QUERY)
 
                 ps.use {
                     ps.setString(1,userName)
                     ps.setString(2,friendName)
-                    ps.setBoolean(3,false)
+                    ps.setInt(3,0)
                     ps.execute()
                 }
 

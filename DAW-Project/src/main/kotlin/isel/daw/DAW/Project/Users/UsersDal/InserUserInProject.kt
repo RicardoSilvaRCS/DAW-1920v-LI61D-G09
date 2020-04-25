@@ -16,7 +16,7 @@ class InserUserInProject () {
 
         fun execute (userName : String , projectName : String , conn : Connection) : UserAddedToProjectResponse {
             try {
-
+                conn.autoCommit = false
                 val ps = conn.prepareStatement(INSERT_USER_INTO_PROJECT_QUERY)
 
                 ps.use {

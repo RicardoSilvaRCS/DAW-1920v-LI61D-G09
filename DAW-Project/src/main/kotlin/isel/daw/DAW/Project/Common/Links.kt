@@ -11,21 +11,20 @@ const val PROJECT_MANAGER_PATH = "/home"
 
 /*USER PAHTS*/
 const val USERS_PATH = "/user"
-const val GET_USERS = "$USERS_PATH/{startname}/suggestions"
+const val GET_ALL_USERS = "$USERS_PATH/userslist/{startName}"
 const val GET_USER_INFO = "$USERS_PATH/{userName}"
-const val REGISTER_USER_PATH = "${USERS_PATH}/register"
+const val REGISTER_USER_PATH = USERS_PATH
 const val UPDATE_USER_INFO = USERS_PATH
-const val DELETE_USER = "${USERS_PATH}/{userName}"
-const val LOG_IN_USER_PATH = "${USERS_PATH}/login"
-const val LOG_OUT_USER_PATH = "${USERS_PATH}/logout"
+const val DELETE_USER = "$USERS_PATH/{userName}"
+const val LOG_IN_USER_PATH = "$USERS_PATH/login"
+const val LOG_OUT_USER_PATH = "$USERS_PATH/logout"
 const val ADD_USER_TO_PROJECT = "$USERS_PATH/{userName}/project/{pname}"
 const val GET_USER_FRIENDS_LIST = "$USERS_PATH/{userName}/friendslist"
 const val ADD_USER_TO_FRIENDS_LIST = "$USERS_PATH/{userName}/friendslist/{friendName}"
 
 /*PROJECT PATHS*/
-//TODO por os projects com username
 const val PROJECTS_PATH = "/projects"
-const val GET_PROJECTS_PATH = "$PROJECTS_PATH/{username}"
+const val GET_PROJECTS_PATH = "$PROJECTS_PATH$USERS_PATH/{userName}"
 const val GET_SINGLE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"
 const val CREATE_PROJECT_PATH ="$PROJECTS_PATH/{username}"
 const val UPDATE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"

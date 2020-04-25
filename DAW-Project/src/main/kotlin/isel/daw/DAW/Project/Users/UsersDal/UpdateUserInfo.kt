@@ -16,7 +16,7 @@ class UpdateUserInfo {
 
         fun execute (user : UserUpdateInputModel, conn : Connection) : UserUpdatedResponse {
             try {
-
+                conn.autoCommit = false
                 val ps = conn.prepareStatement(UPDATE_USER_QUERY)
 
                 ps.use {

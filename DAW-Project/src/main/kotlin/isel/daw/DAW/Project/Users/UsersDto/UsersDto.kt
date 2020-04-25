@@ -1,7 +1,6 @@
 package isel.daw.DAW.Project.Users.UsersDto
 
 import isel.daw.DAW.Project.Common.*
-import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
