@@ -3,8 +3,12 @@ package isel.daw.DAW.Project.Users
 import isel.daw.DAW.Project.Users.UsersDal.*
 import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 import javax.sql.DataSource
 
+@Repository
+@Component
 class UsersRepository (@Autowired val dbs: DataSource) {
 
     fun getUsers (startName : String) : List<UsersNameOutputModel> {

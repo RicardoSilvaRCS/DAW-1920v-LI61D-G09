@@ -1,7 +1,11 @@
 package isel.daw.DAW.Project.Users
 
 import isel.daw.DAW.Project.Users.UsersDto.*
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
+@Service
+@Component
 class UsersServices (private val userRepo : UsersRepository) {
 
     fun getUsers(startName : String) : List<UsersNameOutputModel> {
