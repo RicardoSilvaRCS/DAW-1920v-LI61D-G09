@@ -10,7 +10,7 @@ class InserUserInProject () {
 
     companion object{
 
-        private val INSERT_USER_INTO_PROJECT_QUERY = " INSERT INTO public.usersprojects " +
+        private const val INSERT_USER_INTO_PROJECT_QUERY = " INSERT INTO public.usersprojects " +
                 "(username, projname) " +
                 "VALUES (?, ?) "
 

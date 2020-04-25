@@ -19,7 +19,7 @@ class CreateProject {
                 "\t (projname, projdescr, projinitstate)\n" +
                 "\t VALUES (?,?, ?);"
 
-        fun execute( newProject : ProjectsInputModel , conn : Connection): ProjectCreationResponse {
+        fun execute( newProject : ProjectsInputModel, userName: String , conn : Connection): ProjectCreationResponse {
 
             try {
                 conn.autoCommit = false
@@ -32,6 +32,7 @@ class CreateProject {
                     ps.execute()
                 }
 
+                createUserProjectAssociation(userName , newProject.name , conn)
                 insertLabels(newProject.name , newProject.labels , conn)
                 insertStates(newProject.name , newProject.transitions , conn)
                 insertTransitions(newProject.name , newProject.transitions , conn)
@@ -43,7 +44,7 @@ class CreateProject {
             }finally {
                 conn.close()
             }
-            return ProjectCreationResponse(newProject.name)
+            return ProjectCreationResponse(newProject.name , userName)
         }
 
         //--------------------------------Insert Labels---------------------------------------//
@@ -63,7 +64,6 @@ class CreateProject {
                     }
                 }
             } catch (ex: SQLException) {
-                conn.rollback()
                 throw InternalProcedureException("Error during project labels insertion procedure." +
                         "Detailed problem: ${ex.message}")
             }
@@ -90,7 +90,6 @@ class CreateProject {
                     }
                 }
             } catch (ex: SQLException) {
-                conn.rollback()
                 throw InternalProcedureException("Error during project states insertion procedure." +
                         "Detailed problem: ${ex.message}")
             }
@@ -128,12 +127,31 @@ class CreateProject {
                     }
                 }
             } catch (ex: SQLException) {
-                conn.rollback()
                 throw InternalProcedureException("Error during project state-transitions insertion procedure." +
                         "Detailed problem: ${ex.message}")
             }
 
         }
 
+        //--------------------------------Create Association With User----------------------------------//
+        private const val INSERT_USER_INTO_PROJECT_QUERY = " INSERT INTO public.usersprojects " +
+                "(username, projname) " +
+                "VALUES (?, ?) "
+
+        private fun createUserProjectAssociation (userName : String , projectName : String , conn : Connection){
+            try {
+                val ps = conn.prepareStatement(INSERT_USER_INTO_PROJECT_QUERY)
+
+                ps.use {
+                    ps.setString(1,userName)
+                    ps.setString(2,projectName)
+                    ps.execute()
+                }
+
+            } catch (ex: SQLException) {
+                throw InternalProcedureException("Error during project insertion procedure." +
+                        "Detailed problem: ${ex.message}")
+            }
+        }
     }
 }

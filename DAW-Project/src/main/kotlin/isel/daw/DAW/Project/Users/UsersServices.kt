@@ -28,6 +28,13 @@ class UsersServices (private val userRepo : UsersRepository) {
         return userRepo.addUserToProject(userName , projectName)
     }
 
+
+    /**FRIENDS LIST**/
+
+    fun getUserFriendsList (userName : String )  : List<UsersNameOutputModel> {
+        return userRepo.getUserFriendsList(userName)
+    }
+
     fun addUserToFriendsList (userName : String , friendName : String)  : UserAddedToFriendsList{
         return userRepo.addUserToFriendsList(userName, friendName)
     }

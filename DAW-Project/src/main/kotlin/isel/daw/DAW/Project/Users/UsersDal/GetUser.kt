@@ -10,7 +10,7 @@ class GetUser {
 
     companion object {
 
-        private  val GET_USER_INFO_QUERY = "SELECT username, fullname, email, age, genre, phonenumber, pass " +
+        private const val GET_USER_INFO_QUERY = "SELECT username, fullname, email, age, genre, phonenumber, pass " +
                 "FROM users " +
                 "where username = '?' "
 

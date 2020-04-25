@@ -15,16 +15,16 @@ import javax.sql.DataSource
 @Component
 class ProjectsRepository(@Autowired val dbs: DataSource) {
 
-    fun getAll(): List<ProjectsOutputModel> {
-        return GetProjects.execute(dbs.connection)
+    fun getAll(userName : String): List<ProjectsOutputModel> {
+        return GetProjects.execute(userName,dbs.connection)
     }
 
     fun getByName( name: String ): ProjectsInfoOutputModel {
         return GetProject.execute(name, dbs.connection)
     }
 
-    fun create (newProject : ProjectsInputModel ): ProjectCreationResponse {
-        return CreateProject.execute(newProject, dbs.connection)
+    fun create (newProject : ProjectsInputModel,userName: String ): ProjectCreationResponse {
+        return CreateProject.execute(newProject,userName, dbs.connection)
     }
 
     fun update( name: String, newProj: ProjectsUpdateInputModel ): ProjectUpdatedResponse {

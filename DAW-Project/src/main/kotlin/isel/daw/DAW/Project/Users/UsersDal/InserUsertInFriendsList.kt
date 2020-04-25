@@ -9,7 +9,7 @@ class InserUsertInFriendsList (){
 
     companion object{
 
-        private val INSERT_USER_IN_FRIENDS_LIST_QUERY = "INSERT INTO public.friendslist " +
+        private const val INSERT_USER_IN_FRIENDS_LIST_QUERY = "INSERT INTO public.friendslist " +
                 "(username, friendname, accepted) " +
                 "VALUES (?, ?, ?) "
 

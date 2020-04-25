@@ -11,12 +11,12 @@ class UpdateFriendListAccepted {
 
     companion object{
 
-        private val UPDATE_ACCEPTED_QUERY = "UPDATE friendslist SET accepted=? " +
+        private const val UPDATE_ACCEPTED_QUERY = "UPDATE friendslist SET accepted=? " +
                 "WHERE " +
                 "username = ? " +
                 "and friendName = ?  "
 
-        private val DELETE_FIENDSHIP_QUERY = "DELETE FROM public.friendslist " +
+        private const val DELETE_FIENDSHIP_QUERY = "DELETE FROM public.friendslist " +
                 "WHERE username = ? and friendname = ?;"
 
         fun execute (friendship : FriendshipInputModel, conn : Connection) : UserAddedToFriendsList{

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service
 @Component
 class ProjectsServices(private val projectsrepo: ProjectsRepository) {
 
-    fun getProjects(): List<ProjectsOutputModel> {
-        return projectsrepo.getAll()
+    fun getProjects(userName : String): List<ProjectsOutputModel> {
+        return projectsrepo.getAll(userName)
     }
 
     fun getProject( name: String ): ProjectsInfoOutputModel {
@@ -27,12 +27,12 @@ class ProjectsServices(private val projectsrepo: ProjectsRepository) {
         return projectsrepo.getByName(name)
     }
 
-    fun createProject(newProject : ProjectsInputModel): ProjectCreationResponse {
+    fun createProject(newProject : ProjectsInputModel , userName: String): ProjectCreationResponse {
         if(newProject.isValid()) {
             if(projectsrepo.getByName(newProject.name).name.isNotEmpty()) {
                 throw ProjectNameConflictException("A project with the name '${newProject.name}' already exists.")
             }
-            return projectsrepo.create(newProject)
+            return projectsrepo.create(newProject,userName)
         } else {
             throw InvalidProjectException("Invalid information received for the creation of a project.")
         }

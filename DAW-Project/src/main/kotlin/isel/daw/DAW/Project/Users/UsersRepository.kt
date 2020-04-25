@@ -27,11 +27,15 @@ class UsersRepository (@Autowired val dbs: DataSource) {
         return DeleteUser.execute(userName , dbs.connection)
     }
 
-    fun addUserToProject (newUser : String , projname : String ) : UserAddedToProjectResponse{
-        return InserUserInProject.execute(newUser , projname, dbs.connection)
+    fun addUserToProject (user : String , projname : String ) : UserAddedToProjectResponse{
+        return InserUserInProject.execute(user , projname, dbs.connection)
     }
 
-    fun addUserToFriendsList (newUser : String, friendName : String) : UserAddedToFriendsList{
-        return InserUsertInFriendsList.execute(newUser,friendName, dbs.connection)
+    fun getUserFriendsList (userName : String) : List<UsersNameOutputModel>{
+        return GetUserFriendsList.execute(userName, dbs.connection)
+    }
+
+    fun addUserToFriendsList (user : String, friendName : String) : UserAddedToFriendsList{
+        return InserUsertInFriendsList.execute(user,friendName, dbs.connection)
     }
 }

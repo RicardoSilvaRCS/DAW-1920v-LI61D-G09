@@ -159,6 +159,24 @@ class UserAddedToProjectResponse(
     )
 }
 
+
+/**FRIENDS LIST OUTPUT MODEL**/
+
+class UserFriendsListOutputModel (var userName: String
+
+) {
+
+    fun toSirenObject() = SirenEntity(
+            properties = this,
+            clazz = listOf("UserInfo"),
+            links = listOf(
+                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{friendName}",this.userName))),
+                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{userName}",this.userName)))
+            ),
+            actions = listOf(ADD_USER_TO_FRIENDSLIST_ACTION,ADD_USER_TO_PROJECT_ACTION)
+    )
+}
+
 class UserAddedToFriendsList(
         val userName: String
 ){
@@ -179,7 +197,6 @@ class UserAddedToFriendsList(
             actions = listOf(UPDATE_USER_ACTION, DELETE_USER_ACTION, ADD_USER_TO_FRIENDSLIST_ACTION, ADD_USER_TO_PROJECT_ACTION)
     )
 }
-
 
 
 

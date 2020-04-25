@@ -159,7 +159,8 @@ class ProjectsInfoOutputModel(
  * Data model returned when a Project is successfully created
  */
 class ProjectCreationResponse(
-        val name: String
+        val name: String,
+        val userName : String
 ){
     val message: String = "Project created with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
@@ -173,7 +174,8 @@ class ProjectCreationResponse(
                     SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("update-project"), href = URI(UPDATE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
-                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name))),
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_USER_INFO.replace("{username}", userName)))
             ),
             actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION, CREATE_PROJECT_LABEL_ACTION, DELETE_PROJECT_LABEL_ACTION)
     )

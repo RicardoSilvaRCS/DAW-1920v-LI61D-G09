@@ -15,13 +15,17 @@ class GetProjects {
 
     companion object{
 
-        private const val GET_ALL_PROJECTS_QUERY : String = "select projName,projDescr from Project"
+        private const val GET_ALL_PROJECTS_QUERY : String = "select p.projName ,p.projDescr " +
+                "from Project p inner join usersprojects up " +
+                "on (p.projName = up.projname) " +
+                "where username = ?"
 
-        fun execute(conn: Connection): List<ProjectsOutputModel> {
-            val projects: MutableList<ProjectsOutputModel> = arrayListOf()
+        fun execute(userName : String , conn: Connection): List<ProjectsOutputModel> {
+            val projects: MutableList<ProjectsOutputModel> = mutableListOf()
             try {
                 val ps = conn.prepareStatement(GET_ALL_PROJECTS_QUERY)
                 ps.use {
+                    ps.setString(1,userName)
                     val rs = ps.executeQuery()
                     rs.use {
                         while(rs.next()){

@@ -34,7 +34,7 @@ class DeleteProjectLabel {
             } finally {
                 conn.close()
             }
-            return ProjectLabelDeleteResponse()
+            return ProjectLabelDeleteResponse(projectName)
         }
     }
 }

@@ -15,9 +15,9 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * GET /projects
      */
     @GetMapping(GET_PROJECTS_PATH)
-    fun getProjects (): List<SirenEntity<ProjectsOutputModel>>{
+    fun getProjects (@PathVariable userName : String): List<SirenEntity<ProjectsOutputModel>>{
        val projects: MutableList<SirenEntity<ProjectsOutputModel>> = mutableListOf()
-        projectservices.getProjects().forEach{
+        projectservices.getProjects(userName).forEach{
             projects.add(it.toSirenObject())
         }
         return projects
@@ -42,8 +42,8 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * POST /projects
      */
     @PostMapping(CREATE_PROJECT_PATH, consumes = ["application/json"])
-    fun createProject( @RequestBody newProject: ProjectsInputModel ): SirenEntity<ProjectCreationResponse> {
-        return projectservices.createProject(newProject).toSirenObject()
+    fun createProject( @RequestBody newProject: ProjectsInputModel, @PathVariable userName: String ): SirenEntity<ProjectCreationResponse> {
+        return projectservices.createProject(newProject,userName).toSirenObject()
     }
 
     /**
