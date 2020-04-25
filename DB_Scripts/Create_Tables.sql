@@ -5,17 +5,9 @@
  drop table ProjectState;
  drop table ProjectLabel;
  drop table Project;
- drop table Person;
-
---||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
-
-CREATE table Person (
-	userName varchar(64) not null,
-	fullName varchar(64) not null,
-	email varchar(64) not null,
-	pass varchar(64) not null,
-	primary key (userName)
-);
+ drop table Users;
+ drop table FriendsList;
+ drop table UsersProjects;
 
 --||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
 
@@ -128,4 +120,49 @@ create table IssueComment (
 
 --||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
 
+create table Users (
+	userName varchar(25) not null,
+	fullName varchar(64) not null,
+	email varchar(64) not null,
+	age int ,  
+	genre varchar(10),
+	phoneNumber varchar(9),
+	pass varchar(64) not null,
+	
+	Unique (userName,email),
+	primary key (userName)
+);
 
+--drop table Users;
+
+--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
+
+create table FriendsList (
+	userName varchar(25),
+	friendName varchar(25),
+	
+	constraint userName foreign key (userName) references Users (userName),
+	constraint friendName foreign key (userName) references Users(userName),
+	accepted bit(1) not null,
+	
+	primary key (userName, friendName)
+);
+
+
+--drop table FriendsList
+
+--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--
+
+create table UsersProjects (
+	userName varchar(25),
+	projName varchar(25),
+	
+	constraint userName foreign key (userName) references Users (userName),
+	constraint projName foreign key (projName) references Project(projName),
+	
+	primary key (userName,projName)
+); 
+
+--drop table UsersProjects
+
+--||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||--

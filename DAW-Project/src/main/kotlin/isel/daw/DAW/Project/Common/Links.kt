@@ -12,9 +12,15 @@ const val PROJECT_MANAGER_PATH = "/home"
 
 /*USER PAHTS*/
 const val USERS_PATH = "/user"
+const val GET_USERS = USERS_PATH
+const val GET_USER_INFO = "$USERS_PATH/{userName}"
 const val REGISTER_USER_PATH = "${USERS_PATH}/register"
+const val UPDATE_USER_INFO = USERS_PATH
+const val DELETE_USER = "${USERS_PATH}/{userName}"
 const val LOG_IN_USER_PATH = "${USERS_PATH}/login"
 const val LOG_OUT_USER_PATH = "${USERS_PATH}/logout"
+const val ADD_USER_TO_PROJECT = "$USERS_PATH/{userName}/project/{pname}"
+const val ADD_USER_TO_FRIENDS_LIST = "$USERS_PATH/{userName}/friendslist/{friendName}"
 
 /*PROJECT PATHS*/
 const val PROJECTS_PATH = "/projects"
