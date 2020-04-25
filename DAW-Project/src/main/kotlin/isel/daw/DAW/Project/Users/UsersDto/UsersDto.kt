@@ -57,8 +57,7 @@ class UsersInfoOutputModel (var userName: String,
             clazz = listOf("UserInfo"),
             links = listOf(
                     SirenLink(rel = listOf("update-user-info"), href = URI(UPDATE_USER_INFO.replace("{userName}",this.userName))),
-                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{username}",this.userName))),
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{username}",this.userName)))
+                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{userName}",this.userName)))
             ),
             actions = listOf(UPDATE_USER_ACTION, DELETE_USER_ACTION, ADD_USER_TO_FRIENDSLIST_ACTION, ADD_USER_TO_PROJECT_ACTION)
     )
@@ -72,10 +71,7 @@ class UsersNameOutputModel (var userName: String
     fun toSirenObject() = SirenEntity(
             properties = this,
             clazz = listOf("UserInfo"),
-            links = listOf(
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{friendName}",this.userName))),
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{userName}",this.userName)))
-            ),
+            links = listOf(),
             actions = listOf(ADD_USER_TO_FRIENDSLIST_ACTION,ADD_USER_TO_PROJECT_ACTION)
     )
 }
@@ -114,8 +110,7 @@ class UserUpdatedResponse(
             clazz = listOf("ProjectUpdated"),
             links = listOf(
                     SirenLink(rel = listOf("update-user-info"), href = URI(UPDATE_USER_INFO.replace("{userName}",this.userName))),
-                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{username}",this.userName))),
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{username}",this.userName)))
+                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{userName}",this.userName)))
             ),
             actions = listOf(UPDATE_USER_ACTION, DELETE_USER_ACTION, ADD_USER_TO_FRIENDSLIST_ACTION, ADD_USER_TO_PROJECT_ACTION)
     )
@@ -151,9 +146,8 @@ class UserAddedToProjectResponse(
             clazz = listOf("ProjectUpdated"),
             links = listOf(
                     SirenLink(rel = listOf("update-user-info"), href = URI(UPDATE_USER_INFO.replace("{userName}",this.userName))),
-                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{username}",this.userName))),
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{username}",this.userName))),
-                    SirenLink(rel = listOf("get-user-project"), href = URI(GET_PROJECTS_PATH.replace("{username}",this.userName)))
+                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{userName}",this.userName))),
+                    SirenLink(rel = listOf("get-user-project"), href = URI(GET_PROJECTS_PATH.replace("{userName}",this.userName)))
             ),
             actions = listOf(UPDATE_USER_ACTION, DELETE_USER_ACTION, ADD_USER_TO_FRIENDSLIST_ACTION, ADD_USER_TO_PROJECT_ACTION)
     )
@@ -169,10 +163,7 @@ class UserFriendsListOutputModel (var userName: String
     fun toSirenObject() = SirenEntity(
             properties = this,
             clazz = listOf("UserInfo"),
-            links = listOf(
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{friendName}",this.userName))),
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{userName}",this.userName)))
-            ),
+            links = listOf(),
             actions = listOf(ADD_USER_TO_FRIENDSLIST_ACTION,ADD_USER_TO_PROJECT_ACTION)
     )
 }
@@ -190,9 +181,8 @@ class UserAddedToFriendsList(
             clazz = listOf("ProjectUpdated"),
             links = listOf(
                     SirenLink(rel = listOf("update-user-info"), href = URI(UPDATE_USER_INFO.replace("{userName}",this.userName))),
-                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{username}",this.userName))),
-                    SirenLink(rel = listOf("add-friend-to-list"), href = URI(ADD_USER_TO_FRIENDS_LIST.replace("{username}",this.userName))),
-                    SirenLink(rel = listOf("get-user-project"), href = URI(GET_PROJECTS_PATH.replace("{username}",this.userName)))
+                    SirenLink(rel = listOf("delete-user"), href = URI(DELETE_USER.replace("{userName}",this.userName))),
+                    SirenLink(rel = listOf("get-user-project"), href = URI(GET_PROJECTS_PATH.replace("{userName}",this.userName)))
             ),
             actions = listOf(UPDATE_USER_ACTION, DELETE_USER_ACTION, ADD_USER_TO_FRIENDSLIST_ACTION, ADD_USER_TO_PROJECT_ACTION)
     )
@@ -206,7 +196,7 @@ class UserAddedToFriendsList(
 
 val GET_USER_ACTION = SirenAction(
         name = "get-project",
-        title = "Get the project with the pname",
+        title = "Get the user with the username",
         href = URI(GET_USER_INFO),
         method = HttpMethod.GET
 )
@@ -225,7 +215,7 @@ val UPDATE_USER_ACTION = SirenAction(
         href = URI(UPDATE_USER_INFO),
         method = HttpMethod.PUT,
         type = MediaType.APPLICATION_JSON,
-        fields = listOf(SirenAction.Field("pname" , "string"))
+        fields = listOf(SirenAction.Field("userName" , "string"))
 )
 
 val DELETE_USER_ACTION = SirenAction(
@@ -233,7 +223,7 @@ val DELETE_USER_ACTION = SirenAction(
         title = "Delete specified user",
         href = URI(DELETE_USER),
         method = HttpMethod.DELETE,
-        fields = listOf(SirenAction.Field("pname" , "string"))
+        fields = listOf(SirenAction.Field("userName" , "string"))
 )
 
 val ADD_USER_TO_FRIENDSLIST_ACTION = SirenAction(
@@ -241,7 +231,7 @@ val ADD_USER_TO_FRIENDSLIST_ACTION = SirenAction(
         title = "Add a friend to user's friends list",
         href = URI(ADD_USER_TO_FRIENDS_LIST),
         method = HttpMethod.PUT,
-        fields = listOf(SirenAction.Field("pname" , "string"))
+        fields = listOf(SirenAction.Field("userName" , "string"),SirenAction.Field("friendName" , "string"))
 )
 
 val ADD_USER_TO_PROJECT_ACTION = SirenAction(
@@ -249,6 +239,6 @@ val ADD_USER_TO_PROJECT_ACTION = SirenAction(
         title = "Add user to project",
         href = URI(ADD_USER_TO_PROJECT),
         method = HttpMethod.PUT,
-        fields = listOf(SirenAction.Field("pname" , "string"))
+        fields = listOf(SirenAction.Field("userName" , "string"),SirenAction.Field("pname" , "string"))
 )
 

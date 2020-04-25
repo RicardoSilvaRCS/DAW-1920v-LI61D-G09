@@ -12,7 +12,7 @@ class GetUsers {
 
         private const val GET_ALL_USERS_QUERY = "SELECT username" +
                 "FROM users " +
-                "where username like '?%' "
+                "where username like ?'%' "
 
 
         fun execute ( startName : String , conn : Connection)  : List<UsersNameOutputModel> {

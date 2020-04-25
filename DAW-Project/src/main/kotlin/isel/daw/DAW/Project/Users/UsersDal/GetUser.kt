@@ -12,7 +12,7 @@ class GetUser {
 
         private const val GET_USER_INFO_QUERY = "SELECT username, fullname, email, age, genre, phonenumber, pass " +
                 "FROM users " +
-                "where username = '?' "
+                "where username = ?"
 
 
         fun execute (userName : String , conn : Connection)  : UsersInfoOutputModel{

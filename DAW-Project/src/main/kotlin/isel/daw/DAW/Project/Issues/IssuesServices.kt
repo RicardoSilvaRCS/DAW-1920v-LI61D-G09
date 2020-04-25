@@ -40,7 +40,7 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         if(!newIssue.isValid()) {
             throw InvalidIssueException("Invalid information received for the creation of an issue.")
         }
-        val projOfIssue: ProjectsInfoOutputModel = projectsrepo.getByName(newIssue.name)
+        val projOfIssue: ProjectsInfoOutputModel = projectsrepo.getByName(newIssue.projname)
         if(projOfIssue.isDefault()) {
             throw InvalidResourceRequestedException("The project in which the issue wants to be inserted doesn't exist.")
         }

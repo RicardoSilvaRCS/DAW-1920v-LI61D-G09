@@ -3,8 +3,7 @@ package isel.daw.DAW.Project.Common
 /**
  * All paths on the API
  *
- *  TODO: Perguntar se em projetos maiores compensa colocar os nomes do endpoints identicos ao nome das pastas
- *        para ser de mais facil resolução em caso de erro
+ *
  */
 
 /*HOME PATH*/
@@ -12,7 +11,7 @@ const val PROJECT_MANAGER_PATH = "/home"
 
 /*USER PAHTS*/
 const val USERS_PATH = "/user"
-const val GET_USERS = USERS_PATH
+const val GET_USERS = "$USERS_PATH/{startname}/suggestions"
 const val GET_USER_INFO = "$USERS_PATH/{userName}"
 const val REGISTER_USER_PATH = "${USERS_PATH}/register"
 const val UPDATE_USER_INFO = USERS_PATH
