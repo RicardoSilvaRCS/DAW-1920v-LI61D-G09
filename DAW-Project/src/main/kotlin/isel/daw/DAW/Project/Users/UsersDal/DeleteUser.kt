@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Users.UsersDal
 
 import isel.daw.DAW.Project.Common.InternalProcedureException
+import isel.daw.DAW.Project.Users.UsersDto.UserDeletedResponse
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
@@ -10,7 +11,7 @@ class DeleteUser {
     companion object {
         private const val DELETE_PROJECT_QUERY = "delete from users where username = ? ;"
 
-        fun execute(userName: String, conn: Connection) {
+        fun execute(userName: String, conn: Connection) : UserDeletedResponse {
             val ps : PreparedStatement
             try{
                 ps = conn.prepareStatement(DELETE_PROJECT_QUERY)
@@ -25,7 +26,7 @@ class DeleteUser {
             } finally {
                 conn.close()
             }
-            return //TODO POR a retornar
+            return UserDeletedResponse ()
         }
     }
 }

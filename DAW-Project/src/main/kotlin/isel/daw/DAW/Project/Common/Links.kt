@@ -23,6 +23,7 @@ const val ADD_USER_TO_PROJECT = "$USERS_PATH/{userName}/project/{pname}"
 const val ADD_USER_TO_FRIENDS_LIST = "$USERS_PATH/{userName}/friendslist/{friendName}"
 
 /*PROJECT PATHS*/
+//TODO por os projects com username
 const val PROJECTS_PATH = "/projects"
 const val GET_PROJECTS_PATH = "$PROJECTS_PATH"
 const val GET_SINGLE_PROJECT_PATH = "$PROJECTS_PATH/{pname}"

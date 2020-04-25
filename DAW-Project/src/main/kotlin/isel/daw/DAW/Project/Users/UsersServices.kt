@@ -1,12 +1,10 @@
 package isel.daw.DAW.Project.Users
 
-import isel.daw.DAW.Project.Users.UsersDto.UserCreationResponse
-import isel.daw.DAW.Project.Users.UsersDto.UserInputModel
-import isel.daw.DAW.Project.Users.UsersDto.UsersInfoOutputModel
+import isel.daw.DAW.Project.Users.UsersDto.*
 
 class UsersServices (private val userRepo : UsersRepository) {
 
-    fun getUsers(startName : String) : List<UsersInfoOutputModel> {
+    fun getUsers(startName : String) : List<UsersNameOutputModel> {
         return userRepo.getUsers(startName)
     }
 
@@ -18,19 +16,19 @@ class UsersServices (private val userRepo : UsersRepository) {
         return userRepo.createUser(newUser)
     }
 
-    fun updateUser( user : UserInputModel) {
+    fun updateUser( user : UserUpdateInputModel) : UserUpdatedResponse {
         return userRepo.updateUser(user)
     }
 
-    fun deleteUser( userName : String) {
+    fun deleteUser( userName : String) : UserDeletedResponse {
         return userRepo.deleteUser(userName)
     }
 
-    fun addUserToProject (userName : String , projectName : String) {
+    fun addUserToProject (userName : String , projectName : String) : UserAddedToProjectResponse {
         return userRepo.addUserToProject(userName , projectName)
     }
 
-    fun addUserToFriendsList (userName : String , friendName : String) {
+    fun addUserToFriendsList (userName : String , friendName : String)  : UserAddedToFriendsList{
         return userRepo.addUserToFriendsList(userName, friendName)
     }
 

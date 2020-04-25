@@ -1,16 +1,13 @@
 package isel.daw.DAW.Project.Users
 
 import isel.daw.DAW.Project.Users.UsersDal.*
-import isel.daw.DAW.Project.Users.UsersDto.UserCreationResponse
-import isel.daw.DAW.Project.Users.UsersDto.UserInputModel
-import isel.daw.DAW.Project.Users.UsersDto.UsersInfoOutputModel
+import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.beans.factory.annotation.Autowired
-import java.sql.Connection
 import javax.sql.DataSource
 
 class UsersRepository (@Autowired val dbs: DataSource) {
 
-    fun getUsers (startName : String) : List<UsersInfoOutputModel> {
+    fun getUsers (startName : String) : List<UsersNameOutputModel> {
         return GetUsers.execute(startName , dbs.connection)
     }
 
@@ -22,19 +19,19 @@ class UsersRepository (@Autowired val dbs: DataSource) {
         return CreateUser.execute(newUser , dbs.connection)
     }
 
-    fun updateUser (newUser : UserInputModel) {
-        return UpdateUserInfo.execute(newUser , dbs.connection)
+    fun updateUser (user : UserUpdateInputModel)  : UserUpdatedResponse{
+        return UpdateUserInfo.execute(user , dbs.connection)
     }
 
-    fun deleteUser (userName : String) {
+    fun deleteUser (userName : String) : UserDeletedResponse {
         return DeleteUser.execute(userName , dbs.connection)
     }
 
-    fun addUserToProject (newUser : String , projname : String ){
+    fun addUserToProject (newUser : String , projname : String ) : UserAddedToProjectResponse{
         return InserUserInProject.execute(newUser , projname, dbs.connection)
     }
 
-    fun addUserToFriendsList (newUser : String, friendName : String){
+    fun addUserToFriendsList (newUser : String, friendName : String) : UserAddedToFriendsList{
         return InserUsertInFriendsList.execute(newUser,friendName, dbs.connection)
     }
 }

@@ -1,9 +1,7 @@
 package isel.daw.DAW.Project.Users
 
 import isel.daw.DAW.Project.Common.*
-import isel.daw.DAW.Project.Users.UsersDto.UserCreationResponse
-import isel.daw.DAW.Project.Users.UsersDto.UserInputModel
-import isel.daw.DAW.Project.Users.UsersDto.UsersInfoOutputModel
+import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -17,12 +15,13 @@ import org.springframework.web.bind.annotation.*
  *       No service, repo, dal, dtos nor exceptions were made yet, just Links and Controller
  *
  */
+
 @RestController
 class UsersController (private val userServices : UsersServices) {
 
     @GetMapping(GET_USERS)
-    fun getUsers(@PathVariable startName : String) : List<SirenEntity<UsersInfoOutputModel>>{
-        val users: MutableList<SirenEntity<UsersInfoOutputModel>> = mutableListOf()
+    fun getUsers(@PathVariable startName : String) : List<SirenEntity<UsersNameOutputModel>>{
+        val users: MutableList<SirenEntity<UsersNameOutputModel>> = mutableListOf()
         userServices.getUsers(startName).forEach{
             users.add(it.toSirenObject())
         }
@@ -40,13 +39,13 @@ class UsersController (private val userServices : UsersServices) {
     }
 
     @PutMapping(UPDATE_USER_INFO)
-    fun updateUser(@RequestBody user : UserInputModel) {
-        return userServices.updateUser(user)
+    fun updateUser(@RequestBody user : UserUpdateInputModel) : SirenEntity<UserUpdatedResponse>{
+        return userServices.updateUser(user).toSirenObject()
     }
 
     @DeleteMapping(DELETE_USER)
-    fun updateUser(userName : String) {
-        return userServices.deleteUser(userName)
+    fun deleteUser(userName : String) : SirenEntity<UserDeletedResponse>{
+        return userServices.deleteUser(userName).toSirenObject()
     }
 
     @PutMapping(LOG_IN_USER_PATH)
@@ -60,14 +59,13 @@ class UsersController (private val userServices : UsersServices) {
     }
 
     @PutMapping(ADD_USER_TO_PROJECT)
-    fun addUserToProject(@PathVariable userName : String , @PathVariable projectName : String){
-        return userServices.addUserToProject(userName , projectName)
+    fun addUserToProject(@PathVariable userName : String , @PathVariable projectName : String) : SirenEntity<UserAddedToProjectResponse> {
+        return userServices.addUserToProject(userName , projectName).toSirenObject()
     }
 
     @PutMapping(ADD_USER_TO_FRIENDS_LIST)
-    fun addUserToFriendsList(@PathVariable userName : String , @PathVariable friendName : String){
-        return userServices.addUserToFriendsList(userName , friendName)
+    fun addUserToFriendsList(@PathVariable userName : String , @PathVariable friendName : String) : SirenEntity<UserAddedToFriendsList>{
+        return userServices.addUserToFriendsList(userName , friendName).toSirenObject()
     }
 
-    //TODO fazer dois objetos de retorno que irá determinar o que o user poderá fazer com estes ultimos endpoints (25/04/2020 faço so para não esquecer)
 }
