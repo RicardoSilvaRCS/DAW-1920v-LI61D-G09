@@ -12,6 +12,7 @@ begin
     delete from projectlabel where projname = old.projname;
 	delete from statetransitions where projname = old.projname;
 	delete from projectstate where projname = old.projname;
+	delete from usersprojects where projname = old.projname;
    
     RETURN OLD;
 end $_$ LANGUAGE 'plpgsql';	
@@ -46,6 +47,23 @@ BEGIN
 	DELETE FROM issuelabel where projname = OLD.projname AND labelname = OLD.labelname;
 	
 	RETURN OLD;
+END $_$ LANGUAGE 'plpgsql';	
+
+
+
+
+CREATE trigger tr_deleteUser before delete
+	on users 
+	for each row
+	execute procedure userDelete()
+	
+CREATE or replace FUNCTION userDelete() RETURNS TRIGGER AS $_$
+begin
+	
+  	delete from usersprojects where username = old.username;
+	delete from friendslist where username = old.username;
+   
+    RETURN OLD;
 END $_$ LANGUAGE 'plpgsql';	
 
 
