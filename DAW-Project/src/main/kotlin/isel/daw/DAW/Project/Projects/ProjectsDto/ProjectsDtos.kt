@@ -175,7 +175,7 @@ class ProjectCreationResponse(
                     SirenLink(rel = listOf("update-project"), href = URI(UPDATE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name))),
-                    SirenLink(rel = listOf("project-issues"), href = URI(GET_USER_INFO.replace("{username}", userName)))
+                    SirenLink(rel = listOf("project-issues"), href = URI(GET_USER_INFO.replace("{userName}", userName)))
             ),
             actions = listOf(GET_PROJECTS_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION, CREATE_PROJECT_LABEL_ACTION, DELETE_PROJECT_LABEL_ACTION)
     )
