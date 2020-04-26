@@ -255,14 +255,14 @@ class IssueLabelDeletedResponse(
 val GET_ISSUES_ACTION = SirenAction(
         name = "get-issues",
         title = "Get the issue associated to specified project name",
-        href = URI(ISSUES_PATH),
+        href = URI(ISSUES_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.GET
 )
 
 val GET_SINGLE_ISSUE_ACTION = SirenAction(
         name = "get-single-issue",
         title = "Get issue info",
-        href = URI("/issue"),
+        href = URI(GET_SINGLE_ISSUE_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.GET,
         fields = listOf(SirenAction.Field("tid" , "number"))
 )
@@ -270,7 +270,7 @@ val GET_SINGLE_ISSUE_ACTION = SirenAction(
 val CREATE_ISSUE_ACTION = SirenAction(
         name = "create-issue",
         title = "Create new issue",
-        href = URI(CREATE_ISSUE_PATH),
+        href = URI(CREATE_ISSUE_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.POST,
         type = MediaType.APPLICATION_JSON
 )
@@ -278,7 +278,7 @@ val CREATE_ISSUE_ACTION = SirenAction(
 val UPDATE_ISSUE_ACTION = SirenAction(
         name = "update-issue-info",
         title = "Update the specified issue info",
-        href = URI(ISSUES_PATH),
+        href = URI(UPDATE_ISSUE_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.PUT,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(SirenAction.Field("tid" , "number"))
@@ -287,7 +287,7 @@ val UPDATE_ISSUE_ACTION = SirenAction(
 val UPDATE_ISSUE_STATE_ACTION = SirenAction(
         name = "update-issue-state",
         title = "Update the specified issue state",
-        href = URI(ISSUES_PATH),
+        href = URI(UPDATE_ISSUE_STATE_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.PUT,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(SirenAction.Field("tid" , "number"))
@@ -296,7 +296,7 @@ val UPDATE_ISSUE_STATE_ACTION = SirenAction(
 val DELETE_ISSUE_ACTION = SirenAction(
         name = "delete-issue",
         title = "Delete the specified issue",
-        href = URI(ISSUES_PATH),
+        href = URI(DELETE_ISSUE_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.DELETE,
         fields = listOf(SirenAction.Field("tid" , "number"))
 )
@@ -304,7 +304,7 @@ val DELETE_ISSUE_ACTION = SirenAction(
 val CREATE_ISSUE_LABEL_ACTION = SirenAction(
         name = "create-issue-label",
         title = "Create new issue label",
-        href = URI(ISSUES_PATH),
+        href = URI(CREATE_ISSUE_LABEL_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.POST,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(SirenAction.Field("tid" , "number"))
@@ -313,7 +313,7 @@ val CREATE_ISSUE_LABEL_ACTION = SirenAction(
 val DELETE_ISSUE_LABEL_ACTION = SirenAction(
         name = "delete-issue-label",
         title = "Delete an issue label",
-        href = URI(ISSUES_PATH),
+        href = URI(DELETE_ISSUE_LABEL_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.DELETE,
         fields = listOf(
                 SirenAction.Field("tid" , "number"),

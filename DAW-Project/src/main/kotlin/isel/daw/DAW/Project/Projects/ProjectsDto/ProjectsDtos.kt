@@ -278,7 +278,7 @@ class ProjectLabelDeleteResponse(
 val GET_PROJECTS_ACTION = SirenAction(
         name = "get-project",
         title = "Get the project with the pname",
-        href = URI(GET_PROJECTS_PATH),
+        href = URI(GET_PROJECTS_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.GET
 )
 
@@ -286,7 +286,7 @@ val GET_PROJECTS_ACTION = SirenAction(
 val GET_SINGLEPROJECT_ACTION = SirenAction(
         name = "get-project",
         title = "Get the specified project",
-        href = URI(PROJECTS_PATH),
+        href = URI(PROJECTS_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.GET,
         fields = listOf(SirenAction.Field("pname" , "string"))
 )
@@ -295,7 +295,7 @@ val GET_SINGLEPROJECT_ACTION = SirenAction(
 val CREATE_PROJECT_ACTION = SirenAction(
         name = "create-new-project",
         title = "Create a new project",
-        href = URI(CREATE_PROJECT_PATH),
+        href = URI(CREATE_PROJECT_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.POST,
         type = MediaType.APPLICATION_JSON
 )
@@ -303,7 +303,7 @@ val CREATE_PROJECT_ACTION = SirenAction(
 val UPDATE_PROJECT_ACTION = SirenAction(
         name = "update-new-project",
         title = "Update the project info",
-        href = URI(PROJECTS_PATH),
+        href = URI(UPDATE_PROJECT_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.PUT,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(SirenAction.Field("pname" , "string"))
@@ -312,7 +312,7 @@ val UPDATE_PROJECT_ACTION = SirenAction(
 val DELETE_PROJECT_ACTION = SirenAction(
         name = "delete-project",
         title = "Delete specified project",
-        href = URI(PROJECTS_PATH),
+        href = URI(DELETE_PROJECT_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.DELETE,
         fields = listOf(SirenAction.Field("pname" , "string"))
 )
@@ -320,7 +320,7 @@ val DELETE_PROJECT_ACTION = SirenAction(
 val CREATE_PROJECT_LABEL_ACTION = SirenAction(
         name = "create-new-project-label",
         title = "Create a new project label",
-        href = URI(PROJECTS_PATH),
+        href = URI(CREATE_PROJECT_LABEL_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.POST,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(
@@ -332,7 +332,7 @@ val CREATE_PROJECT_LABEL_ACTION = SirenAction(
 val DELETE_PROJECT_LABEL_ACTION = SirenAction(
         name = "delete-project-label",
         title = "Delete a project label",
-        href = URI(PROJECTS_PATH),
+        href = URI(DELETE_PROJECT_LABEL_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.DELETE,
         fields = listOf(
                 SirenAction.Field("pname" , "string"),

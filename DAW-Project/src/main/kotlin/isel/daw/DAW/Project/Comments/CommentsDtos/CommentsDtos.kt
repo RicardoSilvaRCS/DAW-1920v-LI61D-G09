@@ -136,14 +136,14 @@ class CommentsDeletedResponse(
 val GET_COMMENTS_ACTIOn = SirenAction(
         name = "get-issues",
         title = "Get the issue associated to specified project name",
-        href = URI(COMMENTS_PATH),
+        href = URI(COMMENTS_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.GET
 )
 
 val GET_SINGLE_COMMENT_ACTION = SirenAction(
         name = "get-single-issue",
         title = "Get issue info",
-        href = URI(COMMENTS_PATH),
+        href = URI(GET_COMMENTS_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.GET,
         fields = listOf(SirenAction.Field("tid" , "number"))
 )
@@ -151,7 +151,7 @@ val GET_SINGLE_COMMENT_ACTION = SirenAction(
 val CREATE_COMMENT_ACTION = SirenAction(
         name = "create-issue",
         title = "Create new issue",
-        href = URI(COMMENTS_PATH),
+        href = URI(CREATE_COMMENT_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.POST,
         type = MediaType.APPLICATION_JSON
 )
@@ -159,7 +159,7 @@ val CREATE_COMMENT_ACTION = SirenAction(
 val UPDATE_COMMENT_ACTION = SirenAction(
         name = "update-issue-info",
         title = "Update the specified issue info",
-        href = URI(COMMENTS_PATH),
+        href = URI(UPDATE_COMMENT_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.PUT,
         type = MediaType.APPLICATION_JSON,
         fields = listOf(SirenAction.Field("tid" , "number"))
@@ -168,7 +168,7 @@ val UPDATE_COMMENT_ACTION = SirenAction(
 val DELETE_COMMENT_ACTION = SirenAction(
         name = "delete-issue",
         title = "Delete the specified issue",
-        href = URI(COMMENTS_PATH),
+        href = URI(DELETE_COMMENT_PATH.replace("{",":").replace("}","")),
         method = HttpMethod.DELETE,
         fields = listOf(SirenAction.Field("cid" , "number"))
 )
