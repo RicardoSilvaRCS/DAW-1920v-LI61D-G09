@@ -170,7 +170,7 @@ class UserFriendsListOutputModel (var userName: String
 class UserAddedToFriendsList(
         val userName: String
 ){
-    val message: String = "Project added to friends list with success."
+    val message: String = "$userName added to friends list with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
     val date: String = timestamp.toString()
     val status: HttpStatus = HttpStatus.OK

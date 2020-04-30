@@ -10,7 +10,7 @@ import java.sql.SQLException
 class UpdateUserInfo {
     companion object {
 
-        private const val UPDATE_USER_QUERY : String  = "UPDATE public.users " +
+        private const val UPDATE_USER_QUERY : String  = "UPDATE users " +
                 "SET email=?, phonenumber=?, pass=? " +
                 "WHERE userName = ? "
 

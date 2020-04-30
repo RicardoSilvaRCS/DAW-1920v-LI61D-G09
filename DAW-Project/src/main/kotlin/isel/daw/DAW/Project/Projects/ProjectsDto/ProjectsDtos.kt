@@ -217,7 +217,7 @@ class ProjectDeletedResponse(){
             properties = this,
             clazz = listOf("ProjectDeleted"),
             links = listOf(
-                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH))
+                    SirenLink(rel = listOf("create-project"), href = URI(CREATE_PROJECT_PATH.replace("{userName}", "userName")))
             ),
             actions = listOf(CREATE_PROJECT_ACTION)
     )
@@ -238,7 +238,7 @@ class ProjectLabelCreationResponse(
             properties = this,
             clazz = listOf("ProjectLabelCreated"),
             links = listOf(
-                    SirenLink(rel = listOf("delete-project-label"), href = URI(DELETE_PROJECT_LABEL_PATH)),
+                    SirenLink(rel = listOf("delete-project-label"), href = URI(DELETE_PROJECT_LABEL_PATH.replace("{",":").replace("}",""))),
                     SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))
@@ -262,7 +262,7 @@ class ProjectLabelDeleteResponse(
             properties = this,
             clazz = listOf("ProjectLabelDeleted"),
             links = listOf(
-                    SirenLink(rel = listOf("create-project-label"), href = URI(CREATE_PROJECT_LABEL_PATH)),
+                    SirenLink(rel = listOf("create-project-label"), href = URI(CREATE_PROJECT_LABEL_PATH.replace("{",":").replace("}",""))),
                     SirenLink(rel = listOf("get-project"), href = URI(GET_SINGLE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("delete-project"), href = URI(DELETE_PROJECT_PATH.replace("{pname}", name))),
                     SirenLink(rel = listOf("project-issues"), href = URI(GET_ISSUES_PATH.replace("{pname}", name)))

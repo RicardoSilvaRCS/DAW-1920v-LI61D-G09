@@ -14,8 +14,8 @@ class CreateProjectLabel {
      */
     companion object {
 
-        private const val INSERT_PROJECT_LABEL: String = "insert into projectlabel(labelname, projname); " +
-                "values(?,?)"
+        private const val INSERT_PROJECT_LABEL: String = "insert into projectlabel(labelname, projname) " +
+                "values(?,?);"
 
         fun execute(projectName: String, labelName: String, conn: Connection): ProjectLabelCreationResponse {
 
