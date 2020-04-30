@@ -35,8 +35,13 @@ class FriendshipInputModel (
         var accepted : Boolean
 )
 
+class LoginInputModel(
+        var userName: String,
+        var password: String
+)
 
 /**---------------------------------------------------OUTPUT DTOS--------------------------------------------*/
+
 
 /**
  *  Data model for the representation of a User
@@ -63,9 +68,7 @@ class UsersInfoOutputModel (var userName: String,
 }
 
 
-class UsersNameOutputModel (var userName: String
-
-) {
+class UsersNameOutputModel (var userName: String) {
 
     fun toSirenObject() = SirenEntity(
             properties = this,
@@ -73,6 +76,7 @@ class UsersNameOutputModel (var userName: String
             links = listOf(),
             actions = listOf(ADD_USER_TO_FRIENDSLIST_ACTION,ADD_USER_TO_PROJECT_ACTION)
     )
+
 }
 
 

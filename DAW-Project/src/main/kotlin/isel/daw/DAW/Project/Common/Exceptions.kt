@@ -180,8 +180,8 @@ class InternalProcedureException (val details: String): ApiException(details) {
 }
 
 /**
- * This represents an internal procedure exception.
- * Thrown when an internal procedure can't be completed because of external reasons.
+ * This represents an unauthorized request exception.
+ * Thrown when a request is made without proper authentication.
  */
 class UnauthorizedException (val details: String): ApiException(details) {
     override val type: String
@@ -193,4 +193,35 @@ class UnauthorizedException (val details: String): ApiException(details) {
     override val status: HttpStatus
         get() = HttpStatus.UNAUTHORIZED
 
+}
+
+/**
+ * This represents a user not found exception.
+ * Thrown when a user requested is not found.
+ */
+class UserNotFoundException (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/user/problems/user-not-found"
+    override val title: String
+        get() = "User doesn't exist"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+
+}
+
+/**
+ * This represents invalid user credentials exception.
+ * Thrown when a user gives invalid credentials.
+ */
+class InvalidCredentialsException (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/user/problems/invalid-credentials"
+    override val title: String
+        get() = "Invalid Credentials Received"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.UNAUTHORIZED
 }

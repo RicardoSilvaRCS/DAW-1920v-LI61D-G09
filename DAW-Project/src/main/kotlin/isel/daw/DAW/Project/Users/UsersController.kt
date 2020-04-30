@@ -2,7 +2,11 @@ package isel.daw.DAW.Project.Users
 
 import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Users.UsersDto.*
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.sql.Timestamp
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -52,7 +56,19 @@ class UsersController (private val userServices : UsersServices) {
     /**USER LOGIN AND LOGOUT**/
 
     @PostMapping(LOG_IN_USER_PATH)
-    fun loginUser(request: HttpServletRequest) {
+    fun loginUser(@RequestBody userToLogin: LoginInputModel): ResponseEntity<ResponseJson> {
+        val user: UsersInfoOutputModel = userServices.getUserInfo(userToLogin.userName)
+        if(user.fullName.isNullOrEmpty()) {
+            throw UserNotFoundException("User ${userToLogin.userName} doesn't exist")
+        }
+        if(userToLogin.password != user.password){
+            throw InvalidCredentialsException("Credentials given are invalid.")
+        }
+
+        val authString = "${user.userName}:${user.password}"
+        val encoder: Base64.Encoder = Base64.getEncoder()
+        val authToken = encoder.encodeToString(authString.toByteArray())
+
         throw NotImplementedError("TODO!")
     }
 
