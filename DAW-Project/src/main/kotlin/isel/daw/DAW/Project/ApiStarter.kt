@@ -2,8 +2,8 @@ package isel.daw.DAW.Project
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
-import isel.daw.DAW.Project.Common.APPLICATION_TYPE
-import isel.daw.DAW.Project.Common.JSON_HOME_SUBTYPE
+import isel.daw.DAW.Project.Common.*
+import isel.daw.DAW.Project.Users.UsersServices
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.jdbc.DataSourceBuilder
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.sql.DataSource
 import org.springframework.http.MediaType
+import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import javax.servlet.http.HttpServletRequest
@@ -49,11 +50,21 @@ class DatabaseConfig {
 
 }
 
-class SampleInterceptor : HandlerInterceptor {
-	private val logger = LoggerFactory.getLogger(SampleInterceptor::class.java)
+class AuthInterceptor() : HandlerInterceptor {
+	private val logger = LoggerFactory.getLogger(AuthInterceptor::class.java)
 
 	override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
 		logger.info("[preHandle][Method:${request.method}][URI:${request.requestURI}]")
+
+		if(handler is HandlerMethod && handler.hasMethodAnnotation(AuthRequired::class.java)) {
+			val authHeader = request.getHeader(AUTH_HEADER)?.split(" ")
+			if(authHeader != null) {
+				if(authHeader[0] == "Basic" && UsersServices.validateUserCredentials(authHeader[1])) {
+					return true
+				}
+			}
+			throw UnauthorizedException("")
+		}
 		return true
 	}
 }
@@ -77,7 +88,7 @@ class ApiConfig : WebMvcConfigurer {
 	}
 
 	override fun addInterceptors(registry: InterceptorRegistry) {
-		registry.addInterceptor(SampleInterceptor())
+		registry.addInterceptor(AuthInterceptor())
 	}
 }
 

@@ -3,6 +3,7 @@ package isel.daw.DAW.Project.Users
 import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 /**
  * Controller for User resources
@@ -50,8 +51,8 @@ class UsersController (private val userServices : UsersServices) {
 
     /**USER LOGIN AND LOGOUT**/
 
-    @PutMapping(LOG_IN_USER_PATH)
-    fun loginUser() {
+    @PostMapping(LOG_IN_USER_PATH)
+    fun loginUser(request: HttpServletRequest) {
         throw NotImplementedError("TODO!")
     }
 

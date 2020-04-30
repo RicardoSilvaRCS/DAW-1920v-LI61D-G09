@@ -178,3 +178,19 @@ class InternalProcedureException (val details: String): ApiException(details) {
         get() = HttpStatus.INTERNAL_SERVER_ERROR
 
 }
+
+/**
+ * This represents an internal procedure exception.
+ * Thrown when an internal procedure can't be completed because of external reasons.
+ */
+class UnauthorizedException (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/api/problems/no-auth-header-found"
+    override val title: String
+        get() = "Request requires authorization"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.UNAUTHORIZED
+
+}

@@ -43,4 +43,15 @@ class UsersServices (private val userRepo : UsersRepository) {
         return userRepo.addUserToFriendsList(userName, friendName)
     }
 
+    /**AUTH FUNCTIONS**/
+
+    companion object {
+        fun validateUserCredentials(authHeader: String): Boolean {
+            /**
+             * TODO!!!
+             */
+            return true
+        }
+    }
+
 }
