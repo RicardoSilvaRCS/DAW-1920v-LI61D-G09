@@ -3,8 +3,11 @@ package isel.daw.DAW.Project
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
 import isel.daw.DAW.Project.Common.*
+import isel.daw.DAW.Project.Users.UsersController
+import isel.daw.DAW.Project.Users.UsersRepository
 import isel.daw.DAW.Project.Users.UsersServices
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.boot.runApplication
@@ -50,7 +53,7 @@ class DatabaseConfig {
 
 }
 
-class AuthInterceptor() : HandlerInterceptor {
+class AuthInterceptor(private val usersServices: UsersServices) : HandlerInterceptor {
 	private val logger = LoggerFactory.getLogger(AuthInterceptor::class.java)
 
 	override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
@@ -59,11 +62,11 @@ class AuthInterceptor() : HandlerInterceptor {
 		if(handler is HandlerMethod && handler.hasMethodAnnotation(AuthRequired::class.java)) {
 			val authHeader = request.getHeader(AUTH_HEADER)?.split(" ")
 			if(authHeader != null) {
-				if(authHeader[0] == "Basic" && UsersServices.validateUserCredentials(authHeader[1])) {
+				if(authHeader[0].toLowerCase() == "basic" && usersServices.validateUserCredentials(authHeader[1])) {
 					return true
 				}
 			}
-			throw UnauthorizedException("")
+			throw UnauthorizedException("Failed to authenticate user.")
 		}
 		return true
 	}
@@ -88,7 +91,7 @@ class ApiConfig : WebMvcConfigurer {
 	}
 
 	override fun addInterceptors(registry: InterceptorRegistry) {
-		registry.addInterceptor(AuthInterceptor())
+		registry.addInterceptor(AuthInterceptor(UsersServices(UsersRepository(DatabaseConfig().getDataSource()))))
 	}
 }
 

@@ -3,6 +3,7 @@ package isel.daw.DAW.Project.Users
 import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 @Component
@@ -45,13 +46,12 @@ class UsersServices (private val userRepo : UsersRepository) {
 
     /**AUTH FUNCTIONS**/
 
-    companion object {
-        fun validateUserCredentials(authHeader: String): Boolean {
-            /**
-             * TODO!!!
-             */
-            return true
-        }
+    fun validateUserCredentials(authHeader: String): Boolean {
+        val decodedHeader =  String(Base64.getDecoder().decode(authHeader.toByteArray())).split(":")
+        val user = getUserInfo(decodedHeader[0])
+        if(user.fullName.isNullOrEmpty()) return false
+        if(decodedHeader[1] == user.password) return true
+        return false
     }
 
 }

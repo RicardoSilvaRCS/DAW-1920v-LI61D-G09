@@ -42,6 +42,15 @@ class LoginInputModel(
 
 /**---------------------------------------------------OUTPUT DTOS--------------------------------------------*/
 
+/**
+ * Response for sucessfull user login
+ */
+class UserSucessLoginResponse(
+        val timestamp: Timestamp = Timestamp(System.currentTimeMillis()),
+        val date: String = timestamp.toString(),
+        val status: Int = HttpStatus.ACCEPTED.value(),
+        val message: String = "User logged in with sucess"
+)
 
 /**
  *  Data model for the representation of a User

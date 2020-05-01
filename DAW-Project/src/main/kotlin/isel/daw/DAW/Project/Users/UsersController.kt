@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest
  */
 
 @RestController
-class UsersController (private val userServices : UsersServices) {
+class UsersController (val userServices : UsersServices) {
 
     @GetMapping(GET_ALL_USERS)
     fun getUsers(@PathVariable startName : String) : List<SirenEntity<UsersNameOutputModel>>{
@@ -33,6 +33,7 @@ class UsersController (private val userServices : UsersServices) {
         return users
     }
 
+    @AuthRequired
     @GetMapping(GET_USER_INFO)
     fun getUserInfo(@PathVariable userName : String) : SirenEntity<UsersInfoOutputModel>{
         return userServices.getUserInfo(userName).toSirenObject()
@@ -56,7 +57,7 @@ class UsersController (private val userServices : UsersServices) {
     /**USER LOGIN AND LOGOUT**/
 
     @PostMapping(LOG_IN_USER_PATH)
-    fun loginUser(@RequestBody userToLogin: LoginInputModel): ResponseEntity<ResponseJson> {
+    fun loginUser(@RequestBody userToLogin: LoginInputModel): ResponseEntity<UserSucessLoginResponse> {
         val user: UsersInfoOutputModel = userServices.getUserInfo(userToLogin.userName)
         if(user.fullName.isNullOrEmpty()) {
             throw UserNotFoundException("User ${userToLogin.userName} doesn't exist")
@@ -66,10 +67,12 @@ class UsersController (private val userServices : UsersServices) {
         }
 
         val authString = "${user.userName}:${user.password}"
-        val encoder: Base64.Encoder = Base64.getEncoder()
-        val authToken = encoder.encodeToString(authString.toByteArray())
 
-        throw NotImplementedError("TODO!")
+        return ResponseEntity
+                .accepted()
+                .header(AUTH_HEADER, "BASIC", Base64.getEncoder().encodeToString(authString.toByteArray()))
+                .body(UserSucessLoginResponse())
+
     }
 
     @PutMapping(LOG_OUT_USER_PATH)
