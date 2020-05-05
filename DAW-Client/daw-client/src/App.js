@@ -1,26 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container, Header } from 'semantic-ui-react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  render() {
+      return (
+        <Container>
+          <Header as='h1'>Projeto DAW G09</Header>
+          <p>Com esta aplicação poderás gerir os teus projetos, partilhá-los com amigos e muito mais.
+             Para começares clica <a href= "/register">aqui.</a>
+          </p>
+        </Container>
+      )
+  }
+
 }
 
 export default App;
