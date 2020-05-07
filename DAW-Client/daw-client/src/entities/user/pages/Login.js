@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Form, Header} from 'semantic-ui-react'
-import UserServices from '../../../services/UserServices'
+import UserServices from '../UserServices'
 
 class Login extends React.Component {
     

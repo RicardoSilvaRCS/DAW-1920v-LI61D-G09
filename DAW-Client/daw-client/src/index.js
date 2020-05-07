@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 /* Import server settings */
 
 /* Pages Import */
 import App from './App';
-import About from './components/pages/miscpages/About'
-import Login from './components/pages/userpages/Login';
-import Register from './components/pages/userpages/Register';
-import ProjectIntro from './components/pages/projectpages/ProjectIntro'
+import About from './entities/misc/About'
+import Login from './entities/user/pages/Login';
+import Register from './entities/user/pages/Register';
+import ProjectIntro from './entities/project/pages/ProjectIntro'
 /* Components Import */
 import { Container } from 'semantic-ui-react'
 

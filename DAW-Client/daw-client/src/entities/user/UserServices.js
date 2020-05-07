@@ -1,5 +1,5 @@
-import ServerInfo from '../serverinfo/ServerInfo'
-import UserPaths from '../serverinfo/serverpaths/UserPaths'
+import ServerInfo from '../../serverinfo/ServerInfo'
+import UserPaths from './UserPaths'
 
 const host = ServerInfo.serverHost
 
