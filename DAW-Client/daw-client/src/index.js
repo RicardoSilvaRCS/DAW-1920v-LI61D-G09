@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+/* Import server settings */
+
 /* Pages Import */
 import App from './App';
 import About from './components/pages/miscpages/About'
+import Login from './components/pages/userpages/Login';
+import Register from './components/pages/userpages/Register';
 import ProjectIntro from './components/pages/projectpages/ProjectIntro'
 /* Components Import */
 import { Container } from 'semantic-ui-react'
@@ -19,12 +23,23 @@ ReactDOM.render(
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
+          
           <li className="nav-item">
-            <a className="nav-link" href="/about">About</a>
+            <a className="nav-link" href="/register">Registo</a>
           </li>
+
           <li className="nav-item">
-            <a className="nav-link" href="/projects">Projects</a>
+            <a className="nav-link" href="/login">Login</a>
           </li>
+
+          <li className="nav-item">
+            <a className="nav-link" href="/projects">Projectos</a>
+          </li> 
+
+          <li className="nav-item">
+            <a className="nav-link" href="/about">Info</a>
+          </li>
+
         </ul>
       </div>
     </nav>
@@ -33,6 +48,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/about" component={About} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route path="/projects" component={ProjectIntro} />
       </Switch>
     </Container>
