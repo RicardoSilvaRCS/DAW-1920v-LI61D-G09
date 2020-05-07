@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+/* Pages Import */
 import App from './App';
 import About from './components/pages/miscpages/About'
+import ProjectIntro from './components/pages/projectpages/ProjectIntro'
+/* Components Import */
+import { Container } from 'semantic-ui-react'
+
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -17,14 +22,20 @@ ReactDOM.render(
           <li className="nav-item">
             <a className="nav-link" href="/about">About</a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/projects">Projects</a>
+          </li>
         </ul>
       </div>
     </nav>
-    <Switch>
-      <Route exact path="/" component={App} />
-      <Route path="/about" component={About} />
-    </Switch>
 
+    <Container fluid>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/about" component={About} />
+        <Route path="/projects" component={ProjectIntro} />
+      </Switch>
+    </Container>
   </Router>,
   document.getElementById('root')
 );
