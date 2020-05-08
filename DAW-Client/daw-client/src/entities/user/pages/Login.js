@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Form, Header} from 'semantic-ui-react'
+import { Container, Form, Header, Message} from 'semantic-ui-react'
 import UserServices from '../UserServices'
 import UserDataModels from '../UserDataModels'
 
@@ -8,7 +8,8 @@ class Login extends React.Component {
     state = {
         final: false,
         username: '',
-        password: ''
+        password: '',
+        error: ''
     }
     
 
@@ -20,9 +21,17 @@ class Login extends React.Component {
     }
 
     async handleLogin() {
-        if(this.state.final) {
-            const loginResponse = await UserServices.loginUser(UserDataModels.loginDataModel(this.state.username, this.state.password)) 
-            console.log(loginResponse)
+        if(!this.state.final) {
+            this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
+            return
+        }
+        const loginResponse = await UserServices.loginUser(UserDataModels.loginDataModel(this.state.username, this.state.password)) 
+        console.log(loginResponse)
+        //If login was sucessfull, redirect to his projects, if it fails show message and keep in login page
+        if(loginResponse.properties.status === 202) {
+            this.props.history.push('/projects')
+        } else {
+            this.setState({error: 'Credentials are incorrect. Try again.'})
         }
     }
 
@@ -34,7 +43,12 @@ class Login extends React.Component {
       return (
         <Container>
             <Header as="h1">Login</Header>
-            <p>Faz login para acederes aos teus projetos.</p>
+            <p>Login to have acess to your projects.</p>
+            {this.state.error && 
+                <Message negative>
+                    <Message.Header>{this.state.error}</Message.Header>
+                </Message>
+            }
             <Form onSubmit={this.handleSubmit}>
                 <Form.Group>
                     <Form.Input required icon='user' iconPosition='left' placeholder='Username' name='username' value={username} onChange={this.handleChange}/>

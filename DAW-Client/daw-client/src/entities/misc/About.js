@@ -1,17 +1,17 @@
 import React from 'react';
 import { Container, Header } from 'semantic-ui-react'
 
-class App extends React.Component {
+class About extends React.Component {
 
   render() {
       return (
         <Container>
-          <Header as='h1'>Sobre:</Header>
-          <p>Feito por Ari, Alex e Ricardo para avaliação da UC de DAW</p>
+          <Header as='h1'>About</Header>
+          <p>Made by Ari, Alex e Ricardo for DAW discipline</p>
         </Container>
       )
   }
 
 }
 
-export default App;
+export default About;

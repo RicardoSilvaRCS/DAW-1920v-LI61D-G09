@@ -49,6 +49,7 @@ class OtherExceptionHandler : ResponseEntityExceptionHandler() {
 /**
  * Class used for error models, based on the [Problem Json spec](https://tools.ietf.org/html/rfc7807)
  */
+/*
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class ProblemJson(
         val timestamp: Timestamp,
@@ -57,4 +58,25 @@ data class ProblemJson(
         val title: String,
         val detail: String,
         val status: Int
-)
+)*/
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class ProblemJson(timestamp: Timestamp, date: String, type: String, title: String, detail: String, status: Int) {
+
+    inner class PropertiesJson(
+            val timestamp: Timestamp,
+            val date: String,
+            val type: String,
+            val title: String,
+            val detail: String,
+            val status: Int
+    )
+
+    var properties: PropertiesJson? = null
+
+    init {
+        properties = PropertiesJson(timestamp, date, type, title, detail, status)
+    }
+
+}
+

@@ -45,12 +45,28 @@ class LoginInputModel(
 /**
  * Response for sucessfull user login
  */
-class UserSucessLoginResponse(
-        val timestamp: Timestamp = Timestamp(System.currentTimeMillis()),
-        val date: String = timestamp.toString(),
-        val status: Int = HttpStatus.ACCEPTED.value(),
-        val message: String = "User logged in with sucess"
-)
+class UserSucessLoginResponse {
+
+    inner class PropertiesJson(
+            val timestamp: Timestamp,
+            val date: String,
+            val status: Int,
+            val message: String
+    )
+
+    var properties: UserSucessLoginResponse.PropertiesJson? = null
+
+    init {
+        val timestamp = Timestamp(System.currentTimeMillis())
+        properties = PropertiesJson(
+                timestamp = timestamp,
+                date =  timestamp.toString(),
+                status = HttpStatus.ACCEPTED.value(),
+                message = "User logged in with sucess"
+        )
+    }
+}
+
 
 /**
  *  Data model for the representation of a User

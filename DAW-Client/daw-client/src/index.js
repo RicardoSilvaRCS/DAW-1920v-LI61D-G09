@@ -24,7 +24,7 @@ ReactDOM.render(
         <ul className="navbar-nav mr-auto">
           
           <li className="nav-item">
-            <a className="nav-link" href="/register">Registo</a>
+            <a className="nav-link" href="/register">Sign Up</a>
           </li>
 
           <li className="nav-item">
@@ -32,11 +32,11 @@ ReactDOM.render(
           </li>
 
           <li className="nav-item">
-            <a className="nav-link" href="/projects">Projectos</a>
+            <a className="nav-link" href="/projects">Projects</a>
           </li> 
 
           <li className="nav-item">
-            <a className="nav-link" href="/about">Info</a>
+            <a className="nav-link" href="/about">About</a>
           </li>
 
         </ul>
