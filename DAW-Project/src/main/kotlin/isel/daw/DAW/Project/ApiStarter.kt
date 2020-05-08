@@ -21,6 +21,7 @@ import javax.sql.DataSource
 import org.springframework.http.MediaType
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
+import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -92,6 +93,15 @@ class ApiConfig : WebMvcConfigurer {
 
 	override fun addInterceptors(registry: InterceptorRegistry) {
 		registry.addInterceptor(AuthInterceptor(UsersServices(UsersRepository(DatabaseConfig().getDataSource()))))
+	}
+
+	override fun addCorsMappings(registry: CorsRegistry) {
+		// TODO: Revisit this to elaborate on the CORS protocol
+		registry
+				.addMapping("/**")
+				.allowedHeaders("*")
+				.allowedMethods("*")
+				.allowedOrigins("*")
 	}
 }
 

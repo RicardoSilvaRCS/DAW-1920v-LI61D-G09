@@ -3,42 +3,25 @@ import UserPaths from './UserPaths'
 
 const host = ServerInfo.serverHost
 
-async function loginUser(username, password) {
+async function loginUser(loginDataModel) {
     console.log(`UserService.loginUser()`)
     const loginResponse = await fetch(`http://${host}${UserPaths.loginPath}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-            { 
-                username: username,
-                password: password
-            }
-        )
+        body: JSON.stringify(loginDataModel)
     })
     const content = await loginResponse.json()
-    console.log(content)
     return content
 } 
 
-async function registerUser({username, fullname, email, age, gender, phonenumber, password}) {
+async function registerUser(registerDataModel) {
     console.log(`UserService.registerUser()`)
     const registerResponse = await fetch(`http://${host}${UserPaths.registerPath}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-            {
-                username: username,
-                fullname: fullname,
-                email: email,
-                age: age,
-                gender: gender,
-                phonenumber: phonenumber,
-                password: password
-            }
-        )
+        body: JSON.stringify(registerDataModel)
     })
     const content = await registerResponse.json()
-    console.log(content)
     return content
 } 
 

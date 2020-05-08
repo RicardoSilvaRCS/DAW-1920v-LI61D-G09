@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Form, Header} from 'semantic-ui-react'
 import UserServices from '../UserServices'
+import UserDataModels from '../UserDataModels'
 
 class Register extends React.Component {
 
@@ -31,8 +32,17 @@ class Register extends React.Component {
 
     async handleRegister() {
         if(this.state.final) {
-            console.log(this.state)
-            const registerResponse = await UserServices.registerUser(this.state) 
+            const registerResponse = await UserServices.registerUser(
+                UserDataModels.registerDataModel(
+                    this.state.username,
+                    this.state.fullname,
+                    this.state.email,
+                    this.state.age,
+                    this.state.gender,
+                    this.state.phonenumber,
+                    this.state.password
+                )
+            )
             console.log(registerResponse)
         }
     }

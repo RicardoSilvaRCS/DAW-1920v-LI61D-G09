@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Form, Header} from 'semantic-ui-react'
 import UserServices from '../UserServices'
+import UserDataModels from '../UserDataModels'
 
 class Login extends React.Component {
     
@@ -20,7 +21,7 @@ class Login extends React.Component {
 
     async handleLogin() {
         if(this.state.final) {
-            const loginResponse = await UserServices.loginUser(this.state.username, this.state.password) 
+            const loginResponse = await UserServices.loginUser(UserDataModels.loginDataModel(this.state.username, this.state.password)) 
             console.log(loginResponse)
         }
     }
