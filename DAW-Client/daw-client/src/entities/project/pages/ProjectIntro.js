@@ -1,16 +1,21 @@
 import React from 'react';
 import { Header } from 'semantic-ui-react'
+import ProjectServices from '../ProjectServices'
 
 class ProjectIntro extends React.Component {
 
     checkUserAuth = async () => {
         /**
-         * TODO: Send requests to our own server
+         * TODO: Check if user is auth
          */
-        /*const response = await fetch('/projects/user/')
-        const body = await response.json()
-        console.log(`[ProjectIntro] Received body: ${JSON.stringify(body)}`)*/
-        /**
+
+         /*
+        const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("") 
+        console.log(getProjOfUserResponse)*/
+        
+        //console.log(`[ProjectIntro] Received body: ${JSON.stringify(body)}`)
+
+        /*
          * TODO: If a user is auth change the state.auth to true or false
          */
     }

@@ -14,6 +14,7 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      * Endpoint to obtain all existing projects. Might receive filtering parameters(creation-date, issue-number, etc.).
      * GET /projects
      */
+    @AuthRequired
     @GetMapping(GET_PROJECTS_PATH)
     fun getProjects (@PathVariable userName : String): List<SirenEntity<ProjectsOutputModel>>{
        val projects: MutableList<SirenEntity<ProjectsOutputModel>> = mutableListOf()
