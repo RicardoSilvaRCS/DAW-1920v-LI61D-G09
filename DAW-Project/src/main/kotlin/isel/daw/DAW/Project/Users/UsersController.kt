@@ -71,6 +71,7 @@ class UsersController (val userServices : UsersServices) {
         return ResponseEntity
                 .accepted()
                 .header(AUTH_HEADER, "BASIC", Base64.getEncoder().encodeToString(authString.toByteArray()))
+                //.header(AUTH_HEADER, "BASIC ${Base64.getEncoder().encodeToString(authString.toByteArray())}")
                 .body(UserSucessLoginResponse())
 
     }
