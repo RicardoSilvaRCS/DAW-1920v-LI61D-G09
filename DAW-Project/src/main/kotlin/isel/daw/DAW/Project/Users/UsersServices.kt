@@ -1,5 +1,7 @@
 package isel.daw.DAW.Project.Users
 
+import isel.daw.DAW.Project.Common.NoUsersFoundError
+import isel.daw.DAW.Project.Common.UserNotFoundException
 import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
@@ -10,11 +12,19 @@ import java.util.*
 class UsersServices (private val userRepo : UsersRepository) {
 
     fun getUsers(startName : String) : List<UsersNameOutputModel> {
-        return userRepo.getUsers(startName)
+        val foundUsers = userRepo.getUsers(startName)
+        if(foundUsers.isEmpty()) {
+            throw NoUsersFoundError("No users found with $startName name.")
+        }
+        return foundUsers
     }
 
     fun getUserInfo(userName : String) : UsersInfoOutputModel {
-        return userRepo.getUserInfo(userName)
+        val foundUser = userRepo.getUserInfo(userName)
+        if(foundUser.fullName.isNullOrEmpty()) {
+            throw UserNotFoundException("No user found with $userName name.")
+        }
+        return foundUser
     }
 
     fun createUser( newUser : UserInputModel) : UserCreationResponse {

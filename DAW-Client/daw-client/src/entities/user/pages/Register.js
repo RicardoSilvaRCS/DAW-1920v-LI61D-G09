@@ -47,25 +47,27 @@ class Register extends React.Component {
                 this.state.password
             )
         )
+        console.log("Response received on the Register:")
         console.log(registerResponse)
         //If registration was sucessfull, log the user in, if it fails show a message of error
-        if(registerResponse.properties.status === "CREATED") {
+        if(registerResponse.status === 200) {
             const loginResponse = await UserServices.loginUser(
                 UserDataModels.loginDataModel(
                     this.state.username,
                     this.state.password
                 )
             )
+            console.log("Response received on the Login:")
             console.log(loginResponse)
             //If user is logged in sucessfully redirect to projects, if not send him to home page
-            if(loginResponse.properties.status === 202) {
+            if(loginResponse.status === 202) {
                 this.props.history.push('/projects')
             } else {
                 //TODO: Show a message of failed login error
                 this.props.history.push('/')
             }
         } else {
-            if(registerResponse.properties.status === 500) {
+            if(registerResponse.status === 500) {
                 this.setState({error: `Username "${this.state.username}" already taken.`})
             } else {
                 this.setState({error: "Registration failed please try again."})

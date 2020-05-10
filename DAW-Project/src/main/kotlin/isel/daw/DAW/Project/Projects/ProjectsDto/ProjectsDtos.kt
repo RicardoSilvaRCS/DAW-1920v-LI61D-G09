@@ -112,6 +112,7 @@ class ProjectsUpdateInputModel @JsonCreator constructor(val newDescr: String)
  *  Data model for the representation of a Project
  */
 class ProjectsOutputModel(val name: String, val descr: String){
+
     fun toSirenObject() = SirenEntity(
             properties = this,
             clazz = listOf("ProjectsInfo"),
@@ -122,6 +123,7 @@ class ProjectsOutputModel(val name: String, val descr: String){
             actions = listOf(GET_SINGLEPROJECT_ACTION, CREATE_PROJECT_ACTION, UPDATE_PROJECT_ACTION, DELETE_PROJECT_ACTION)
     )
 }
+
 
 /**
  * Data model for the full detailed representation of a Project

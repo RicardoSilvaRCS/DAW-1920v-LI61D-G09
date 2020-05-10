@@ -15,6 +15,7 @@ class Login extends React.Component {
 
     /**
      * Since setState is asynchronous we pass a callback for our login function soo that when we try and login the state is updated correctly
+     * In this stage we dont need anything from the response content, we just need to know the status code
      */
     handleSubmit = () => {
         this.setState({ final: true }, this.handleLogin)
@@ -26,9 +27,10 @@ class Login extends React.Component {
             return
         }
         const loginResponse = await UserServices.loginUser(UserDataModels.loginDataModel(this.state.username, this.state.password)) 
+        console.log("Response received on the Login:")
         console.log(loginResponse)
         //If login was sucessfull, redirect to his projects, if it fails show message and keep in login page
-        if(loginResponse.properties.status === 202) {
+        if(loginResponse.status === 202) {
             this.props.history.push('/projects')
         } else {
             this.setState({error: 'Credentials are incorrect. Try again.'})

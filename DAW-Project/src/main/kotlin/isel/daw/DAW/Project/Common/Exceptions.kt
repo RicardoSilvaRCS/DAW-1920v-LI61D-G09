@@ -225,3 +225,53 @@ class InvalidCredentialsException (val details: String): ApiException(details) {
     override val status: HttpStatus
         get() = HttpStatus.UNAUTHORIZED
 }
+
+
+/**
+ * This represents a project not found exception.
+ * Thrown when the project requested is not found.
+ */
+class ProjectNotFoundException (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/projects/problems/project-not-found"
+    override val title: String
+        get() = "Project not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+
+}
+
+
+/**
+ * This represents a non existing projects response.
+ * Thrown when the no projects were found.
+ */
+class NoProjectsFoundError (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/projects/problems/projects-not-found"
+    override val title: String
+        get() = "Projects not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+
+}
+
+/**
+ * This represents a non existing user response.
+ * Thrown when the no users were found with the specified name.
+ */
+class NoUsersFoundError (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/users/problems/users-not-found"
+    override val title: String
+        get() = "Users not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+
+}

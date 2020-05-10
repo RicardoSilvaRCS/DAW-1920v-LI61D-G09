@@ -14,8 +14,7 @@ async function loginUser(loginDataModel) {
     for (var pair of loginResponse.headers.entries()) {
         console.log(pair[0]+ ': '+ pair[1]);
      }
-    const content = await loginResponse.json()
-    return content
+    return loginResponse
 } 
 
 async function registerUser(registerDataModel) {
@@ -29,8 +28,7 @@ async function registerUser(registerDataModel) {
     for (var pair of registerResponse.headers.entries()) {
         console.log(pair[0]+ ': '+ pair[1]);
      }
-    const content = await registerResponse.json()
-    return content
+    return registerResponse
 } 
 
 export default {
