@@ -41,7 +41,7 @@ class Login extends React.Component {
     const { username, password} = this.state
 
       return (
-        <Container>
+        <Container text>
             <Header as="h1">Login</Header>
             <p>Login to have acess to your projects.</p>
             {this.state.error && 

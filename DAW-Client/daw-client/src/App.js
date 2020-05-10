@@ -5,7 +5,7 @@ class App extends React.Component {
 
   render() {
       return (
-        <Container>
+        <Container text>
           <Header as='h1'>DAW Project G09</Header>
           <p>With this application you will be able to manage your projects, share them with friends and much more.
              To start click <a href= "/register">here.</a>

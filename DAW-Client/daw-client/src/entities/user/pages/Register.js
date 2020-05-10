@@ -82,7 +82,7 @@ class Register extends React.Component {
     const { username, fullname, email, age, gender, phonenumber, password} = this.state
 
       return (
-        <Container>
+        <Container text>
             <Header as="h1">Sign Up</Header>
             <p>Create an account to manage your projects and share them with friends.</p>
             {this.state.error && 
