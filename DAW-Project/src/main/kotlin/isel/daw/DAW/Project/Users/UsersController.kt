@@ -72,6 +72,7 @@ class UsersController (val userServices : UsersServices) {
                 .accepted()
                 .header(AUTH_HEADER, "BASIC", Base64.getEncoder().encodeToString(authString.toByteArray()))
                 //.header(AUTH_HEADER, "BASIC ${Base64.getEncoder().encodeToString(authString.toByteArray())}")
+                .header("Access-Control-Expose-Headers", "*", "Authorization")
                 .body(UserSucessLoginResponse())
 
     }
