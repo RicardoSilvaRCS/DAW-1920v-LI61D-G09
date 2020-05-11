@@ -20,6 +20,10 @@ class CommentsServices(private val commentsrepo: CommentsRepository, private val
         if(tid<0) {
             throw InvalidResourceRequestedException("Issue id received is invalid, can't be negative.")
         }
+        val foundComments = commentsrepo.getCommentsOfIssue(tid)
+        if(foundComments.isEmpty()) {
+
+        }
         return commentsrepo.getCommentsOfIssue(tid)
     }
 

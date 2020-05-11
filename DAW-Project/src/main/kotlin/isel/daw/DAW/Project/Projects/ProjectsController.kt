@@ -16,12 +16,8 @@ class ProjectsController(private val projectservices: ProjectsServices) {
      */
     @GetMapping(GET_PROJECTS_PATH)
     fun getProjects (@PathVariable userName : String): List<SirenEntity<ProjectsOutputModel>>{
-       val foundProjects: List<ProjectsOutputModel> = projectservices.getProjects(userName)
        val projects: MutableList<SirenEntity<ProjectsOutputModel>> = mutableListOf()
-       if(foundProjects.isEmpty()) {
-           throw NoProjectsFoundError("User $userName doesn't have any projects")
-       }
-       foundProjects.forEach{
+        projectservices.getProjects(userName).forEach{
             projects.add(it.toSirenObject())
         }
         return projects

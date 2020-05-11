@@ -2,6 +2,7 @@ package isel.daw.DAW.Project.Projects
 
 import isel.daw.DAW.Project.Common.InvalidProjectException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
+import isel.daw.DAW.Project.Common.NoProjectsFoundError
 import isel.daw.DAW.Project.Common.ProjectNameConflictException
 import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.stereotype.Component
@@ -17,7 +18,11 @@ import org.springframework.stereotype.Service
 class ProjectsServices(private val projectsrepo: ProjectsRepository) {
 
     fun getProjects(userName : String): List<ProjectsOutputModel> {
-        return projectsrepo.getAll(userName)
+        val projectsFound = projectsrepo.getAll(userName)
+        if(projectsFound.isEmpty()) {
+            throw NoProjectsFoundError("User $userName doesn't have any projects")
+        }
+        return projectsFound
     }
 
     fun getProject( name: String ): ProjectsInfoOutputModel {

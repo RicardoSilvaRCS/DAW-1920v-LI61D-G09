@@ -3,7 +3,7 @@ package isel.daw.DAW.Project.Issues
 import isel.daw.DAW.Project.Common.IllegalIssueStateException
 import isel.daw.DAW.Project.Common.InvalidIssueException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
-import isel.daw.DAW.Project.Common.IssuesNotFoundException
+import isel.daw.DAW.Project.Common.NoIssuesFoundError
 import isel.daw.DAW.Project.Issues.IssuesDto.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsRepository
@@ -24,7 +24,7 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         }
         val issues = issuesrepo.getIssuesOfProj(projName)
         if(issues.isEmpty()) {
-            throw IssuesNotFoundException("No issues found for project $projName.")
+            throw NoIssuesFoundError("No issues found for project $projName.")
         }
         return issues
     }

@@ -1,6 +1,7 @@
 package isel.daw.DAW.Project.Users
 
 import isel.daw.DAW.Project.Common.NoUsersFoundError
+import isel.daw.DAW.Project.Common.UserNameConflictException
 import isel.daw.DAW.Project.Common.UserNotFoundException
 import isel.daw.DAW.Project.Users.UsersDto.*
 import org.springframework.stereotype.Component
@@ -11,6 +12,9 @@ import java.util.*
 @Component
 class UsersServices (private val userRepo : UsersRepository) {
 
+    /**
+     * If no users are found return specific error
+     */
     fun getUsers(startName : String) : List<UsersNameOutputModel> {
         val foundUsers = userRepo.getUsers(startName)
         if(foundUsers.isEmpty()) {
@@ -19,6 +23,9 @@ class UsersServices (private val userRepo : UsersRepository) {
         return foundUsers
     }
 
+    /**
+     * If no user is found return specific error
+     */
     fun getUserInfo(userName : String) : UsersInfoOutputModel {
         val foundUser = userRepo.getUserInfo(userName)
         if(foundUser.fullName.isNullOrEmpty()) {
@@ -27,12 +34,24 @@ class UsersServices (private val userRepo : UsersRepository) {
         return foundUser
     }
 
+    /**
+     * Before creating a new one, we verify if a user with the same username
+     * already exists, to send the proper error message
+     */
     fun createUser( newUser : UserInputModel) : UserCreationResponse {
-        return userRepo.createUser(newUser)
+        val checkUser = userRepo.getUserInfo(newUser.userName)
+        if(checkUser.fullName.isNullOrEmpty()) {
+            return userRepo.createUser(newUser)
+        }
+        throw UserNameConflictException("Username ${newUser.userName} already exists")
     }
 
     fun updateUser( user : UserUpdateInputModel) : UserUpdatedResponse {
-        return userRepo.updateUser(user)
+        val checkUser = userRepo.getUserInfo(user.userName)
+        if(checkUser.fullName.isNullOrEmpty()) {
+            return userRepo.updateUser(user)
+        }
+        throw UserNotFoundException("No user found with ${user.userName} name.")
     }
 
     fun deleteUser( userName : String) : UserDeletedResponse {

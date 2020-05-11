@@ -87,20 +87,6 @@ class IllegalIssueStateException (val details: String) : ApiException(details) {
         get() = HttpStatus.BAD_REQUEST
 }
 
-/**
- * This represents the non-existence of issues in the specified project.
- * Thrown when a request for issues finds no issues.
- */
-class IssuesNotFoundException(val details: String): ApiException(details) {
-    override val type: String
-        get() = "/issues/problems/not-found"
-    override val title: String
-        get() = "Issues not found"
-    override val detail: String
-        get() = details
-    override val status: HttpStatus
-        get() = HttpStatus.NOT_FOUND
-}
 
 /**
  * This represents an invalid project exception.
@@ -142,6 +128,21 @@ class ProjectNameConflictException (val details: String): ApiException(details) 
         get() = "/projects/problems/name-conflict"
     override val title: String
         get() = "Project Name Conflict"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.CONFLICT
+}
+
+/**
+ * This represents an illegal name for a user.
+ * Thrown when a user tries to register with an already existing username.
+ */
+class UserNameConflictException (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/users/problems/name-conflict"
+    override val title: String
+        get() = "User Name Conflict"
     override val detail: String
         get() = details
     override val status: HttpStatus
@@ -274,4 +275,35 @@ class NoUsersFoundError (val details: String): ApiException(details) {
     override val status: HttpStatus
         get() = HttpStatus.NOT_FOUND
 
+}
+
+/**
+ * This represents a non existing comments response.
+ * Thrown when no comments were found.
+ */
+class NoCommentsFoundError (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/comments/problems/comments-not-found"
+    override val title: String
+        get() = "Comments not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+
+}
+
+/**
+ * This represents the non-existence of issues in the specified project.
+ * Thrown when a request for issues finds no issues.
+ */
+class NoIssuesFoundError(val details: String): ApiException(details) {
+    override val type: String
+        get() = "/issues/problems/not-found"
+    override val title: String
+        get() = "Issues not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
 }
