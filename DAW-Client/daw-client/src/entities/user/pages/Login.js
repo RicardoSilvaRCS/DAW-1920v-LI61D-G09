@@ -6,9 +6,9 @@ import UserDataModels from '../UserDataModels'
 class Login extends React.Component {
     
     state = {
-        final: false,
         username: '',
         password: '',
+        final: false,
         error: ''
     }
     
@@ -40,7 +40,7 @@ class Login extends React.Component {
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
   render() {
-    const { username, password} = this.state
+    const {username, password} = this.state
 
       return (
         <Container text>

@@ -4,28 +4,13 @@ import ProjectServices from '../ProjectServices'
 import ProjectsDataModel from '../ProjectDataModels'
 /* Components Import*/
 import ContentList from '../../../components/ContentList'
+import CreateEntityModal from '../../../components/CreateEntityModal'
+import CreateProjectForm from '../../../components/CreateProjectForm'
 
 class ProjectIntro extends React.Component {
 
     //For now, since we don't have the auth done, to test each render (auth and nonauth) just change the property "auth" in the state object
 
-    checkUserAuth = async () => {
-        /**
-         * TODO: Check if user is auth, if we have the user info, we need to request 
-         *       the projects for the user logged in.
-         *       Here we need to change the state property "auth" to select which component to show    
-         */
-
-        
-        //If a user is auth, we will change the property "auth", and then request the projects of that user to present
-        //const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("Joao")
-        
-        //console.log(`[ProjectIntro] Received body: ${JSON.stringify(body)}`)
-
-        /*
-         * TODO: If a user is auth change the state.auth to true or false
-         */
-    }
 
     getUserProjects = async () => {
       const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("Joao")
@@ -55,7 +40,7 @@ class ProjectIntro extends React.Component {
     renderAuthUserInfo() {
         return (
             <Container text>      
-            <Header as='h1'>Projects</Header>        
+              <Header as='h1'>Projects</Header>        
               {this.state.projects.length <= 0 && 
                 <Container>
                   <Message info>
@@ -71,6 +56,10 @@ class ProjectIntro extends React.Component {
                   <ContentList members={this.state.projects} icon='clipboard list'/> 
                 </Container>      
               }
+              <br/>
+              <CreateEntityModal entity="Project">
+                  <CreateProjectForm />
+              </CreateEntityModal>
             </Container>
           )
     }

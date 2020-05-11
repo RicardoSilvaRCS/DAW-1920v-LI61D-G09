@@ -24,10 +24,6 @@ async function registerUser(registerDataModel) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registerDataModel)
     })
-    //Print dos headers recebidos
-    for (var pair of registerResponse.headers.entries()) {
-        console.log(pair[0]+ ': '+ pair[1]);
-     }
     return registerResponse
 } 
 
