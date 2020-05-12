@@ -5,7 +5,7 @@ import ProjectsDataModel from '../ProjectDataModels'
 /* Components Import*/
 import ContentList from '../../../components/ContentList'
 import CreateEntityModal from '../../../components/CreateEntityModal'
-import CreateProjectForm from '../../../components/CreateProjectForm'
+import CreateProjectForm from './CreateProjectForm'
 
 class ProjectIntro extends React.Component {
 
