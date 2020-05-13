@@ -3,5 +3,6 @@
  */
 module.exports = {
     getProjectsOfUserPath: (username) => { return `/projects/user/${username}`},
-    createProjectOfUser: (username) => { return `/projects/${username}`}
+    createProjectOfUser: (username) => { return `/projects/${username}`},
+    getProjectcDetails: (projName) => { return `/projects/${projName}`}
 }

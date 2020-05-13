@@ -13,7 +13,7 @@ class ProjectIntro extends React.Component {
 
 
     getUserProjects = async () => {
-      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("Joao")
+      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("TesteGit")
       console.log("Response received on the GetProjects:")
       console.log(getProjOfUserResponse)
       if(getProjOfUserResponse.status === 200) {

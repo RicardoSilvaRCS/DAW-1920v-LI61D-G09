@@ -23,7 +23,8 @@ class ProjectIssues extends React.Component {
     }
 
     async componentDidMount() {
-        const projectIssues = await this.getProjectIssues()
+        const {projName} = this.props.match.params
+        const projectIssues = await this.getProjectIssues(projName)
         this.setState({issues: projectIssues})
     }
 

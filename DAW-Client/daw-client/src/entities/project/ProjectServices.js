@@ -24,7 +24,16 @@ async function createProjectOfUser(username, projectCreationDataModel) {
     return getProjOfUserResponse
 } 
 
+async function getProjectsDetails(projName){
+    const getProjDetailResponse = await fetch(`http://${host}${ProjectPaths.getProjectcDetails(projName)}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'}
+    })
+    return getProjDetailResponse
+}
+
 export default {
     getProjectsOfUser,
-    createProjectOfUser
+    createProjectOfUser,
+    getProjectsDetails
 }
