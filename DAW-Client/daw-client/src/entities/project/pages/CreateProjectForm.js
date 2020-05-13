@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Message, Container, Button, ButtonGroup, Icon } from 'semantic-ui-react'
+import { Form, Message, Container, Button, Icon } from 'semantic-ui-react'
 
 
 
@@ -39,11 +39,34 @@ class CreateProjectForm extends React.Component {
     handleAddLabel = (e) => {
         this.setState(state => {
             const list = state.labels.concat({
-                labelid: state.labels.length + 1,
+                labelid: state.labels.length,
                 labelvalue: ''
             })
             state.labels = list
             return state
+        })
+    }
+
+    handleRemoveLabel = (e, {name, value}) => {
+        this.setState(state => {
+            const labels = state.labels
+            let idxToRemove = -1
+            let found = false
+            for(let i=0; i<labels.length; i++) {
+                if(i === name) {
+                    idxToRemove = i
+                    found = true
+                    break;
+                }
+            }
+            if(found) {
+                labels.splice(idxToRemove, 1)
+                for(let i = idxToRemove; i<labels.length; i++) {
+                    labels[i].labelid--
+                }
+            }
+            state.labels = labels
+            return state    
         })
     }
 
@@ -80,6 +103,30 @@ class CreateProjectForm extends React.Component {
         })
     }
 
+    handleRemoveTransition = (e, {name, value}) => {
+        let id = parseInt(name.split(":")[0])
+        this.setState(state => {
+            const transitions = state.transitions
+            let idxToRemove = -1
+            let found = false
+            for(let i=0; i<transitions.length; i++) {
+                if(i === id) {
+                    idxToRemove = i
+                    found = true
+                    break;
+                }
+            }
+            if(found) {
+                transitions.splice(idxToRemove, 1)
+                for(let i = idxToRemove; i<transitions.length; i++) {
+                    transitions[i].transid--
+                }
+            }
+            state.transitions = transitions
+            return state    
+        })
+    }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -113,9 +160,18 @@ class CreateProjectForm extends React.Component {
     const {projname, descr, labels, initstate, transitions} = this.state
     const handleLabelChange = this.handleLabelChange
     const handleTransitionChange = this.handleTransitionChange
+    const handleRemoveLabel = this.handleRemoveLabel
+    const handleRemoveTransition = this.handleRemoveTransition
 
     const renderLabels = this.state.labels.map(function(it){
-        return (<Form.Input icon='tag' iconPosition='left' placeholder='Label' key={it.labelid} name={it.labelid} value={it.labelvalue} onChange={handleLabelChange}></Form.Input>)
+        return (
+            <Form.Group key={`group:${it.labelid}`}>
+                <Form.Input icon='tag' iconPosition='left' placeholder='Label' key={it.labelid} name={it.labelid} value={it.labelvalue} onChange={handleLabelChange}></Form.Input>
+                <Button name={it.labelid} icon negative onClick={handleRemoveLabel}>
+                    <Icon name='close' />
+                </Button>
+            </Form.Group>
+        )
     })
 
     const renderedTransitions = this.state.transitions.map(function(it){
@@ -124,6 +180,9 @@ class CreateProjectForm extends React.Component {
                 <Form.Input icon='caret right' iconPosition='left' placeholder='Start Transition' name={`${it.transid}:starttrans`} value={it.starttrans} onChange={handleTransitionChange} disabled={it.final}></Form.Input>
                 <Icon disabled name="arrow right" size="big"></Icon>
                 <Form.Input icon='caret right' iconPosition='left' placeholder='End Transition' name={`${it.transid}:endtrans`} value={it.endtrans} onChange={handleTransitionChange} disabled={it.final}></Form.Input>
+                <Button name={`${it.transid}:deletetransbutton`} icon negative disabled={it.final} onClick={handleRemoveTransition}>
+                    <Icon name='close' />
+                </Button>
             </Form.Group>
         )
     })
