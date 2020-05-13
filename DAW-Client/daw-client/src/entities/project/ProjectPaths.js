@@ -2,5 +2,6 @@
  * TODO: Maybe put here the request information for the server
  */
 module.exports = {
-    getProjectsOfUserPath: '/projects/user/{username}'
+    getProjectsOfUserPath: (username) => { return `/projects/user/${username}`},
+    createProjectOfUser: (username) => { return `/projects/${username}`}
 }

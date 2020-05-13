@@ -98,8 +98,8 @@ class ProjectsInputModel @JsonCreator constructor(
     }
 }
 
-val CLOSED_ARCH_TRANS: Pair<String,String> = Pair("closed", "archived")
-val FINAL_STATE: String = "archived"
+val CLOSED_ARCH_TRANS: Pair<String,String> = Pair("Closed", "Archived")
+val FINAL_STATE: String = "Archived"
 
 /**
  *  Data model for the representation of a projects info to update

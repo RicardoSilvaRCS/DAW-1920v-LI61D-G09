@@ -11,6 +11,10 @@ class CreateEntityModal extends React.Component {
         
     }
 
+    async handleClose() {
+        window.location.reload(false)
+    }
+
     render() {
         console.log(this.state.entity)
         return (
@@ -20,7 +24,8 @@ class CreateEntityModal extends React.Component {
                 closeIcon
                 style={
                     {height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto"}
-                }>
+                }
+                onClose={this.handleClose}>
                 <Modal.Header>Create {this.state.entity}</Modal.Header>
                 <Modal.Content scrolling={true}>
                     {this.props.children}

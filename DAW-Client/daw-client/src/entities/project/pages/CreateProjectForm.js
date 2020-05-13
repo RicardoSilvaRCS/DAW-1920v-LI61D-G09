@@ -1,8 +1,12 @@
 import React from 'react';
 import { Form, Message, Container, Button, Icon } from 'semantic-ui-react'
+import ProjectServices  from '../ProjectServices'
+import ProjectDataModels from '../ProjectDataModels'
 
 
-
+/**
+ * For now it's creating project in user Joao, but we need to do the auth "global state" or something to create it on the user that is authenticated
+ */
 class CreateProjectForm extends React.Component {
     
     /**
@@ -18,7 +22,25 @@ class CreateProjectForm extends React.Component {
             this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
             return
         }
-        console.log("handleProjCreation func")
+        const createProjectResponse = await ProjectServices
+            .createProjectOfUser("Joao", 
+                                ProjectDataModels.projectCreationDataModel(
+                                    this.state.projname,
+                                    this.state.descr,
+                                    this.state.labels,
+                                    this.state.initstate,
+                                    this.state.transitions
+                                ))
+        console.log("Response received on the Project Creation:")
+        console.log(createProjectResponse)
+        const createProjectContent = await createProjectResponse.json()
+        console.log("Content of Project Creation response:")
+        console.log(createProjectContent)
+        if(createProjectResponse.status === 200) {
+            this.setState({message: `Project ${createProjectContent.properties.name} created`}, this.handleStateReset)
+        } else {
+            this.setState({error: createProjectContent.properties.detail})
+        }
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -127,8 +149,36 @@ class CreateProjectForm extends React.Component {
         })
     }
 
+    handleStateReset() {
+        this.setState({
+            projname: '',
+            descr: '',
+            labels: [{
+                labelid: 0,
+                labelvalue: ''
+            }],
+            initstate: '',
+            transitions:  [
+                {
+                    starttrans: '',
+                    endtrans: '',
+                    transid: 0,
+                    final: false
+                },
+                {
+                starttrans: 'Closed',
+                endtrans: 'Archived',
+                transid: 1,
+                final: true
+                }
+             ],
+             final: false
+        })
+    }
+
     constructor(props) {
         super(props)
+        //If something changes here you must check the ProjectDataModels.projectCreationDataModel() to see if u need to change something
         this.state = {
             projname: '',
             descr: '',
@@ -152,7 +202,8 @@ class CreateProjectForm extends React.Component {
                 }
              ],
             final: false,
-            error: ''
+            error: null,
+            message: null
         }
     }
 
@@ -190,6 +241,11 @@ class CreateProjectForm extends React.Component {
       return (
         <Container text>
             <Form onSubmit={this.handleSubmit}>
+                {this.state.message && 
+                    <Message>
+                        <Message.Header>{this.state.message}</Message.Header>
+                    </Message>
+                }
                 {this.state.error && 
                     <Message negative>
                         <Message.Header>{this.state.error}</Message.Header>
