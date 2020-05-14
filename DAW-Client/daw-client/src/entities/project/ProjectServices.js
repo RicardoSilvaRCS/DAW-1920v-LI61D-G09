@@ -32,8 +32,17 @@ async function getProjectsDetails(projName){
     return getProjDetailResponse
 }
 
+async function deleteProject(projName){
+    const deleteProjectResponse = await fetch(`http://${host}${ProjectPaths.deleteProject(projName)}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json'}
+    })
+    return deleteProjectResponse
+}
+
 export default {
     getProjectsOfUser,
     createProjectOfUser,
-    getProjectsDetails
+    getProjectsDetails,
+    deleteProject
 }

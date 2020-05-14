@@ -1,9 +1,8 @@
 import React from 'react';
-import { Container, Header, Message } from 'semantic-ui-react'
+import { Container, Header, Icon, Message, List, Button } from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices'
 import ProjectsDataModel from '../ProjectDataModels'
 /* Components Import*/
-import ContentList from '../../../components/ContentList'
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateProjectForm from './CreateProjectForm'
 
@@ -13,7 +12,7 @@ class ProjectIntro extends React.Component {
 
 
     getUserProjects = async () => {
-      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("TesteGit")
+      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("Joao")
       console.log("Response received on the GetProjects:")
       console.log(getProjOfUserResponse)
       if(getProjOfUserResponse.status === 200) {
@@ -33,6 +32,41 @@ class ProjectIntro extends React.Component {
         this.setState({projects: projectProps})
     }
 
+    handleRemoveProject = (e, {name}) => {
+      let projToDelete = null
+      let idx = 0
+      this.setState(state => {
+        let projects = state.projects
+        for(; idx<projects.length; idx++) {
+          if(projects[idx].name === name) {
+              projToDelete = projects[idx]
+              break;
+          }
+        }
+        return state
+      }, async () => {
+        console.log(projToDelete)
+        let deleteProjectResponse = await ProjectServices.deleteProject(projToDelete.name)
+        console.log("Response received on the Delete Project:")
+        console.log(deleteProjectResponse)
+        //Remember that if the request sends a projectName for a project that doesn't exist, the Server assumes it was deleted w/ sucess, even if the proj doesn't exist
+        if(deleteProjectResponse.status === 200) {
+          this.setState(state=>{
+            let projects = state.projects
+            projects.splice(idx, 1)
+            state.projects = projects
+            state.message = `${projToDelete.name} deleted with sucess.`
+            return state
+          })
+        } else {
+          let deleteProjectContent = await deleteProjectResponse.json()
+          console.log("Content of Delete Project response:")
+          console.log(deleteProjectContent)
+          this.setState({error: deleteProjectContent.properties.detail})
+        }
+      })
+    }
+
     /**
      * Make renders for both non auth and auth pages
      */
@@ -40,7 +74,17 @@ class ProjectIntro extends React.Component {
     renderAuthUserInfo() {
         return (
             <Container text>      
-              <Header as='h1'>Projects</Header>        
+              <Header as='h1'>Projects</Header>
+              {this.state.message && 
+                <Message>
+                    <Message.Header>{this.state.message}</Message.Header>
+                </Message>
+              }
+              {this.state.error && 
+                <Message negative>
+                    <Message.Header>{this.state.error}</Message.Header>
+                </Message>
+              }        
               {this.state.projects.length <= 0 && 
                 <Container>
                   <Message info>
@@ -53,7 +97,22 @@ class ProjectIntro extends React.Component {
                   <p>Here you can see your collection of projects.
                     Access all the information of your projects, edit or delete them, and add new ones to your collection.
                   </p>
-                  <ContentList members={this.state.projects} icon='clipboard list'/> 
+                  <List size='huge' divided>
+                    {this.state.projects.map( (it) => (
+                      <List.Item key={it.name}>
+                      <List.Icon name='clipboard list' size='large' verticalAlign='middle' />
+                      <List.Content>
+                          <List.Header as='a' href={`/projects/${it.name}/details`}>{it.name}</List.Header>
+                          <List.Description as='p'>
+                            {it.descr}
+                            <Button name={it.name} icon negative style={{float: "right"}} onClick={this.handleRemoveProject}>
+                              <Icon name='close' />
+                            </Button>
+                          </List.Description>   
+                      </List.Content>
+                      </List.Item>
+                    ))}
+                  </List>
                 </Container>      
               }
               <br/>
@@ -82,7 +141,9 @@ class ProjectIntro extends React.Component {
         super(props)
         this.state = {
             auth: true,
-            projects: []
+            projects: [],
+            error: null,
+            message: null
         }
     }
 

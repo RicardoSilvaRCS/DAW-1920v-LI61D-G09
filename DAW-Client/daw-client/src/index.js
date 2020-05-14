@@ -42,10 +42,6 @@ ReactDOM.render(
             <a className="nav-link" href="/about">About</a>
           </li>
 
-          <li className="nav-item">
-            <a className="nav-link" href="/projects/Ari/details">project detail</a>
-          </li>
-
         </ul>
       </div>
     </nav>
@@ -53,9 +49,9 @@ ReactDOM.render(
     <Container fluid>
       <Switch>
         <Route exact path="/" component={App} />
-        <Route path="/about" component={About} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Route exact path="/projects" component={ProjectIntro} />
         <Route exact path="/projects/:projName/issues" component={ProjectIssues}/>
         <Route exact path="/projects/:projName/details" component={ProjectDetails}/>
