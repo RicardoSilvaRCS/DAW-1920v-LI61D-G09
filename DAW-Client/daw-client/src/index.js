@@ -11,7 +11,7 @@ import Login from './entities/user/pages/Login';
 import Register from './entities/user/pages/Register';
 import ProjectIntro from './entities/project/pages/ProjectIntro'
 import ProjectIssues from './entities/issue/pages/GetProjectIssues'
-import ProjectDetails from './entities/project/pages/ProjectDetails'
+import ProjectDetailed from './entities/project/pages/ProjectDetailed';
 
 /* Components Import */
 import { Container } from 'semantic-ui-react'
@@ -52,9 +52,9 @@ ReactDOM.render(
         <Route exact path="/about" component={About} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/projects" component={ProjectIntro} />
+        <Route exact path="/projects" component={ProjectIntro} />       
+        <Route exact path="/projects/:projName/details" component={ProjectDetailed}/>
         <Route exact path="/projects/:projName/issues" component={ProjectIssues}/>
-        <Route exact path="/projects/:projName/details" component={ProjectDetails}/>
       </Switch>
     </Container>
   </Router>,

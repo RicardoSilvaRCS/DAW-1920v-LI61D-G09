@@ -1,9 +1,6 @@
 package isel.daw.DAW.Project.Projects
 
-import isel.daw.DAW.Project.Common.InvalidProjectException
-import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
-import isel.daw.DAW.Project.Common.NoProjectsFoundError
-import isel.daw.DAW.Project.Common.ProjectNameConflictException
+import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.*
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
@@ -28,6 +25,10 @@ class ProjectsServices(private val projectsrepo: ProjectsRepository) {
     fun getProject( name: String ): ProjectsInfoOutputModel {
         if(name.isBlank() || name.isEmpty()) {
             throw InvalidResourceRequestedException("No project name received.")
+        }
+        val foundProj = projectsrepo.getByName((name))
+        if(foundProj.isDefault()) {
+            throw ProjectNotFoundException("No project found with name $name")
         }
         return projectsrepo.getByName(name)
     }

@@ -24,7 +24,8 @@ async function createProjectOfUser(username, projectCreationDataModel) {
     return getProjOfUserResponse
 } 
 
-async function getProjectsDetails(projName){
+async function getProjectDetails(projName){
+    console.log(`ProjectServices.getProjectDetails()`)
     const getProjDetailResponse = await fetch(`http://${host}${ProjectPaths.getProjectcDetails(projName)}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json'}
@@ -33,6 +34,7 @@ async function getProjectsDetails(projName){
 }
 
 async function deleteProject(projName){
+    console.log(`ProjectServices.deleteProject()`)
     const deleteProjectResponse = await fetch(`http://${host}${ProjectPaths.deleteProject(projName)}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json'}
@@ -43,6 +45,6 @@ async function deleteProject(projName){
 export default {
     getProjectsOfUser,
     createProjectOfUser,
-    getProjectsDetails,
+    getProjectDetails,
     deleteProject
 }
