@@ -16,7 +16,6 @@ class CreateEntityModal extends React.Component {
     }
 
     render() {
-        console.log(this.state.entity)
         return (
             <Modal 
                 dimmer="blurring"  

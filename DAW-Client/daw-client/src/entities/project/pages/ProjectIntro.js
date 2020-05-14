@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Icon, Message, List, Button } from 'semantic-ui-react'
+import { Container, Header, Icon, Message, Modal, List, Button } from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices'
 import ProjectsDataModel from '../ProjectDataModels'
 /* Components Import*/
@@ -46,6 +46,10 @@ class ProjectIntro extends React.Component {
         return state
       }, async () => {
         console.log(projToDelete)
+        if(!projToDelete) {
+          this.setState({error: "Project selected doesn't exist. Try again later."})
+          return
+        }
         let deleteProjectResponse = await ProjectServices.deleteProject(projToDelete.name)
         console.log("Response received on the Delete Project:")
         console.log(deleteProjectResponse)
@@ -64,14 +68,27 @@ class ProjectIntro extends React.Component {
           console.log(deleteProjectContent)
           this.setState({error: deleteProjectContent.properties.detail})
         }
+        this.setState({delProjModalState: {open: false, projToDelete: ''}})
       })
     }
+
+    handleDeleteModal = (e, {name}) => {
+      console.log(name)
+      this.setState({delProjModalState: {open: true, projToDelete: name}})
+    }
+
+    handleDelProjModalClose = () => {
+      this.setState({delProjModalState: {open: false, projToDelete: ''}})
+    }
+
+
 
     /**
      * Make renders for both non auth and auth pages
      */
 
     renderAuthUserInfo() {
+      const delProjModalState = this.state.delProjModalState
         return (
             <Container text>      
               <Header as='h1'>Projects</Header>
@@ -105,7 +122,7 @@ class ProjectIntro extends React.Component {
                           <List.Header as='a' href={`/projects/${it.name}/details`}>{it.name}</List.Header>
                           <List.Description as='p'>
                             {it.descr}
-                            <Button name={it.name} icon negative style={{float: "right"}} onClick={this.handleRemoveProject}>
+                            <Button name={it.name} icon negative style={{float: "right"}} onClick={this.handleDeleteModal}>
                               <Icon name='close' />
                             </Button>
                           </List.Description>   
@@ -119,6 +136,24 @@ class ProjectIntro extends React.Component {
               <CreateEntityModal entity="Project">
                   <CreateProjectForm />
               </CreateEntityModal>
+              <Modal
+              dimmer="blurring" 
+              open={delProjModalState.open}
+              closeIcon
+              style={
+                {height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto"}
+              }
+              onClose={this.handleDelProjModalClose}
+              >
+                <Modal.Header>Delete Project {delProjModalState.projToDelete}</Modal.Header>
+                <Modal.Content>
+                  <p>Are you sure you want to delete project {delProjModalState.projToDelete}</p>
+                </Modal.Content>
+                <Modal.Actions>
+                  <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDelProjModalClose}/>
+                  <Button name={delProjModalState.projToDelete} positive labelPosition='right' icon='checkmark' content='Yes' onClick={this.handleRemoveProject}/>
+                </Modal.Actions>
+              </Modal>
             </Container>
           )
     }
@@ -143,7 +178,11 @@ class ProjectIntro extends React.Component {
             auth: true,
             projects: [],
             error: null,
-            message: null
+            message: null,
+            delProjModalState: {
+              open: false,
+              projToDelete: ''
+            }
         }
     }
 
