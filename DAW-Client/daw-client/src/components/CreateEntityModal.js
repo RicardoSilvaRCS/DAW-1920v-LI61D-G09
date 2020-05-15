@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Modal } from 'semantic-ui-react'
+import { Button, Modal } from 'semantic-ui-react'
 
 class CreateEntityModal extends React.Component {
 

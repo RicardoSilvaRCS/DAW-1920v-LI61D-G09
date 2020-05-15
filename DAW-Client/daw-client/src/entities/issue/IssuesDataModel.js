@@ -6,13 +6,19 @@
  * Labels -> String []
  * 
 */
-function createIssuePrevDataModel (issueName, projName, descr, currState, labels) {
+function createIssueDataModel (issueName, projName, descr, currState, labels) {
+
+    let labelsFormat = []
+    for(let i = 0; i<labels.length; i++) {
+        labelsFormat.push(labels[i].labelvalue)
+    }
+
     return {
         name : issueName,
         projname : projName,
         descr : descr,
         currState : currState,
-        labels : labels
+        labels : labelsFormat
     }
 }
 
@@ -38,7 +44,7 @@ function createIssueLabel(labelName , projName){
 }
 
 module.exports = {
-    createIssuePrevDataModel,
+    createIssueDataModel,
     updateIssueState,
     createIssueLabel
 }

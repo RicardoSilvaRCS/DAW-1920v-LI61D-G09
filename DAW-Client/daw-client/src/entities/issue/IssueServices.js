@@ -19,10 +19,10 @@ async function getIssueDetails(issueId){
     return getIssueDetailsReponse
 }
 
-async function createIssue(issue){
+async function createIssue(createIssueDataModel){
     const createIssueReponse = await fetch(`http://${host}${IssuePaths.createIssue}`,{
         method: 'POST',
-        body : JSON.stringify(issue),
+        body : JSON.stringify(createIssueDataModel),
         headers: { 'Content-Type': 'application/json'}
     })
     return createIssueReponse

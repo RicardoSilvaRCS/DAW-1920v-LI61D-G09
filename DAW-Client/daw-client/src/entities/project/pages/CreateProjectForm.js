@@ -176,6 +176,15 @@ class CreateProjectForm extends React.Component {
         })
     }
 
+    handleDismissMessage = () => {
+        this.setState({ message: null })
+    }
+
+    handleDismissError = () => {
+        this.setState({ error: null })
+    }
+
+
     constructor(props) {
         super(props)
         //If something changes here you must check the ProjectDataModels.projectCreationDataModel() to see if u need to change something
@@ -242,23 +251,23 @@ class CreateProjectForm extends React.Component {
         <Container text>
             <Form onSubmit={this.handleSubmit}>
                 {this.state.message && 
-                    <Message>
+                    <Message onDismiss={this.handleDismissMessage}>
                         <Message.Header>{this.state.message}</Message.Header>
                     </Message>
                 }
                 {this.state.error && 
-                    <Message negative>
+                    <Message negative onDismiss={this.handleDismissError}>
                         <Message.Header>{this.state.error}</Message.Header>
                     </Message>
                 }
                 <Form.Input required icon='user' iconPosition='left' label="Project Name:"placeholder='Name' name='projname' value={projname} onChange={this.handleChange}/>
-                <Form.Input required icon='keyboard' iconPosition='left' label="Project Description" placeholder='Description' name='descr' value={descr} onChange={this.handleChange}/>
+                <Form.Input required icon='keyboard' iconPosition='left' label="Project Description:" placeholder='Description' name='descr' value={descr} onChange={this.handleChange}/>
                 <p>Choose labels for your project, you can't repeat labels. The labels choosen here will the ones available for all the issues in this project:</p>
                 {renderLabels}
                 <Button secondary style={{marginBottom: "10px"}} onClick={this.handleAddLabel}>Add label</Button>
                 <p>You can now choose the states your project will have. First choose the initial state and then choose the states, and transitions, you feel are needed.
                     Remember that all the states will end with a transition "Closed -> Archived" soo make sure your transitions reach the state Closed at least one time:</p>     
-                <Form.Input required icon='caret right' iconPosition='left' placeholder='Initial State' name='initstate' value={initstate} onChange={this.handleChange}/>
+                <Form.Input required icon='caret right' iconPosition='left' placeholder='Initial State:' name='initstate' value={initstate} onChange={this.handleChange}/>
                 {renderedTransitions}
                 <Button secondary style={{marginBottom: "10px"}} onClick={this.handleAddTransition}>Add transition</Button>
                 <Form.Button primary content='Create Project' />

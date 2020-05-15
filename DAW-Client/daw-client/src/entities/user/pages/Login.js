@@ -4,14 +4,6 @@ import UserServices from '../UserServices'
 import UserDataModels from '../UserDataModels'
 
 class Login extends React.Component {
-    
-    state = {
-        username: '',
-        password: '',
-        final: false,
-        error: ''
-    }
-    
 
     /**
      * Since setState is asynchronous we pass a callback for our login function soo that when we try and login the state is updated correctly
@@ -39,6 +31,26 @@ class Login extends React.Component {
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
+    handleDismissMessage = () => {
+        this.setState({ message: null })
+    }
+
+    handleDismissError = () => {
+        this.setState({ error: null })
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            username: '',
+            password: '',
+            final: false,
+            message: '',
+            error: ''
+        }
+    }
+
+
   render() {
     const {username, password} = this.state
 
@@ -47,7 +59,7 @@ class Login extends React.Component {
             <Header as="h1">Login</Header>
             <p>Login to have acess to your projects.</p>
             {this.state.error && 
-                <Message negative>
+                <Message negative onDismiss={this.handleDismissError}>
                     <Message.Header>{this.state.error}</Message.Header>
                 </Message>
             }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Header, Icon, Message, Modal, List, Button } from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices'
-import ProjectsDataModel from '../ProjectDataModels'
 /* Components Import*/
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateProjectForm from './CreateProjectForm'
@@ -81,6 +80,13 @@ class ProjectIntro extends React.Component {
       this.setState({delProjModalState: {open: false, projToDelete: ''}})
     }
 
+    handleDismissMessage = () => {
+      this.setState({ message: null })
+    }
+
+    handleDismissError = () => {
+        this.setState({ error: null })
+    }
 
 
     /**
@@ -93,18 +99,18 @@ class ProjectIntro extends React.Component {
             <Container text>      
               <Header as='h1'>Projects</Header>
               {this.state.message && 
-                <Message>
+                <Message onDismiss={this.handleDismissMessage}>
                     <Message.Header>{this.state.message}</Message.Header>
                 </Message>
               }
               {this.state.error && 
-                <Message negative>
+                <Message negative onDismiss={this.handleDismissError}>
                     <Message.Header>{this.state.error}</Message.Header>
                 </Message>
               }        
               {this.state.projects.length <= 0 && 
                 <Container>
-                  <Message info>
+                  <Message warning>
                     <Message.Header>No projects started yet.</Message.Header>
                   </Message>
                 </Container>
@@ -147,7 +153,7 @@ class ProjectIntro extends React.Component {
               >
                 <Modal.Header>Delete Project {delProjModalState.projToDelete}</Modal.Header>
                 <Modal.Content>
-                  <p>Are you sure you want to delete project {delProjModalState.projToDelete}</p>
+                  <p>Are you sure you want to delete project {delProjModalState.projToDelete}?</p>
                 </Modal.Content>
                 <Modal.Actions>
                   <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDelProjModalClose}/>

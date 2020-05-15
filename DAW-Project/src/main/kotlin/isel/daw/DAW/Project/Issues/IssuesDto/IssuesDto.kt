@@ -111,7 +111,8 @@ class IssuesInfoOutputModel(
  */
 class IssueCreationResponse(
         val id: Int,
-        val projname: String
+        val projname: String,
+        val name: String
 ){
     val message: String = "Issue created with success."
     val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
@@ -196,7 +197,7 @@ class IssueDeletedResponse{
             properties = this,
             clazz = listOf("IssueUpdated"),
             links = listOf(
-                    SirenLink(rel = listOf("get-projects"), href = URI(GET_PROJECTS_PATH))
+                    SirenLink(rel = listOf("get-projects"), href = URI(GET_PROJECTS_PATH.replace("{",":").replace("}","")))
             ),
             actions = listOf(GET_SINGLE_ISSUE_ACTION, CREATE_ISSUE_ACTION, UPDATE_ISSUE_ACTION, UPDATE_ISSUE_STATE_ACTION, DELETE_ISSUE_ACTION)
     )

@@ -53,7 +53,7 @@ class CreateIssue {
             } finally {
                 conn.close()
             }
-            return IssueCreationResponse(tid, newIssue.projname)
+            return IssueCreationResponse(tid, newIssue.projname, newIssue.name)
         }
 
         /**-----------------------------------------INSER LABELS-----------------------------------------------------*/

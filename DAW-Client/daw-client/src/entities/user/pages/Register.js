@@ -11,18 +11,6 @@ class Register extends React.Component {
         { key: 'o', text: 'Other', value: 'other' },
     ]
     
-    state = {
-        username: '',
-        fullname: '',
-        email: '',
-        age: '',
-        gender: '',
-        phonenumber: '',
-        password: '',
-        final: false,
-        error: ''
-    }
-    
 
     /**
      * Since setState is asynchronous we pass a callback for our login function soo that when we try and login the state is updated correctly
@@ -80,6 +68,25 @@ class Register extends React.Component {
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
+    handleDismissError = () => {
+        this.setState({ error: null })
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            username: '',
+            fullname: '',
+            email: '',
+            age: '',
+            gender: '',
+            phonenumber: '',
+            password: '',
+            final: false,
+            error: ''
+        }
+    }
+
   render() {
     const { username, fullname, email, age, gender, phonenumber, password} = this.state
 
@@ -88,7 +95,7 @@ class Register extends React.Component {
             <Header as="h1">Sign Up</Header>
             <p>Create an account to manage your projects and share them with friends.</p>
             {this.state.error && 
-                <Message negative>
+                <Message negative onDismiss={this.handleDismissError}>
                     <Message.Header>{this.state.error}</Message.Header>
                 </Message>
             }
