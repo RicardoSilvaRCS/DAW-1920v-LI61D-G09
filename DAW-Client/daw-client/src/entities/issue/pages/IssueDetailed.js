@@ -1,10 +1,14 @@
 import React from 'react';
-import { Container } from 'semantic-ui-react'
-import IssuesServices from '../../issue/IssueServices'
+import { Container,Header ,Divider} from 'semantic-ui-react'
+
+/*Services */
 import IssueServices from '../../issue/IssueServices'
 import CommentServices from '../../comment/CommentServices'
 
 /*Components*/
+import LoaderComponent from '../../../components/ContentLoader'
+import IssueDetailsComponent from '../components/IssueDetail'
+import ListCommentsComponent from '../../comment/Comments'
 
 class IssueDetailed extends React.Component {
 
@@ -77,9 +81,24 @@ class IssueDetailed extends React.Component {
     }
 
     render() {
+        const issue = this.state.issueInfo.details 
+        const comments = this.state.issueInfo.comments
         return (
             <Container text>
-                <p>Loading...</p>
+                 {!issue && 
+                    <LoaderComponent/>
+                }
+                { issue &&
+                    <Container>
+                        <Header as='h1'>Issue {issue.name} details</Header>
+                                    
+                        <p> In this area you will be able to see the detailed information of {issue.name}.</p>
+                        <p> It's properties and coments, you will also be able to edit it, delete it and add more comments.</p>
+                        <IssueDetailsComponent issue={issue}/>
+                        <Divider horizontal>Comments</Divider>
+                        <ListCommentsComponent comments = {comments} issueId ={issue.id}/>
+                    </Container>
+                }
             </Container>
         )
     }

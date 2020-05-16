@@ -3,7 +3,7 @@
  */
 module.exports = {
     getProjectIssuesPath: (projName) => { return `/issues/${projName}`},
-    getSingleIssuePath: (issueId) => { return `/issues/${issueId}`},
+    getSingleIssuePath: (issueId) => { return `/issue/${issueId}`},
     createIssuePath: '/issues',
     updateIssuePath: (issueId) => { return `/issues/${issueId}`},
     deleteIssuePath: (issueId) => { return `/issues/${issueId}`},

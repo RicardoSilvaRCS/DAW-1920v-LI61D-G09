@@ -8,7 +8,9 @@ import IssuesServices from '../../issue/IssueServices'
 /*Components*/
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateIssueForm from '../../issue/pages/CreateIssueForm'
-
+import ListStatesComponent from '../../../components/ListStates'
+import ListLabelsComponent from '../../../components/ListLabels'
+import ListTransitionsComponent from '../../../components/ListTransitions'
 
 
 class ProjectDetailed extends React.Component {
@@ -130,6 +132,7 @@ class ProjectDetailed extends React.Component {
     }
 
     renderedProjDetails(projInfo) {
+        console.log(projInfo)
         return (
             <List>
                 <List.Item>
@@ -139,26 +142,7 @@ class ProjectDetailed extends React.Component {
                         <List.Description>{projInfo.details.descr}</List.Description>
                     </List.Content>
                 </List.Item>
-                <List.Item>
-                    <List.Icon name="tags"/>
-                    <List.Content>
-                        <List.Header>Labels:</List.Header>
-                        {projInfo.details.labels.length <= 0 && (
-                           <List.Description>No labels.</List.Description>     
-                        )}
-                        {projInfo.details.labels.length > 0 && (
-                           <List.List>
-                               {projInfo.details.labels.map((label) => (
-                                   <List.Item>
-                                        <List.Content>
-                                            <List.Description>{label}</List.Description>
-                                        </List.Content>
-                                    </List.Item>
-                               ))}
-                           </List.List>   
-                        )}
-                    </List.Content>
-                </List.Item>
+                <ListLabelsComponent labels={projInfo.details.labels}/> 
                 <List.Item>
                     <List.Icon name='caret right'/>
                     <List.Content>
@@ -166,50 +150,8 @@ class ProjectDetailed extends React.Component {
                         <List.Description>{projInfo.details.initstate}</List.Description>
                     </List.Content>
                 </List.Item>
-                <List.Item>
-                    <List.Icon name="angle double right"/>
-                    <List.Content>
-                        <List.Header>Possible States:</List.Header>
-                        {projInfo.details.states.length <= 0 && (
-                           <List.Description>No states.</List.Description>     
-                        )}
-                        {projInfo.details.states.length > 0 && (
-                           <List.List>
-                               {projInfo.details.states.map((state) => (
-                                   <List.Item>
-                                        <List.Content>
-                                            <List.Description>{state}</List.Description>
-                                        </List.Content>
-                                    </List.Item>
-                               ))}
-                           </List.List>   
-                        )}
-                    </List.Content>
-                </List.Item>
-                <List.Item>
-                    <List.Icon name="exchange"/>
-                    <List.Content>
-                        <List.Header>Possible State Transitions:</List.Header>
-                        {projInfo.details.transitions.length <= 0 && (
-                           <List.Description>No transitions.</List.Description>     
-                        )}
-                        {projInfo.details.transitions.length > 0 && (
-                           <List.List>
-                               {projInfo.details.transitions.map((trans) => (
-                                   <List.Item>
-                                        <List.Content>
-                                        <List.Description>
-                                            {trans.first}
-                                            <Icon name="caret right"/>
-                                            {trans.second}
-                                        </List.Description>
-                                        </List.Content>
-                                    </List.Item>
-                               ))}
-                           </List.List>   
-                        )}
-                    </List.Content>
-                </List.Item>
+                <ListStatesComponent states={projInfo.details.states}/>
+                <ListTransitionsComponent transitions={projInfo.details.transitions}/>
             </List>
         )
     }
