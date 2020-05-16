@@ -1,5 +1,6 @@
 import ServerInfo from '../../serverinfo/ServerInfo'
 import CommentPaths from './CommentPaths'
+import CommentModel from './CommentsModel'
 
 const host = ServerInfo.serverHost
 
@@ -12,8 +13,15 @@ async function getIssueComments(issueId) {
     return getIssueCommentsResponse
 } 
 
-async function createComment() {
-    throw(`CommentServices.createComment()`)
+async function createComment( comment,issueId) {
+    console.log(`CommentServices.createComment()`)
+    const newComment = CommentModel.commentsInputModel(comment)
+    const createCommentResponse = await fetch(`http://${host}${CommentPaths.createCommentPath(issueId)}`, {
+        method: 'POST',
+        body : JSON.stringify(newComment),
+        headers: { 'Content-Type': 'application/json'}
+    })
+    return createCommentResponse
 } 
 
 async function updateComment() {

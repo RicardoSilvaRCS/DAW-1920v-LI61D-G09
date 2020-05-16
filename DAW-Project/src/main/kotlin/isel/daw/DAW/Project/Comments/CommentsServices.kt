@@ -36,7 +36,7 @@ class CommentsServices(private val commentsrepo: CommentsRepository, private val
             throw InvalidCommentException("No text was inserted for the creation of a new comment.")
         }
         val issueOfComment: IssuesInfoOutputModel = issuesrepo.getById(tid)
-        if(!issueOfComment.isDefault()) {
+        if(issueOfComment.isDefault()) {
             throw InvalidResourceRequestedException("There is no issue with id '$tid'.")
         }
         return commentsrepo.addToIssue(tid, comment)

@@ -10,9 +10,10 @@ class InsertComment {
 
     companion object {
 
-        const val INSERT_COMMENT_INTO_ISSUE_QUERY = "INSERT INTO public.issuecomment" +
-                " (commenttext, commentcreation, issueid) returning issuecomment.commentid" +
-                " VALUES (?, ?, ?);" ;
+        const val INSERT_COMMENT_INTO_ISSUE_QUERY = "INSERT INTO issuecomment" +
+                " (commenttext, commentcreation, issueid)" +
+                " VALUES (?, ?, ?)" +
+                " RETURNING issuecomment.commentid" ;
 
         fun execute (issueid : Int , comment : CommentsInputModel , conn : Connection): CommentsCreatedResponse {
             val ps : PreparedStatement

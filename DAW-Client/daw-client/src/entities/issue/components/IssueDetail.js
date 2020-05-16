@@ -4,6 +4,7 @@ import { Container,List } from "semantic-ui-react";
 /*Components*/
 import ListStatesComponent from '../../../components/ListStates'
 import ListLabelsComponent from '../../../components/ListLabels'
+import formatDate from '../../AuxiliarModules/DateFormat'
 
 function representIssueDetails ({issue}) {
     const creationDate = formatDate(new Date(issue.creationDate))
@@ -78,8 +79,4 @@ function representIssueDetails ({issue}) {
     )
 }
 
-
-function formatDate(date){
-    return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
-}
 export default representIssueDetails
