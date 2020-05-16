@@ -245,6 +245,24 @@ class ProjectNotFoundException (val details: String): ApiException(details) {
 }
 
 
+
+/**
+ * This represents an issue not found exception.
+ * Thrown when the issue requested is not found.
+ */
+class IssueNotFoundException (val details: String): ApiException(details) {
+    override val type: String
+        get() = "/issues/problems/issue-not-found"
+    override val title: String
+        get() = "Issue not found"
+    override val detail: String
+        get() = details
+    override val status: HttpStatus
+        get() = HttpStatus.NOT_FOUND
+
+}
+
+
 /**
  * This represents a non existing projects response.
  * Thrown when the no projects were found.

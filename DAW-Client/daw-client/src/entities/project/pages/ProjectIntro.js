@@ -12,7 +12,7 @@ class ProjectIntro extends React.Component {
 
     getUserProjects = async () => {
       const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("Joao")
-      console.log("Response received on the GetProjects:")
+      console.log("[ProjectIntroPage] Response received on the Get Projects Request:")
       console.log(getProjOfUserResponse)
       if(getProjOfUserResponse.status === 200) {
         const getProjectsContent = await getProjOfUserResponse.json()
@@ -50,7 +50,7 @@ class ProjectIntro extends React.Component {
           return
         }
         let deleteProjectResponse = await ProjectServices.deleteProject(projToDelete.name)
-        console.log("Response received on the Delete Project:")
+        console.log("[ProjectIntroPage] Response received on Delete Project Request:")
         console.log(deleteProjectResponse)
         //Remember that if the request sends a projectName for a project that doesn't exist, the Server assumes it was deleted w/ sucess, even if the proj doesn't exist
         if(deleteProjectResponse.status === 200) {
@@ -63,7 +63,7 @@ class ProjectIntro extends React.Component {
           })
         } else {
           let deleteProjectContent = await deleteProjectResponse.json()
-          console.log("Content of Delete Project response:")
+          console.log("[ProjectIntroPage] Content of Delete Project response:")
           console.log(deleteProjectContent)
           this.setState({error: deleteProjectContent.properties.detail})
         }

@@ -4,7 +4,8 @@ import IssuePaths from './IssuePaths'
 const host = ServerInfo.serverHost
 
 async function getProjectIssues(projectName) {
-    const getProjectIssuesResponse = await fetch(`http://${host}${IssuePaths.getProjectIssues.replace("{pname}", projectName)}`, {
+    console.log(`IssueServices.getProjectIssues(${projectName})`)
+    const getProjectIssuesResponse = await fetch(`http://${host}${IssuePaths.getProjectIssuesPath(projectName)}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json'}
     })
@@ -12,7 +13,8 @@ async function getProjectIssues(projectName) {
 } 
 
 async function getIssueDetails(issueId){
-    const getIssueDetailsReponse = await fetch(`http://${host}${IssuePaths.getSingleIssue.replace("{tid}", issueId)}`,{
+    console.log(`IssueServices.getIssueDetails(${issueId})`)
+    const getIssueDetailsReponse = await fetch(`http://${host}${IssuePaths.getSingleIssuePath(issueId)}`,{
         method: 'GET',
         headers: { 'Content-Type': 'application/json'}
     })
@@ -20,7 +22,8 @@ async function getIssueDetails(issueId){
 }
 
 async function createIssue(createIssueDataModel){
-    const createIssueReponse = await fetch(`http://${host}${IssuePaths.createIssue}`,{
+    console.log(`IssueServices.createIssue(${createIssueDataModel})`)
+    const createIssueReponse = await fetch(`http://${host}${IssuePaths.createIssuePath}`,{
         method: 'POST',
         body : JSON.stringify(createIssueDataModel),
         headers: { 'Content-Type': 'application/json'}
@@ -28,10 +31,11 @@ async function createIssue(createIssueDataModel){
     return createIssueReponse
 }
 
-async function updateIssue(issue){
-    const updateIssueReponse = await fetch(`http://${host}${IssuePaths.updateIssue.replace("{tid}",issue.id)}`,{
+async function updateIssue(issueId, updateIssueDataModel){
+    console.log(`IssueServices.updateIssue(${issueId}, ${updateIssueDataModel})`)
+    const updateIssueReponse = await fetch(`http://${host}${IssuePaths.updateIssuePath(issueId)}`,{
         method: 'PUT',
-        body : JSON.stringify(issue),
+        body : JSON.stringify(updateIssueDataModel),
         headers: { 'Content-Type': 'application/json'}
     })
 
@@ -39,7 +43,8 @@ async function updateIssue(issue){
 }
 
 async function deleteIssue(issueId){
-    const deleteIssueReponse = await fetch(`http://${host}${IssuePaths.deleteIssue.replace("{tid}",issueId)}`,{
+    console.log(`IssueServices.deleteIssue(${issueId})`)
+    const deleteIssueReponse = await fetch(`http://${host}${IssuePaths.deleteIssuePath(issueId)}`,{
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json'}
     })
@@ -47,10 +52,11 @@ async function deleteIssue(issueId){
     return deleteIssueReponse
 }
 
-async function updateIssueState(issue){
-    const updateIssueStateReponse = await fetch(`http://${host}${IssuePaths.updateIssueState.replace("{tid}",issue.id)}`,{
+async function updateIssueState(updateIssueStateDataModel){
+    console.log(`IssueServices.updateIssueState(${updateIssueStateDataModel})`)
+    const updateIssueStateReponse = await fetch(`http://${host}${IssuePaths.updateIssueStatePath()}`,{
         method: 'PUT',
-        body : JSON.stringify(issue),
+        body : JSON.stringify(updateIssueStateDataModel),
         headers: { 'Content-Type': 'application/json'}
     })
 
@@ -58,7 +64,8 @@ async function updateIssueState(issue){
 }
 
 async function createIssueLabel(issueId, label){
-    const createIssueLabelResponse = await fetch(`http://${host}${IssuePaths.createIssue.replace("{tid}",issueId)}`,{
+    console.log(`IssueServices.createIssueLabel(${issueId}. ${label})`)
+    const createIssueLabelResponse = await fetch(`http://${host}${IssuePaths.createIssueLabelPath(issueId)}`,{
         method: 'POST',
         body : JSON.stringify(label),
         headers: { 'Content-Type': 'application/json'}
@@ -68,7 +75,8 @@ async function createIssueLabel(issueId, label){
 }
 
 async function deleteIssueLabel(issueId, labelName){
-    const deleteIssueReponse = await fetch(`http://${host}${IssuePaths.deleteIssueLabel.replace("{tid}",issueId).replace("{labelName}",labelName)}`,{
+    console.log(`IssueServices.deleteIssueLabel(${issueId}. ${labelName})`)
+    const deleteIssueReponse = await fetch(`http://${host}${IssuePaths.deleteIssueLabelPath(issueId, labelName)}`,{
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json'}
     })

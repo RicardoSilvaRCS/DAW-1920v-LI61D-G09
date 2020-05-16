@@ -1,4 +1,3 @@
-
 function loginDataModel(userName, password) {
     return {
         userName: userName,

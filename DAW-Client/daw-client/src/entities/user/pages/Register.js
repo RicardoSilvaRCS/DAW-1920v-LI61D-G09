@@ -35,7 +35,7 @@ class Register extends React.Component {
                 this.state.password
             )
         )
-        console.log("Response received on the Register:")
+        console.log("[RegisterPage] Response received on the Register Request:")
         console.log(registerResponse)
         //If registration was sucessfull, log the user in, if it fails show a message of error
         if(registerResponse.status === 200) {
@@ -45,7 +45,7 @@ class Register extends React.Component {
                     this.state.password
                 )
             )
-            console.log("Response received on the Login:")
+            console.log("[RegisterPage] Response received on the Login Request:")
             console.log(loginResponse)
             //If user is logged in sucessfully redirect to projects, if not send him to home page
             if(loginResponse.status === 202) {

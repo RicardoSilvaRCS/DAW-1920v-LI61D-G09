@@ -31,10 +31,10 @@ class CreateProjectForm extends React.Component {
                                     this.state.initstate,
                                     this.state.transitions
                                 ))
-        console.log("Response received on the Project Creation:")
+        console.log("[CreateProjectForm] Response received on the Project Creation Request:")
         console.log(createProjectResponse)
         const createProjectContent = await createProjectResponse.json()
-        console.log("Content of Project Creation response:")
+        console.log("[CreateProjectForm] Content of Project Creation response:")
         console.log(createProjectContent)
         if(createProjectResponse.status === 200) {
             this.setState({message: `Project ${createProjectContent.properties.name} created`}, this.handleStateReset)

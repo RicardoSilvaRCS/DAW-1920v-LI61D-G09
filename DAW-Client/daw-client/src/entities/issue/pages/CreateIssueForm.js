@@ -76,11 +76,11 @@ class CreateIssueForm extends React.Component {
                     this.state.currState,
                     this.state.labels
                 ))
-        console.log("Response received on the Project Issue Creation:")
+        console.log("[CreateIssueForm] Response received on the Project Issue Creation Request:")
         console.log(createIssueResponse)
 
         const createIssueContent = await createIssueResponse.json()
-        console.log("Content of Project Issue Creation response:")
+        console.log("[CreateIssueForm] Content of Project Issue Creation response:")
         console.log(createIssueContent)   
         
         if(createIssueResponse.status === 200) {

@@ -22,27 +22,27 @@ class ProjectDetailed extends React.Component {
 
     async getProjectDetailedInfo(projName) {
         if(!projName) {
-            this.setState({erro: "Invalid project name."})
+            this.setState({error: "Invalid project name."})
             return
         }
 
         const getProjDetailsResponse = await ProjectServices.getProjectDetails(projName)
-        console.log("Response received on Project Details:")
+        console.log("[ProjectDetailedPage] Response received on Project Details Request:")
         console.log(getProjDetailsResponse)
 
         const getProjDetailsContent = await getProjDetailsResponse.json()
-        console.log("Content of Get Project Details response:")
+        console.log("[ProjectDetailedPage] Content of Get Project Details response:")
         console.log(getProjDetailsContent)
 
         if(getProjDetailsResponse.status === 200) {
             const projInfo = getProjDetailsContent.properties
 
             const getProjIssuesResponse = await IssuesServices.getProjectIssues(projName)
-            console.log("Response received on Project Issues:")
+            console.log("[ProjectDetailedPage] Response received on Project Issues Request:")
             console.log(getProjIssuesResponse)
 
             const getProjIssuesContent = await getProjIssuesResponse.json()
-            console.log("Content of Get Project Issues response:")
+            console.log("[ProjectDetailedPage] Content of Get Project Issues response:")
             console.log(getProjIssuesContent)
 
             if(getProjIssuesResponse.status === 200) {
@@ -106,7 +106,7 @@ class ProjectDetailed extends React.Component {
             return
         }
         let deleteIssueResponse = await IssuesServices.deleteIssue(issueToDelete.id)
-        console.log("Response received on the Delete Issue:")
+        console.log("[ProjectDetailedPage] Response received on the Delete Issue Request:")
         console.log(deleteIssueResponse)
         //Remember that if the request sends an id for an Issue that doesn't exist, the Server assumes it was deleted w/ sucess, even if the issue doesn't exist
         if(deleteIssueResponse.status === 200) {
@@ -120,7 +120,7 @@ class ProjectDetailed extends React.Component {
             })
         } else {
             let deleteIssueContent = await deleteIssueResponse.json()
-            console.log("Content of Delete Issue response:")
+            console.log("[ProjectDetailedPage] Content of Delete Issue response:")
             console.log(deleteIssueContent)
             this.setState({
                 error: deleteIssueContent.properties.detail,
@@ -214,6 +214,30 @@ class ProjectDetailed extends React.Component {
         )
     }
 
+    renderedProjIssues(projInfo) {
+        return (
+            <List size='large' divided>
+                {projInfo.issues.map( (it) => (
+                <List.Item key={it.name}>
+                <List.Icon name='file' size='big' verticalAlign='middle' />
+                <List.Content>
+                    <List.Header as='a' style={{fontSize: "20px"}} href={`/issues/${it.id}/details`}>{it.name}</List.Header>
+                    <List.Description>
+                        {it.descr}
+                    </List.Description>  
+                    <List.Description>
+                        Current State: {it.state}
+                        <Button name={it.id} icon negative style={{float: "right"}} onClick={this.handleDeleteModal}>
+                            <Icon name='close' />
+                        </Button>
+                    </List.Description> 
+                </List.Content>
+                </List.Item>
+                ))}
+            </List>
+        )
+    }
+
     renderAuthUserInfo() {
         const {projName, projInfo, accordionState, delIssueModalState} = this.state
         
@@ -262,25 +286,7 @@ class ProjectDetailed extends React.Component {
                                 <CreateIssueForm project={projInfo.details}/>
                             </CreateEntityModal>
                             <br></br>
-                            <List size='large' divided>
-                                {projInfo.issues.map( (it) => (
-                                <List.Item key={it.name}>
-                                <List.Icon name='file' size='big' verticalAlign='middle' />
-                                <List.Content>
-                                    <List.Header as='a' style={{fontSize: "20px"}} href={`/issues/${it.id}/details`}>{it.name}</List.Header>
-                                    <List.Description>
-                                        {it.descr}
-                                    </List.Description>  
-                                    <List.Description>
-                                        Current State: {it.state}
-                                        <Button name={it.id} icon negative style={{float: "right"}} onClick={this.handleDeleteModal}>
-                                            <Icon name='close' />
-                                        </Button>
-                                    </List.Description> 
-                                </List.Content>
-                                </List.Item>
-                                ))}
-                            </List>
+                            {this.renderedProjIssues(projInfo)}
                             <Modal
                                 dimmer="blurring" 
                                 open={delIssueModalState.open}

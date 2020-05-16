@@ -3,7 +3,10 @@
  */
 module.exports = {
     getProjectsOfUserPath: (username) => { return `/projects/user/${username}`},
-    createProjectOfUser: (username) => { return `/projects/${username}`},
-    getProjectcDetails: (projName) => { return `/projects/${projName}`},
-    deleteProject: (projName) => {return `/projects/${projName}`}
+    getProjectDetailsPath: (projName) => { return `/projects/${projName}`},
+    createProjectOfUserPath: (username) => { return `/projects/${username}`},
+    updateProjectOfUserPath: (projname) => {return `/projects/${projname}`},
+    deleteProjectPath: (projName) => {return `/projects/${projName}`},
+    createProjectLabelPath: (projName, labelName) => {return `/projects/${projName}/label/${labelName}`},
+    deleteProjectLabelPath: (projName, labelName) => {return `/projects/${projName}/label/${labelName}`},
 }

@@ -4,7 +4,7 @@ import ProjectPaths from './ProjectPaths'
 const host = ServerInfo.serverHost
 
 async function getProjectsOfUser(username) {
-    console.log(`ProjectServices.getProjectsOfUser()`)
+    console.log(`ProjectServices.getProjectsOfUser(${username})`)
     const getProjOfUserResponse = await fetch(`http://${host}${ProjectPaths.getProjectsOfUserPath(username)}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json'}
@@ -12,11 +12,18 @@ async function getProjectsOfUser(username) {
     return getProjOfUserResponse
 } 
 
+async function getProjectDetails(projName){
+    console.log(`ProjectServices.getProjectDetails()`)
+    const getProjDetailResponse = await fetch(`http://${host}${ProjectPaths.getProjectDetailsPath(projName)}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'}
+    })
+    return getProjDetailResponse
+}
 
 async function createProjectOfUser(username, projectCreationDataModel) {
-    console.log(projectCreationDataModel)
-    console.log(`ProjectServices.createProjectsOfUser()`)
-    const getProjOfUserResponse = await fetch(`http://${host}${ProjectPaths.createProjectOfUser(username)}`, {
+    console.log(`ProjectServices.createProjectsOfUser(${username},${projectCreationDataModel})`)
+    const getProjOfUserResponse = await fetch(`http://${host}${ProjectPaths.createProjectOfUserPath(username)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify(projectCreationDataModel)
@@ -24,27 +31,34 @@ async function createProjectOfUser(username, projectCreationDataModel) {
     return getProjOfUserResponse
 } 
 
-async function getProjectDetails(projName){
-    console.log(`ProjectServices.getProjectDetails()`)
-    const getProjDetailResponse = await fetch(`http://${host}${ProjectPaths.getProjectcDetails(projName)}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json'}
-    })
-    return getProjDetailResponse
-}
+async function updateProjectOfUser() {
+    throw (`TODO: ProjectServices.updateProjectsOfUser()`)
+} 
 
-async function deleteProject(projName){
+
+async function deleteProjectOfUser(projName){
     console.log(`ProjectServices.deleteProject()`)
-    const deleteProjectResponse = await fetch(`http://${host}${ProjectPaths.deleteProject(projName)}`, {
+    const deleteProjectResponse = await fetch(`http://${host}${ProjectPaths.deleteProjectPath(projName)}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json'}
     })
     return deleteProjectResponse
 }
 
+async function createProjectLabel() {
+    throw (`TODO: ProjectServices.createProjectLabel()`)
+} 
+
+async function deleteProjectLabel() {
+    throw (`TODO: ProjectServices.deleteProjectLabel()`)
+} 
+
 export default {
     getProjectsOfUser,
-    createProjectOfUser,
     getProjectDetails,
-    deleteProject
+    createProjectOfUser,
+    updateProjectOfUser,
+    deleteProjectOfUser,
+    createProjectLabel,
+    deleteProjectLabel
 }

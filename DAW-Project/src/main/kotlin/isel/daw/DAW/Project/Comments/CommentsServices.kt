@@ -3,6 +3,7 @@ package isel.daw.DAW.Project.Comments
 import isel.daw.DAW.Project.Comments.CommentsDtos.*
 import isel.daw.DAW.Project.Common.InvalidCommentException
 import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
+import isel.daw.DAW.Project.Common.NoCommentsFoundError
 import isel.daw.DAW.Project.Issues.IssuesDto.IssuesInfoOutputModel
 import isel.daw.DAW.Project.Issues.IssuesRepository
 import org.springframework.stereotype.Component
@@ -22,7 +23,7 @@ class CommentsServices(private val commentsrepo: CommentsRepository, private val
         }
         val foundComments = commentsrepo.getCommentsOfIssue(tid)
         if(foundComments.isEmpty()) {
-
+            throw NoCommentsFoundError("No comments found in issue w/ id: $tid")
         }
         return commentsrepo.getCommentsOfIssue(tid)
     }

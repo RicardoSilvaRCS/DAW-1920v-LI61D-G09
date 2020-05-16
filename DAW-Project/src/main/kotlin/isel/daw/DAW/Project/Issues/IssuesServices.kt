@@ -1,9 +1,6 @@
 package isel.daw.DAW.Project.Issues
 
-import isel.daw.DAW.Project.Common.IllegalIssueStateException
-import isel.daw.DAW.Project.Common.InvalidIssueException
-import isel.daw.DAW.Project.Common.InvalidResourceRequestedException
-import isel.daw.DAW.Project.Common.NoIssuesFoundError
+import isel.daw.DAW.Project.Common.*
 import isel.daw.DAW.Project.Issues.IssuesDto.*
 import isel.daw.DAW.Project.Projects.ProjectsDto.ProjectsInfoOutputModel
 import isel.daw.DAW.Project.Projects.ProjectsRepository
@@ -33,6 +30,8 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         if(tid<0) {
             throw InvalidResourceRequestedException("Issue id received is invalid, can't be negative.")
         }
+        val foundIssue = issuesrepo.getById(tid)
+        if(foundIssue.isDefault()) throw IssueNotFoundException("No issue found with id: $tid")
         return issuesrepo.getById(tid)
     }
 

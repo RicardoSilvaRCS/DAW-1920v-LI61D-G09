@@ -19,7 +19,7 @@ class Login extends React.Component {
             return
         }
         const loginResponse = await UserServices.loginUser(UserDataModels.loginDataModel(this.state.username, this.state.password)) 
-        console.log("Response received on the Login:")
+        console.log("[LoginPage] Response received on the Login request:")
         console.log(loginResponse)
         //If login was sucessfull, redirect to his projects, if it fails show message and keep in login page
         if(loginResponse.status === 202) {
