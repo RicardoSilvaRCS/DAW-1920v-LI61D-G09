@@ -1,11 +1,14 @@
 import React from 'react';
-import { Comment,Form,Button,Message } from 'semantic-ui-react'
+import { Comment,Form,Message, Container } from 'semantic-ui-react'
 
 /*Services*/
 import CommentServices from './CommentServices'
 
 /*Auxiliar modules*/
 import formatDate from '../AuxiliarModules/DateFormat'
+
+/*Components*/
+import LoaderComponent from '../../components/ContentLoader'
 
 class Comments extends React.Component {
 
@@ -19,10 +22,11 @@ class Comments extends React.Component {
             comment : '',
             comments : comments,
             issueId : issueId,
+            isAtualizated : true
         }
     }
 
-    render (){
+    representIssueComments () {
         const {comment} = this.state
         return(
             <Comment.Group>
@@ -61,6 +65,18 @@ class Comments extends React.Component {
         )
     }
 
+    waitingIssueComments () {
+        return (
+            <Container>
+                <LoaderComponent/>
+            </Container>
+        )
+    }
+
+    render (){
+       return this.state.isAtualizated ? this.representIssueComments() : this.waitingIssueComments()
+    }
+
     async handleCommentCreation () {
         const comment = this.state.comment
         const issueId = this.state.issueId
@@ -76,6 +92,33 @@ class Comments extends React.Component {
         if(createCommentResponse.status != 200) {
             this.setState({error: createIssueContent.properties.detail})
         }
+        else{
+            const comments = await this.getIssueComments(issueId)
+            console.log(comments)
+            this.setState({
+                comments : comments,
+                comment : ''
+            })
+        }
+    }
+
+    async getIssueComments(issueId) {
+
+        const getCommentResponse = await CommentServices.
+            getIssueComments(issueId)
+
+        const getIssueCommentsContent = await getCommentResponse.json()
+        
+        if(getCommentResponse.status != 200) {
+            this.setState({error: getCommentResponse.properties.detail})
+            return []
+        }
+    
+        const issueComments = []
+        getIssueCommentsContent.forEach(comment => {
+            issueComments.push(comment.properties)
+        });
+        return issueComments
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -83,6 +126,7 @@ class Comments extends React.Component {
     handleSubmit = () => {
         this.setState( {} , this.handleCommentCreation)
     }
+
 }
 
 export default Comments
