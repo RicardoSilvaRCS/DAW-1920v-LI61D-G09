@@ -11,6 +11,7 @@ import UpdateIssueStateForm from '../../issue/pages/UpdateIssueStateForm'
 import LoaderComponent from '../../../components/ContentLoader'
 import IssueDetailsComponent from '../components/IssueDetail'
 import ListCommentsComponent from '../../comment/Comments'
+import UpdateIssueInfo from './UpdateIssueForm'
 
 class IssueDetailed extends React.Component {
 
@@ -94,12 +95,16 @@ class IssueDetailed extends React.Component {
                     <Container>
                         <Header as='h1'>Issue {issue.name} details</Header>
                                     
-                        <p> In this area you will be able to see the detailed information of {issue.name}.</p>
-                        <p> It's properties and coments, you will also be able to edit it, delete it and add more comments.</p>
                         <IssueDetailsComponent issue={issue}/>
+
                         <UpdateEntityModal entity="Issue State">
                                 <UpdateIssueStateForm issue={issue}/>
                         </UpdateEntityModal>
+
+                        <UpdateEntityModal entity="Update Issue Info">
+                                <UpdateIssueInfo issue={issue}/>
+                        </UpdateEntityModal>
+
                         <Divider horizontal>Comments</Divider>
                         <ListCommentsComponent comments = {comments} issueId ={issue.id}/>
                         

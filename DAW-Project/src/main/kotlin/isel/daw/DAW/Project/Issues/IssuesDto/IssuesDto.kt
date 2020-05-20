@@ -28,6 +28,12 @@ class IssuesInputModel @JsonCreator constructor(
     }
 }
 
+class IssuesInputUpdateModel @JsonCreator constructor(
+        val name: String,
+        val projname: String,
+        val descr: String
+)
+
 /**
  * Data model for the update state of an Issue
  */

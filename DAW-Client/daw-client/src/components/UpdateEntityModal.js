@@ -20,9 +20,8 @@ class UpdateEntityModal extends React.Component {
             <Modal 
                 dimmer="blurring"  
                 trigger={<Button>Update {this.state.entity}</Button>} 
-                closeIcon
                 style={
-                    {height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto"}
+                    {height:"auto" , top: "auto", left: "auto", right: "auto", bottom: "auto"}
                 }
                 onClose={this.handleClose}>
                 <Modal.Header>Update {this.state.entity}</Modal.Header>

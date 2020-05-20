@@ -26,7 +26,7 @@ class IssuesRepository(@Autowired val dbs: DataSource)  {
         return CreateIssue.execute(newIssue, dbs.connection)
     }
 
-    fun updateInfo(tid: Int, newIssue: IssuesInputModel): IssueUpdatedResponse {
+    fun updateInfo(tid: Int, newIssue: IssuesInputUpdateModel): IssueUpdatedResponse {
         return UpdateIssue.execute(tid, newIssue, dbs.connection)
     }
 

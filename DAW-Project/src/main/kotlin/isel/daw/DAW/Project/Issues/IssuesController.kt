@@ -51,7 +51,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * PUT /issues/{tid}
      */
     @PutMapping(UPDATE_ISSUE_PATH)
-    fun updateissueInfo(@PathVariable tid: Int, @RequestBody newIssue: IssuesInputModel): SirenEntity<IssueUpdatedResponse> {
+    fun updateissueInfo(@PathVariable tid: Int, @RequestBody newIssue: IssuesInputUpdateModel): SirenEntity<IssueUpdatedResponse> {
         return issueservices.updateIssue(tid, newIssue).toSirenObject()
     }
 

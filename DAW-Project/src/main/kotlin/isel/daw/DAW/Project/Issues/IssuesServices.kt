@@ -49,7 +49,7 @@ class IssuesServices(private val issuesrepo: IssuesRepository, private val proje
         return issuesrepo.create(newIssue)
     }
 
-    fun updateIssue(tid: Int, newIssue: IssuesInputModel): IssueUpdatedResponse {
+    fun updateIssue(tid: Int, newIssue: IssuesInputUpdateModel): IssueUpdatedResponse {
         return issuesrepo.updateInfo(tid, newIssue)
     }
 

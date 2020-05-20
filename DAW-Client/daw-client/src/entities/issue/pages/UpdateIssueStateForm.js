@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Message, Dropdown, Container, Button, Icon } from 'semantic-ui-react'
+import { Form, Message, Dropdown, Container, FormField, FormGroup } from 'semantic-ui-react'
 import IssueServices from '../IssueServices'
 import IssueDataModel from '../IssuesDataModel'
 
@@ -17,7 +17,7 @@ class UpdateIssueStateForm extends React.Component {
 
     handleStateChange = (e, { name, value }) => {
         this.setState(state => {
-            state.currState = value
+            state.selectedState = value
             return state    
         })
     }
@@ -25,20 +25,23 @@ class UpdateIssueStateForm extends React.Component {
 
 
     async handleUpdateIssueState () {
+
+        if(!this.state.selectedState){
+            this.setState({error: 'Please Select A State.'})
+            return
+        }
+
         if(!this.state.final) {
             this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
             return
         }
-        console.log(this.state)
-        console.log(IssueDataModel.updateIssueState(this.state.currState))
+
         const updateIssueStateResponse = await IssueServices
             .updateIssueState(
                 this.state.issueId,
-                IssueDataModel.updateIssueState(this.state.currState)
+                IssueDataModel.updateIssueState(this.state.selectedState)
             )
         const updateIssueStateContent = await updateIssueStateResponse.json()    
-        
-        console.log(updateIssueStateContent)
 
         if(updateIssueStateResponse.status === 200) {
             this.setState({message: `Issue State Updated`}, this.handleStateReset)
@@ -68,9 +71,7 @@ class UpdateIssueStateForm extends React.Component {
 
     constructor(props) {
         super(props)
-        //If something changes here you must check the ProjectDataModels.projectCreationDataModel() to see if u need to change something
         const issue = this.props.issue
-        console.log(issue)
         this.state = {
             issueName: issue.name,
             issueId : issue.id,
@@ -78,14 +79,13 @@ class UpdateIssueStateForm extends React.Component {
             possibleNextStates : issue.possibleNextStates,
             final: false,
             error: null,
-            message: null
+            message: null,
+            selectedState : ""
         }
     }
 
   render() {
     const {issuename, issueId, currState, possibleNextStates} = this.state
-    const handleStateChange = this.handleStateChange
-
    
     const availableStates = possibleNextStates.map((state)=>{
         return {
@@ -111,11 +111,16 @@ class UpdateIssueStateForm extends React.Component {
                     </Message>
                 }
                 
-                <p>Here you can select from the available states:</p>
+                <FormField>
+                    <h4>Here you can select from the available states:</h4>
+                </FormField>
                 
-                <Dropdown placeholder="Select a state" selection key={this.state} name={this.state} options={availableStates} onChange={handleStateChange}/>
+                <FormGroup>
+                    <Dropdown placeholder="Select a state" selection key={this.state} name="selectedState" options={availableStates} onChange={this.handleStateChange}/>
+                    
+                    <Form.Button primary icon="save"/>
+                </FormGroup>
                 
-                <Form.Button primary content='update Issue State'/>
             </Form>
         </Container>
       )

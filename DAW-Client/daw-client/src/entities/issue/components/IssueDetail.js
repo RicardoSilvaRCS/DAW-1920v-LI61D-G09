@@ -61,8 +61,8 @@ function representIssueDetails ({issue}) {
                     <List.Item>
                         <List.Icon name="keyboard"/>
                         <List.Content>
-                            <List.Header href={`/projects/${issue.projname}/details`}>Project Name:</List.Header>
-                            <List.Description>{issue.descr}</List.Description>
+                            <List.Header>Project Name:</List.Header>
+                            <List.Description href={`/projects/${issue.projname}/details`}>{issue.projname}</List.Description>
                         </List.Content>
                     </List.Item>
                     <ListLabelsComponent labels={issue.labels}/>

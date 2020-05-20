@@ -23,6 +23,20 @@ function createIssueDataModel (issueName, projName, descr, currState, labels) {
 }
 
 /**
+ * issueName -> String
+ * projName-> String
+ * descr -> String
+*/
+function updateIssueDataModel (issueName, projName, descr) {
+
+    return {
+        name : issueName,
+        projname : projName,
+        descr : descr
+    }
+}
+
+/**
  * newState -> String
 */
 function updateIssueState(newState){
@@ -45,6 +59,7 @@ function createIssueLabel(labelName , projName){
 
 module.exports = {
     createIssueDataModel,
+    updateIssueDataModel,
     updateIssueState,
     createIssueLabel
 }
