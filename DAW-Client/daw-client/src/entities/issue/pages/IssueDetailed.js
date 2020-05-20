@@ -6,6 +6,8 @@ import IssueServices from '../../issue/IssueServices'
 import CommentServices from '../../comment/CommentServices'
 
 /*Components*/
+import UpdateEntityModal from '../../../components/UpdateEntityModal'
+import UpdateIssueStateForm from '../../issue/pages/UpdateIssueStateForm'
 import LoaderComponent from '../../../components/ContentLoader'
 import IssueDetailsComponent from '../components/IssueDetail'
 import ListCommentsComponent from '../../comment/Comments'
@@ -95,8 +97,12 @@ class IssueDetailed extends React.Component {
                         <p> In this area you will be able to see the detailed information of {issue.name}.</p>
                         <p> It's properties and coments, you will also be able to edit it, delete it and add more comments.</p>
                         <IssueDetailsComponent issue={issue}/>
+                        <UpdateEntityModal entity="Issue State">
+                                <UpdateIssueStateForm issue={issue}/>
+                        </UpdateEntityModal>
                         <Divider horizontal>Comments</Divider>
                         <ListCommentsComponent comments = {comments} issueId ={issue.id}/>
+                        
                     </Container>
                 }
             </Container>

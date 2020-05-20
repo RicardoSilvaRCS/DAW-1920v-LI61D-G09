@@ -7,7 +7,7 @@ module.exports = {
     createIssuePath: '/issues',
     updateIssuePath: (issueId) => { return `/issues/${issueId}`},
     deleteIssuePath: (issueId) => { return `/issues/${issueId}`},
-    updateIssueStatePath: '/issues/updatestate',
+    updateIssueStatePath: (issueId) => {return `/issues/${issueId}/updatestate`},
     createIssueLabelPath: (issueId) => { return `/issues/${issueId}/label`},
     deleteIssueLabelPath: (issueId, labelName) => { return `/issues/${issueId}/label/${labelName}`}
 }

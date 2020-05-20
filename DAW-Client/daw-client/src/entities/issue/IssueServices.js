@@ -52,9 +52,9 @@ async function deleteIssue(issueId){
     return deleteIssueReponse
 }
 
-async function updateIssueState(updateIssueStateDataModel){
+async function updateIssueState(issueId, updateIssueStateDataModel){
     console.log(`IssueServices.updateIssueState(${updateIssueStateDataModel})`)
-    const updateIssueStateReponse = await fetch(`http://${host}${IssuePaths.updateIssueStatePath()}`,{
+    const updateIssueStateReponse = await fetch(`http://${host}${IssuePaths.updateIssueStatePath(issueId)}`,{
         method: 'PUT',
         body : JSON.stringify(updateIssueStateDataModel),
         headers: { 'Content-Type': 'application/json'}
