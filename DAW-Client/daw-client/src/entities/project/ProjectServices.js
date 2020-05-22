@@ -32,7 +32,6 @@ async function createProjectOfUser(username, projectCreationDataModel) {
 } 
 
 async function updateProjectOfUser(projName, projectUpdateDataModel) {
-    //throw (`TODO: ProjectServices.updateProjectsOfUser()`)
     console.log("ProjectServices.updateProjectsOfUser()")
     const updateProjectResponse = await fetch(`http://${host}${ProjectPaths.updateProjectOfUserPath(projName)}`, {
         method: 'PUT',
@@ -52,12 +51,22 @@ async function deleteProjectOfUser(projName){
     return deleteProjectResponse
 }
 
-async function createProjectLabel() {
-    throw (`TODO: ProjectServices.createProjectLabel()`)
+async function createProjectLabel(projName, labelName) {
+    console.log("ProjectServices.createProjectLabel()")
+    const createProjectLabelResponse = await fetch(`http://${host}${ProjectPaths.createProjectLabelPath(projName, labelName)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+    })
+    return createProjectLabelResponse
 } 
 
-async function deleteProjectLabel() {
-    throw (`TODO: ProjectServices.deleteProjectLabel()`)
+async function deleteProjectLabel(projName, labelName) {
+    console.log("ProjectServices.deleteProjectLabel()")
+    const deleteProjectLabelResponse = await fetch(`http://${host}${ProjectPaths.deleteProjectLabelPath(projName, labelName)}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json'},
+    })
+    return deleteProjectLabelResponse
 } 
 
 export default {

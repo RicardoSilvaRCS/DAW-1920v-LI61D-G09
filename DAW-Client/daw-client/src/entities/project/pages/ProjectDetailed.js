@@ -6,10 +6,12 @@ import ProjectServices from '../ProjectServices';
 import IssuesServices from '../../issue/IssueServices'
 
 /*Components*/
-import UpdateEntityModal from '../../../components/UpdateEntityModal'
-import UpdateProjectInfo from './UpdateProjectForm'
+
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateIssueForm from '../../issue/pages/CreateIssueForm'
+import CreateLabelForm from './CreateLabelForm'
+import UpdateEntityModal from '../../../components/UpdateEntityModal'
+import UpdateProjectInfo from './UpdateProjectForm'
 import ListStatesComponent from '../../../components/ListStates'
 import ListLabelsComponent from '../../../components/ListLabels'
 import ListTransitionsComponent from '../../../components/ListTransitions'
@@ -133,7 +135,66 @@ class ProjectDetailed extends React.Component {
         }
     }
 
-    renderedProjDetails(projInfo) {
+    
+    handleDeleteLabelModal = (e, {name}) => {
+        this.setState({delLabelModalState: {open: true, labelToDelete: name}})
+    }
+
+    handleDeleleteLabelModalClose = () => {
+        this.setState({delLabelModalState: {open: false, labelToDelete: ''}})
+    }
+
+    handleRemoveLabel = async (e, {name}) => {
+        let labelToDelete = name
+        let projectName = this.state.projName
+        
+        console.log(labelToDelete)
+
+        //ver qual a mensagem de erro
+        if(!labelToDelete) {
+            this.setState({error: "Label selected doesn't exist. Try again later."})
+            return
+        }
+
+        let deleteLabelResponse = await ProjectServices.deleteProjectLabel(projectName, labelToDelete)
+
+        console.log("[ProjectDetailedPage] Response received on the Delete Page Request:")
+        console.log(deleteLabelResponse)
+
+        if(deleteLabelResponse.status === 200) {
+            this.setState(state=>{
+                let labels = state.projInfo.details.labels
+                let idx = 0
+
+                for (; idx < labels.length; idx++) {
+                    if (labels[idx] === name) {
+                        labelToDelete = labels[idx]
+                        break;
+                    }
+                }
+
+                labels.splice(idx, 1)
+                state.projInfo.details.labels= labels
+
+                state.message = `Label ${labelToDelete} deleted with sucess.`
+                state.delLabelModalState = {open: false, labelToDelete: ''}
+                return state
+            })
+        } else {
+            let deleteLabelContent = await deleteLabelResponse.json()
+            console.log("[ProjectDetailedPage] Content of Delete Label response:")
+            console.log(deleteLabelContent)
+            this.setState({
+                error: deleteLabelContent.properties.detail,
+                delLabelModalState: {open: false, labelToDelete: ''}
+            })
+        }
+    }
+
+
+
+
+    renderedProjDetails(projInfo, delLabelModalState) {
         console.log(projInfo)
         return (
             <List>
@@ -144,7 +205,57 @@ class ProjectDetailed extends React.Component {
                         <List.Description>{projInfo.details.descr}</List.Description>
                     </List.Content>
                 </List.Item>
-                <ListLabelsComponent labels={projInfo.details.labels}/> 
+
+                <List.Item>
+                    <List.Icon name="tags" />
+                    <List.Content>
+                        <List.Header>Labels:</List.Header>
+                        {projInfo.details.labels.length <= 0 && (
+                            <List.Description>No labels.</List.Description>
+                        )}
+                        {projInfo.details.labels.length > 0 && (
+                            <List.List>
+                                {projInfo.details.labels.map((label) => (
+                                    <List.Item key={`${label}`}>
+                                        <List.Icon name='dot circle' size='tiny' verticalAlign='middle' />
+                                        <List.Content>
+                                            <List.Description>
+                                                {label}
+                                                <Button name={label} icon negative style={{ float: "right"}} onClick={this.handleDeleteLabelModal}>
+                                                    <Icon name='close' />
+                                                </Button>
+                                            </List.Description>
+                                            
+                                        </List.Content>
+                                    </List.Item>
+                                ))}
+                            </List.List>
+                        )}
+                    </List.Content>
+                </List.Item>
+
+                <Modal
+                    dimmer="blurring"
+                    open={delLabelModalState.open}
+                    closeIcon
+                    style={
+                        { height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto" }
+                    }
+                    onClose={this.handleDeleleteLabelModalClose}
+                >
+                    <Modal.Header>Delete Label {delLabelModalState.labelToDelete}</Modal.Header>
+                    <Modal.Content>
+                        <p>Are you sure you want to delete label {delLabelModalState.labelToDelete}?</p>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDeleleteLabelModalClose} />
+                        <Button name={delLabelModalState.labelToDelete} positive labelPosition='right' icon='checkmark' content='Yes' onClick={this.handleRemoveLabel} />
+                    </Modal.Actions>
+                </Modal>                       
+
+                <CreateEntityModal entity="Project Label">
+                    <CreateLabelForm project={projInfo.details} />
+                </CreateEntityModal>
                 <List.Item>
                     <List.Icon name='caret right'/>
                     <List.Content>
@@ -183,7 +294,7 @@ class ProjectDetailed extends React.Component {
     }
 
     renderAuthUserInfo() {
-        const {projName, projInfo, accordionState, delIssueModalState} = this.state
+        const {projName, projInfo, accordionState, delIssueModalState, delLabelModalState} = this.state
         
 
         return (           
@@ -204,7 +315,7 @@ class ProjectDetailed extends React.Component {
                     </Message>
                 }
                 <Header as='h2'>Details:</Header>
-                {projInfo.details && (this.renderedProjDetails(projInfo))}
+                {projInfo.details && (this.renderedProjDetails(projInfo, delLabelModalState))}
                 <UpdateEntityModal entity="Project Info">
                     <UpdateProjectInfo project={projInfo.details} />
                 </UpdateEntityModal>
@@ -286,6 +397,10 @@ class ProjectDetailed extends React.Component {
             delIssueModalState: {
                 open: false,
                 issueToDelete: ''
+            },
+            delLabelModalState: {
+                open: false,
+                labelToDelete: ''
             },
             error: null,
             message: null,
