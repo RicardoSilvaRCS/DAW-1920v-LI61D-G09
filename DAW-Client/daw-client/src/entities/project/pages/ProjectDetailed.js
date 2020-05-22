@@ -6,6 +6,8 @@ import ProjectServices from '../ProjectServices';
 import IssuesServices from '../../issue/IssueServices'
 
 /*Components*/
+import UpdateEntityModal from '../../../components/UpdateEntityModal'
+import UpdateProjectInfo from './UpdateProjectForm'
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateIssueForm from '../../issue/pages/CreateIssueForm'
 import ListStatesComponent from '../../../components/ListStates'
@@ -203,6 +205,9 @@ class ProjectDetailed extends React.Component {
                 }
                 <Header as='h2'>Details:</Header>
                 {projInfo.details && (this.renderedProjDetails(projInfo))}
+                <UpdateEntityModal entity="Project Info">
+                    <UpdateProjectInfo project={projInfo.details} />
+                </UpdateEntityModal>
                 <Accordion fluid>
                     <Accordion.Title icon='dropdown' content={`Issues of ${projName}:`} style={{fontSize:"25px"}} onClick={this.handleAcccordionClick}/>
                     <Accordion.Content active={accordionState}>

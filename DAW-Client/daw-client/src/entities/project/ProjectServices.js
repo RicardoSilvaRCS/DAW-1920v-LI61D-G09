@@ -31,8 +31,15 @@ async function createProjectOfUser(username, projectCreationDataModel) {
     return getProjOfUserResponse
 } 
 
-async function updateProjectOfUser() {
-    throw (`TODO: ProjectServices.updateProjectsOfUser()`)
+async function updateProjectOfUser(projName, projectUpdateDataModel) {
+    //throw (`TODO: ProjectServices.updateProjectsOfUser()`)
+    console.log("ProjectServices.updateProjectsOfUser()")
+    const updateProjectResponse = await fetch(`http://${host}${ProjectPaths.updateProjectOfUserPath(projName)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(projectUpdateDataModel)
+    })
+    return updateProjectResponse
 } 
 
 

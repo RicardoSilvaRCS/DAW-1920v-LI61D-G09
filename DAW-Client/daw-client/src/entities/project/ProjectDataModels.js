@@ -31,7 +31,17 @@ function projectCreationDataModel(projname, descr, labels, initstate, transition
     }
 }
 
+/** 
+ * descr -> String
+*/
+function updateIssueDataModel (descr) {
+    return {
+        newDescr : descr
+    }
+}
+
 export default {
     projectsPrevDataModel,
-    projectCreationDataModel
+    projectCreationDataModel,
+    updateIssueDataModel
 }
