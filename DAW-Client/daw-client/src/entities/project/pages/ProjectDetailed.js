@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { Accordion, Button, Container, Header, Icon, Message, Modal, List } from 'semantic-ui-react'
+import { Accordion, Button, Container, Header, Icon, Message, Modal, List,Label } from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices';
 import IssuesServices from '../../issue/IssueServices'
 
@@ -10,7 +10,7 @@ import IssuesServices from '../../issue/IssueServices'
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateIssueForm from '../../issue/pages/CreateIssueForm'
 import CreateLabelForm from './CreateLabelForm'
-import UpdateEntityModal from '../../../components/UpdateEntityModal'
+import EntityModal from '../../../components/EntityModal'
 import UpdateProjectInfo from './UpdateProjectForm'
 import ListStatesComponent from '../../../components/ListStates'
 import ListLabelsComponent from '../../../components/ListLabels'
@@ -257,11 +257,8 @@ class ProjectDetailed extends React.Component {
                     <CreateLabelForm project={projInfo.details} />
                 </CreateEntityModal>
                 <List.Item>
-                    <List.Icon name='caret right'/>
-                    <List.Content>
-                        <List.Header>Initial State:</List.Header>
-                        <List.Description>{projInfo.details.initstate}</List.Description>
-                    </List.Content>
+                    <Label color="blue" horizontal content="Initial State" icon="play" size="large"/>
+                    {projInfo.details.initstate}
                 </List.Item>
                 <ListStatesComponent states={projInfo.details.states}/>
                 <ListTransitionsComponent transitions={projInfo.details.transitions}/>
@@ -316,9 +313,9 @@ class ProjectDetailed extends React.Component {
                 }
                 <Header as='h2'>Details:</Header>
                 {projInfo.details && (this.renderedProjDetails(projInfo, delLabelModalState))}
-                <UpdateEntityModal entity="Project Info">
+                <EntityModal entity="Project Info">
                     <UpdateProjectInfo project={projInfo.details} />
-                </UpdateEntityModal>
+                </EntityModal>
                 <Accordion fluid>
                     <Accordion.Title icon='dropdown' content={`Issues of ${projName}:`} style={{fontSize:"25px"}} onClick={this.handleAcccordionClick}/>
                     <Accordion.Content active={accordionState}>

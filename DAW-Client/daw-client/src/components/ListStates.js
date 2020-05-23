@@ -1,21 +1,19 @@
 import React from 'react';
-import { List } from 'semantic-ui-react'
+import { List,Label } from 'semantic-ui-react'
 
 function listStates ({states}){
     return (
         <List.Item key="StateList">
-            <List.Icon name="angle double right"/>
                 <List.Content>
-                    <List.Header>Possible States:</List.Header>
+                    <Label color="blue" horizontal content="Possible States" icon="angle double right" size="large"/>
                         {states.length <= 0 && (
                             <List.Description>No states.</List.Description>     
                         )}
-
                         {states.length > 0 && (
                             <List.List>
                                 {states.map((state) => (
                                     <List.Item key={`${state}`}>
-                                        <List.Icon name='dot circle' size='tiny' verticalAlign='middle' />
+                                        <List.Icon name='angle right' size='small' verticalAlign='middle' />
                                         <List.Content>
                                             <List.Description>{state}</List.Description>
                                         </List.Content>

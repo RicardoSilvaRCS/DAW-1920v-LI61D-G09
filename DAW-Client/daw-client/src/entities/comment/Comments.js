@@ -59,7 +59,7 @@ class Comments extends React.Component {
                 }
                 <Form onSubmit={this.handleSubmit}>
                     <Form.TextArea placeholder="Write your comment" name='comment' value={comment} onChange={this.handleChange}/>
-                    <Form.Button primary content="Add Comment"/>
+                    <Form.Button primary icon="plus" content="Add Comment"/>
                 </Form>
             </Comment.Group>
         )

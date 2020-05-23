@@ -6,12 +6,9 @@ import IssueServices from '../../issue/IssueServices'
 import CommentServices from '../../comment/CommentServices'
 
 /*Components*/
-import UpdateEntityModal from '../../../components/UpdateEntityModal'
-import UpdateIssueStateForm from '../../issue/pages/UpdateIssueStateForm'
 import LoaderComponent from '../../../components/ContentLoader'
 import IssueDetailsComponent from '../components/IssueDetail'
 import ListCommentsComponent from '../../comment/Comments'
-import UpdateIssueInfo from './UpdateIssueForm'
 
 class IssueDetailed extends React.Component {
 
@@ -28,24 +25,16 @@ class IssueDetailed extends React.Component {
         }
 
         const getIssueDetailsResponse = await IssueServices.getIssueDetails(issueId)
-        console.log("[IssueDetailsPage] Response received on Issue Details Request:")
-        console.log(getIssueDetailsResponse)
-
+    
         const getIssueDetailsContent = await getIssueDetailsResponse.json()
-        console.log("[IssueDetailsPage] Content of Get Issue Details response:")
-        console.log(getIssueDetailsContent)
-
+       
         if(getIssueDetailsResponse.status === 200) {
             const issueInfo = getIssueDetailsContent.properties
 
             const getIssueCommentsResponse = await CommentServices.getIssueComments(issueId)
-            console.log("[IssueDetailsPage] Response received on Issue Comments Request:")
-            console.log(getIssueCommentsResponse)
-
+            
             const getIssueCommentsContent = await getIssueCommentsResponse.json()
-            console.log("[IssueDetailsPage] Content of Get Issue Comments response:")
-            console.log(getIssueCommentsContent)
-
+    
             if(getIssueCommentsResponse.status === 200) {
                 const issueComments = []
                 getIssueCommentsContent.forEach(comment => {
@@ -96,14 +85,6 @@ class IssueDetailed extends React.Component {
                         <Header as='h1'>Issue {issue.name} details</Header>
                                     
                         <IssueDetailsComponent issue={issue}/>
-
-                        <UpdateEntityModal entity="Issue State">
-                                <UpdateIssueStateForm issue={issue}/>
-                        </UpdateEntityModal>
-
-                        <UpdateEntityModal entity="Update Issue Info">
-                                <UpdateIssueInfo issue={issue}/>
-                        </UpdateEntityModal>
 
                         <Divider horizontal>Comments</Divider>
                         <ListCommentsComponent comments = {comments} issueId ={issue.id}/>
