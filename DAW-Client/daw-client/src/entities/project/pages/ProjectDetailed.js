@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { Accordion, Button, Container, Header, Icon, Message, Modal, List,Label } from 'semantic-ui-react'
+import { Accordion, Button, Container, Header, Icon, Message, Modal, List, Label } from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices';
 import IssuesServices from '../../issue/IssueServices'
 
@@ -13,7 +13,7 @@ import CreateLabelForm from './CreateLabelForm'
 import EntityModal from '../../../components/EntityModal'
 import UpdateProjectInfo from './UpdateProjectForm'
 import ListStatesComponent from '../../../components/ListStates'
-import ListLabelsComponent from '../../../components/ListLabels'
+import ListLabelsWithDeleteComponent from '../../../components/ListLabelsWithDelete'
 import ListTransitionsComponent from '../../../components/ListTransitions'
 
 
@@ -21,14 +21,14 @@ class ProjectDetailed extends React.Component {
 
 
     async componentDidMount() {
-        const {projName} = this.props.match.params
-        this.setState({projName: projName})
+        const { projName } = this.props.match.params
+        this.setState({ projName: projName })
         this.getProjectDetailedInfo(projName)
     }
 
     async getProjectDetailedInfo(projName) {
-        if(!projName) {
-            this.setState({error: "Invalid project name."})
+        if (!projName) {
+            this.setState({ error: "Invalid project name." })
             return
         }
 
@@ -40,7 +40,7 @@ class ProjectDetailed extends React.Component {
         console.log("[ProjectDetailedPage] Content of Get Project Details response:")
         console.log(getProjDetailsContent)
 
-        if(getProjDetailsResponse.status === 200) {
+        if (getProjDetailsResponse.status === 200) {
             const projInfo = getProjDetailsContent.properties
 
             const getProjIssuesResponse = await IssuesServices.getProjectIssues(projName)
@@ -51,25 +51,29 @@ class ProjectDetailed extends React.Component {
             console.log("[ProjectDetailedPage] Content of Get Project Issues response:")
             console.log(getProjIssuesContent)
 
-            if(getProjIssuesResponse.status === 200) {
+            if (getProjIssuesResponse.status === 200) {
                 const projIssues = []
                 getProjIssuesContent.forEach(issue => {
                     projIssues.push(issue.properties)
                 });
 
-                this.setState({projInfo: {
-                    details: projInfo,
-                    issues: projIssues
-                }})
+                this.setState({
+                    projInfo: {
+                        details: projInfo,
+                        issues: projIssues
+                    }
+                })
             } else {
-                this.setState({projInfo: {
-                    details: projInfo,
-                    issues: []
-                }})
+                this.setState({
+                    projInfo: {
+                        details: projInfo,
+                        issues: []
+                    }
+                })
                 return
             }
         } else {
-            this.setState({error: getProjDetailsContent.properties.detail})
+            this.setState({ error: getProjDetailsContent.properties.detail })
             return
         }
 
@@ -84,44 +88,44 @@ class ProjectDetailed extends React.Component {
     }
 
     handleAcccordionClick = () => {
-        const prevState  = this.state.accordionState
-        this.setState({ accordionState: !prevState})
+        const prevState = this.state.accordionState
+        this.setState({ accordionState: !prevState })
     }
 
-    handleDeleteModal = (e, {name}) => {
-        this.setState({delIssueModalState: {open: true, issueToDelete: name}})
+    handleDeleteModal = (e, { name }) => {
+        this.setState({ delIssueModalState: { open: true, issueToDelete: name } })
     }
 
     handleDelIssueModalClose = () => {
-        this.setState({delIssueModalState: {open: false, issueToDelete: ''}})
+        this.setState({ delIssueModalState: { open: false, issueToDelete: '' } })
     }
 
-    handleRemoveIssue = async (e, {name}) => {
+    handleRemoveIssue = async (e, { name }) => {
         let issueToDelete = null
         let idx = 0
         let issues = this.state.projInfo.issues
-        for(; idx<issues.length; idx++) {
-            if(issues[idx].id === name) {
+        for (; idx < issues.length; idx++) {
+            if (issues[idx].id === name) {
                 issueToDelete = issues[idx]
                 break;
             }
         }
         console.log(issueToDelete)
-        if(!issueToDelete) {
-            this.setState({error: "Issue selected doesn't exist. Try again later."})
+        if (!issueToDelete) {
+            this.setState({ error: "Issue selected doesn't exist. Try again later." })
             return
         }
         let deleteIssueResponse = await IssuesServices.deleteIssue(issueToDelete.id)
         console.log("[ProjectDetailedPage] Response received on the Delete Issue Request:")
         console.log(deleteIssueResponse)
         //Remember that if the request sends an id for an Issue that doesn't exist, the Server assumes it was deleted w/ sucess, even if the issue doesn't exist
-        if(deleteIssueResponse.status === 200) {
-            this.setState(state=>{
+        if (deleteIssueResponse.status === 200) {
+            this.setState(state => {
                 let issues = state.projInfo.issues
                 issues.splice(idx, 1)
                 state.projInfo.issues = issues
                 state.message = `Issue ${issueToDelete.name} deleted with sucess.`
-                state.delIssueModalState = {open: false, issueToDelete: ''}
+                state.delIssueModalState = { open: false, issueToDelete: '' }
                 return state
             })
         } else {
@@ -130,29 +134,29 @@ class ProjectDetailed extends React.Component {
             console.log(deleteIssueContent)
             this.setState({
                 error: deleteIssueContent.properties.detail,
-                delIssueModalState: {open: false, issueToDelete: ''}
+                delIssueModalState: { open: false, issueToDelete: '' }
             })
         }
     }
 
-    
-    handleDeleteLabelModal = (e, {name}) => {
-        this.setState({delLabelModalState: {open: true, labelToDelete: name}})
+
+    handleDeleteLabelModal = (e, { name }) => {
+        this.setState({ delLabelModalState: { open: true, labelToDelete: name } })
     }
 
     handleDeleleteLabelModalClose = () => {
-        this.setState({delLabelModalState: {open: false, labelToDelete: ''}})
+        this.setState({ delLabelModalState: { open: false, labelToDelete: '' } })
     }
 
-    handleRemoveLabel = async (e, {name}) => {
+    handleRemoveLabel = async (e, { name }) => {
         let labelToDelete = name
         let projectName = this.state.projName
-        
+
         console.log(labelToDelete)
 
         //ver qual a mensagem de erro
-        if(!labelToDelete) {
-            this.setState({error: "Label selected doesn't exist. Try again later."})
+        if (!labelToDelete) {
+            this.setState({ error: "Label selected doesn't exist. Try again later." })
             return
         }
 
@@ -161,8 +165,8 @@ class ProjectDetailed extends React.Component {
         console.log("[ProjectDetailedPage] Response received on the Delete Page Request:")
         console.log(deleteLabelResponse)
 
-        if(deleteLabelResponse.status === 200) {
-            this.setState(state=>{
+        if (deleteLabelResponse.status === 200) {
+            this.setState(state => {
                 let labels = state.projInfo.details.labels
                 let idx = 0
 
@@ -174,10 +178,10 @@ class ProjectDetailed extends React.Component {
                 }
 
                 labels.splice(idx, 1)
-                state.projInfo.details.labels= labels
+                state.projInfo.details.labels = labels
 
                 state.message = `Label ${labelToDelete} deleted with sucess.`
-                state.delLabelModalState = {open: false, labelToDelete: ''}
+                state.delLabelModalState = { open: false, labelToDelete: '' }
                 return state
             })
         } else {
@@ -186,82 +190,82 @@ class ProjectDetailed extends React.Component {
             console.log(deleteLabelContent)
             this.setState({
                 error: deleteLabelContent.properties.detail,
-                delLabelModalState: {open: false, labelToDelete: ''}
+                delLabelModalState: { open: false, labelToDelete: '' }
             })
         }
     }
 
+    renderLabelDeleteModal(delLabelModalState) {
+        return (
+            <Modal
+                dimmer="blurring"
+                open={delLabelModalState.open}
+                closeIcon
+                style={
+                    { height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto" }
+                }
+                onClose={this.handleDeleleteLabelModalClose}
+            >
+                <Modal.Header>Delete Label {delLabelModalState.labelToDelete}</Modal.Header>
+                <Modal.Content>
+                    <p>Are you sure you want to delete label {delLabelModalState.labelToDelete}?</p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDeleleteLabelModalClose} />
+                    <Button name={delLabelModalState.labelToDelete} positive labelPosition='right' icon='checkmark' content='Yes' onClick={this.handleRemoveLabel} />
+                </Modal.Actions>
+            </Modal>
+        )
+    }
 
-
+    renderIssueDeleteModal(delIssueModalState) {
+        return (
+            <Modal
+                dimmer="blurring"
+                open={delIssueModalState.open}
+                closeIcon
+                style={
+                    { height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto" }
+                }
+                onClose={this.handleDelIssueModalClose}
+            >
+                <Modal.Header>Delete Issue {delIssueModalState.issueToDelete}</Modal.Header>
+                <Modal.Content>
+                    <p>Are you sure you want to delete issue {delIssueModalState.issueToDelete}?</p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDelIssueModalClose} />
+                    <Button name={delIssueModalState.issueToDelete} positive labelPosition='right' icon='checkmark' content='Yes' onClick={this.handleRemoveIssue} />
+                </Modal.Actions>
+            </Modal>
+        )
+    }
 
     renderedProjDetails(projInfo, delLabelModalState) {
         console.log(projInfo)
         return (
             <List>
                 <List.Item>
-                    <List.Icon name="keyboard"/>
+                    <List.Icon name="keyboard" />
                     <List.Content>
                         <List.Header>Description:</List.Header>
                         <List.Description>{projInfo.details.descr}</List.Description>
                     </List.Content>
                 </List.Item>
 
-                <List.Item>
-                    <List.Icon name="tags" />
-                    <List.Content>
-                        <List.Header>Labels:</List.Header>
-                        {projInfo.details.labels.length <= 0 && (
-                            <List.Description>No labels.</List.Description>
-                        )}
-                        {projInfo.details.labels.length > 0 && (
-                            <List.List>
-                                {projInfo.details.labels.map((label) => (
-                                    <List.Item key={`${label}`}>
-                                        <List.Icon name='dot circle' size='tiny' verticalAlign='middle' />
-                                        <List.Content>
-                                            <List.Description>
-                                                {label}
-                                                <Button name={label} icon negative style={{ float: "right"}} onClick={this.handleDeleteLabelModal}>
-                                                    <Icon name='close' />
-                                                </Button>
-                                            </List.Description>
-                                            
-                                        </List.Content>
-                                    </List.Item>
-                                ))}
-                            </List.List>
-                        )}
-                    </List.Content>
-                </List.Item>
-
-                <Modal
-                    dimmer="blurring"
-                    open={delLabelModalState.open}
-                    closeIcon
-                    style={
-                        { height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto" }
-                    }
-                    onClose={this.handleDeleleteLabelModalClose}
-                >
-                    <Modal.Header>Delete Label {delLabelModalState.labelToDelete}</Modal.Header>
-                    <Modal.Content>
-                        <p>Are you sure you want to delete label {delLabelModalState.labelToDelete}?</p>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDeleleteLabelModalClose} />
-                        <Button name={delLabelModalState.labelToDelete} positive labelPosition='right' icon='checkmark' content='Yes' onClick={this.handleRemoveLabel} />
-                    </Modal.Actions>
-                </Modal>                       
+                <ListLabelsWithDeleteComponent labels={projInfo.details.labels} handlerDelete={this.handleDeleteLabelModal} />
+                
+                {this.renderLabelDeleteModal(delLabelModalState)}
 
                 <CreateEntityModal entity="Project Label">
                     <CreateLabelForm project={projInfo.details} />
                 </CreateEntityModal>
                 <List.Item>
-                    <Label color="blue" horizontal content="Initial State" icon="play" size="large"/>
+                    <Label color="blue" horizontal content="Initial State" icon="play" size="large" />
                     {projInfo.details.initstate}
                 </List.Item>
-                <ListStatesComponent states={projInfo.details.states}/>
-                <ListTransitionsComponent transitions={projInfo.details.transitions}/>
+                <ListStatesComponent states={projInfo.details.states} />
+                <ListTransitionsComponent transitions={projInfo.details.transitions} />
             </List>
         )
     }
@@ -269,44 +273,43 @@ class ProjectDetailed extends React.Component {
     renderedProjIssues(projInfo) {
         return (
             <List size='large' divided>
-                {projInfo.issues.map( (it) => (
-                <List.Item key={it.name}>
-                <List.Icon name='file' size='big' verticalAlign='middle' />
-                <List.Content>
-                    <List.Header as='a' style={{fontSize: "20px"}} href={`/issues/${it.id}/details`}>{it.name}</List.Header>
-                    <List.Description>
-                        {it.descr}
-                    </List.Description>  
-                    <List.Description>
-                        Current State: {it.state}
-                        <Button name={it.id} icon negative style={{float: "right"}} onClick={this.handleDeleteModal}>
-                            <Icon name='close' />
-                        </Button>
-                    </List.Description> 
-                </List.Content>
-                </List.Item>
+                {projInfo.issues.map((it) => (
+                    <List.Item key={it.name}>
+                        <List.Icon name='file' size='big' verticalAlign='middle' />
+                        <List.Content>
+                            <List.Header as='a' style={{ fontSize: "20px" }} href={`/issues/${it.id}/details`}>{it.name}</List.Header>
+                            <List.Description>
+                                {it.descr}
+                            </List.Description>
+                            <List.Description>
+                                Current State: {it.state}
+                                <Button name={it.id} icon negative style={{ float: "right" }} onClick={this.handleDeleteModal}>
+                                    <Icon name='close' />
+                                </Button>
+                            </List.Description>
+                        </List.Content>
+                    </List.Item>
                 ))}
             </List>
         )
     }
 
     renderAuthUserInfo() {
-        const {projName, projInfo, accordionState, delIssueModalState, delLabelModalState} = this.state
-        
+        const { projName, projInfo, accordionState, delIssueModalState, delLabelModalState } = this.state
 
-        return (           
+        return (
             <Container text>
                 <Header as='h1'>Project {projName} details</Header>
                 <p>In this area you will be able to see the detailed information of {projName}.
-                    It's properties and issues, you will also be able to edit it, delete it and add more issues. 
+                    It's properties and issues, you will also be able to edit it, delete it and add more issues.
                 </p>
 
-                {this.state.message && 
-                <Message onDismiss={this.handleDismissMessage}>
-                    <Message.Header>{this.state.message}</Message.Header>
-                </Message>
+                {this.state.message &&
+                    <Message onDismiss={this.handleDismissMessage}>
+                        <Message.Header>{this.state.message}</Message.Header>
+                    </Message>
                 }
-                {this.state.error && 
+                {this.state.error &&
                     <Message negative onDismiss={this.handleDismissError}>
                         <Message.Header>{this.state.error}</Message.Header>
                     </Message>
@@ -317,68 +320,52 @@ class ProjectDetailed extends React.Component {
                     <UpdateProjectInfo project={projInfo.details} />
                 </EntityModal>
                 <Accordion fluid>
-                    <Accordion.Title icon='dropdown' content={`Issues of ${projName}:`} style={{fontSize:"25px"}} onClick={this.handleAcccordionClick}/>
+                    <Accordion.Title icon='dropdown' content={`Issues of ${projName}:`} style={{ fontSize: "25px" }} onClick={this.handleAcccordionClick} />
                     <Accordion.Content active={accordionState}>
-                    {projInfo.issues.length <= 0 && 
-                        <Container>
-                        <Message warning>
-                            <Message.Header>No issues started yet.</Message.Header>
-                        </Message>
-                        <br></br>
-                            <CreateEntityModal entity="Issue">
-                                <CreateIssueForm project={projInfo.details}/>
-                            </CreateEntityModal>
-                        <br></br>
-                        </Container>
-                    }
-                    {projInfo.issues.length > 0 &&   
-                        <Container>
-                            <p>Here you can see {projName} issues.
+                        {projInfo.issues.length <= 0 &&
+                            <Container>
+                                <Message warning>
+                                    <Message.Header>No issues started yet.</Message.Header>
+                                </Message>
+                                <br></br>
+                                <CreateEntityModal entity="Issue">
+                                    <CreateIssueForm project={projInfo.details} />
+                                </CreateEntityModal>
+                                <br></br>
+                            </Container>
+                        }
+                        {projInfo.issues.length > 0 &&
+                            <Container>
+                                <p>Here you can see {projName} issues.
                                 Click on them to see their details.
                             </p>
-                            <br></br>
-                            <CreateEntityModal entity="Issue">
-                                <CreateIssueForm project={projInfo.details}/>
-                            </CreateEntityModal>
-                            <br></br>
-                            {this.renderedProjIssues(projInfo)}
-                            <Modal
-                                dimmer="blurring" 
-                                open={delIssueModalState.open}
-                                closeIcon
-                                style={
-                                    {height: "auto", top: "auto", left: "auto", right: "auto", bottom: "auto"}
-                                }
-                                onClose={this.handleDelIssueModalClose}
-                                >
-                                <Modal.Header>Delete Issue {delIssueModalState.issueToDelete}</Modal.Header>
-                                <Modal.Content>
-                                    <p>Are you sure you want to delete issue {delIssueModalState.issueToDelete}?</p>
-                                </Modal.Content>
-                                <Modal.Actions>
-                                    <Button negative labelPosition='right' icon='close' content='No' onClick={this.handleDelIssueModalClose}/>
-                                    <Button name={delIssueModalState.issueToDelete} positive labelPosition='right' icon='checkmark' content='Yes' onClick={this.handleRemoveIssue}/>
-                                </Modal.Actions>
-                            </Modal>
-                        </Container>      
-                    }
+                                <br></br>
+                                <CreateEntityModal entity="Issue">
+                                    <CreateIssueForm project={projInfo.details} />
+                                </CreateEntityModal>
+                                <br></br>
+                                {this.renderedProjIssues(projInfo)}
+
+                                {this.renderIssueDeleteModal(delIssueModalState)}
+                            </Container>
+                        }
                     </Accordion.Content>
                 </Accordion>
             </Container>
-          )
+        )
     }
 
     renderNonAuthInfo() {
         return (
             <Container text>
-              <Header as='h1'>Project Information</Header>
-              <p>In this area you will be able to see the detailed information of a specific project.
-                 It's properties and issues, you will also be able to edit it, delete it and add more issues. 
+                <Header as='h1'>Project Information</Header>
+                <p>In this area you will be able to see the detailed information of a specific project.
+                It's properties and issues, you will also be able to edit it, delete it and add more issues.
               </p>
-              <p>In order to acess this area you need to <a href="/login">login</a> if
+                <p>In order to acess this area you need to <a href="/login">login</a> if
                you already have an account, or <a href="/register">register</a> if you don't.</p>
             </Container>
-          )
+        )
     }
 
 
@@ -406,9 +393,9 @@ class ProjectDetailed extends React.Component {
     }
 
 
-  render() {
-    return this.state.auth ? this.renderAuthUserInfo() : this.renderNonAuthInfo()
-  }
+    render() {
+        return this.state.auth ? this.renderAuthUserInfo() : this.renderNonAuthInfo()
+    }
 
 }
 
