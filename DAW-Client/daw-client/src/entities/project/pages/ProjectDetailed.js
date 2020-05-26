@@ -140,8 +140,8 @@ class ProjectDetailed extends React.Component {
     }
 
 
-    handleDeleteLabelModal = (e, { name }) => {
-        this.setState({ delLabelModalState: { open: true, labelToDelete: name } })
+    handleDeleteLabelModal = (e, { labelName }) => {
+        this.setState({ delLabelModalState: { open: true, labelToDelete: labelName } })
     }
 
     handleDeleleteLabelModalClose = () => {
@@ -242,28 +242,27 @@ class ProjectDetailed extends React.Component {
     }
 
     renderedProjDetails(projInfo, delLabelModalState) {
-        console.log(projInfo)
         return (
             <List>
                 <List.Item>
-                    <List.Icon name="keyboard" />
-                    <List.Content>
-                        <List.Header>Description:</List.Header>
-                        <List.Description>{projInfo.details.descr}</List.Description>
-                    </List.Content>
+                        <Label color="blue" horizontal content="Description" icon="keyboard" size="large" />
+                        {projInfo.details.descr}
+                        <EntityModal entity="Project Info" icon="edit">
+                            <UpdateProjectInfo project={projInfo.details} />
+                        </EntityModal>
                 </List.Item>
-
-                <ListLabelsWithDeleteComponent labels={projInfo.details.labels} handlerDelete={this.handleDeleteLabelModal} />
+                <EntityModal entity="Project Label" icon="plus">
+                        <CreateLabelForm project={projInfo.details} />
+                </EntityModal>
+                <ListLabelsWithDeleteComponent labels={projInfo.details.labels} handlerDelete={this.handleDeleteLabelModal}/>
                 
                 {this.renderLabelDeleteModal(delLabelModalState)}
 
-                <CreateEntityModal entity="Project Label">
-                    <CreateLabelForm project={projInfo.details} />
-                </CreateEntityModal>
                 <List.Item>
                     <Label color="blue" horizontal content="Initial State" icon="play" size="large" />
                     {projInfo.details.initstate}
                 </List.Item>
+
                 <ListStatesComponent states={projInfo.details.states} />
                 <ListTransitionsComponent transitions={projInfo.details.transitions} />
             </List>
@@ -280,12 +279,10 @@ class ProjectDetailed extends React.Component {
                             <List.Header as='a' style={{ fontSize: "20px" }} href={`/issues/${it.id}/details`}>{it.name}</List.Header>
                             <List.Description>
                                 {it.descr}
+                                <Button name={it.id} icon="delete" basic style={{ float: "right" }} onClick={this.handleDeleteModal}></Button>
                             </List.Description>
                             <List.Description>
                                 Current State: {it.state}
-                                <Button name={it.id} icon negative style={{ float: "right" }} onClick={this.handleDeleteModal}>
-                                    <Icon name='close' />
-                                </Button>
                             </List.Description>
                         </List.Content>
                     </List.Item>
@@ -316,9 +313,6 @@ class ProjectDetailed extends React.Component {
                 }
                 <Header as='h2'>Details:</Header>
                 {projInfo.details && (this.renderedProjDetails(projInfo, delLabelModalState))}
-                <EntityModal entity="Project Info">
-                    <UpdateProjectInfo project={projInfo.details} />
-                </EntityModal>
                 <Accordion fluid>
                     <Accordion.Title icon='dropdown' content={`Issues of ${projName}:`} style={{ fontSize: "25px" }} onClick={this.handleAcccordionClick} />
                     <Accordion.Content active={accordionState}>
@@ -336,17 +330,19 @@ class ProjectDetailed extends React.Component {
                         }
                         {projInfo.issues.length > 0 &&
                             <Container>
-                                <p>Here you can see {projName} issues.
-                                Click on them to see their details.
-                            </p>
-                                <br></br>
-                                <CreateEntityModal entity="Issue">
+                                <EntityModal entity="Issue" icon="plus" floated="left" size="big">
                                     <CreateIssueForm project={projInfo.details} />
-                                </CreateEntityModal>
-                                <br></br>
+                                </EntityModal>
+                                <br/>
+                                <br/>
+                                
                                 {this.renderedProjIssues(projInfo)}
 
                                 {this.renderIssueDeleteModal(delIssueModalState)}
+
+                                <br/>
+                                <br/>
+                                <br/>
                             </Container>
                         }
                     </Accordion.Content>

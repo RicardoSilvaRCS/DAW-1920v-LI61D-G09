@@ -13,7 +13,6 @@ function representIssueDetails ({issue}) {
     const creationDate = formatDate(new Date(issue.creationDate))
     const updateDate = formatDate(new Date(issue.updateDate))
     const closeDate = formatDate(new Date(issue.closeDate))
-
     return(
         <List divided selection>
             <List.Item>

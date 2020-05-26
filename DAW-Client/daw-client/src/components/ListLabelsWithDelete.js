@@ -14,15 +14,10 @@ function listLabelsWithDelete ({labels, handlerDelete}) {
                         <List.List>
                             {labels.map((label) => (
                                 <List.Item key={`${label}`}>
-                                    <List.Icon name='tag' size='small' verticalAlign='middle' />
                                     <List.Content>
                                         <List.Description>
-                                            {label}
-                                            <Button name={label} icon negative style={{ float: "right"}} onClick={handlerDelete}>
-                                                    <Icon name='close' />
-                                                </Button>
+                                            <Label labelName={label} onRemove={handlerDelete} content={label} tag></Label>
                                         </List.Description>
-
                                     </List.Content>
                                 </List.Item>
                             ))}

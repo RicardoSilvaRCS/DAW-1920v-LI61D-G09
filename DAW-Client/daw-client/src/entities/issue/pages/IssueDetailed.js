@@ -27,14 +27,14 @@ class IssueDetailed extends React.Component {
         const getIssueDetailsResponse = await IssueServices.getIssueDetails(issueId)
     
         const getIssueDetailsContent = await getIssueDetailsResponse.json()
-       
+        
         if(getIssueDetailsResponse.status === 200) {
             const issueInfo = getIssueDetailsContent.properties
 
             const getIssueCommentsResponse = await CommentServices.getIssueComments(issueId)
             
             const getIssueCommentsContent = await getIssueCommentsResponse.json()
-    
+
             if(getIssueCommentsResponse.status === 200) {
                 const issueComments = []
                 getIssueCommentsContent.forEach(comment => {

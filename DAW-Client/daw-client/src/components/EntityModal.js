@@ -7,7 +7,9 @@ class UpdateEntityModal extends React.Component {
         super(props)
         this.state = {
             entity: props.entity,
-            icon : props.icon
+            icon : props.icon,
+            floated : props.floated,
+            size : props.size
         }
         
     }
@@ -20,7 +22,7 @@ class UpdateEntityModal extends React.Component {
         return (
             <Modal 
                 dimmer="blurring"  
-                trigger={<Button icon={this.state.icon || "wheelchair"} floated="right" compact></Button>} 
+                trigger={<Button icon={this.state.icon || "wheelchair"} basic floated={this.state.floated || "right"} size={this.state.size || "tiny"} compact></Button>} 
                 style={
                     {height:"auto" , top: "auto", left: "auto", right: "auto", bottom: "auto"}
                 }
