@@ -1,5 +1,6 @@
 import React from 'react';
-import {List,Label,Icon} from "semantic-ui-react";
+import {List,Label} from "semantic-ui-react";
+import { Link } from 'react-router-dom'
 
 /*Components*/
 import ListStatesComponent from '../../../components/ListStates'
@@ -20,7 +21,7 @@ function representIssueDetails ({issue}) {
                 {issue.name}
 
                 <UpdateEntityModal entity="Update Issue Info" icon="pencil">
-                                <UpdateIssueInfo issue={issue}/>
+                    <UpdateIssueInfo issue={issue}/>
                 </UpdateEntityModal>
 
             </List.Item>
@@ -49,13 +50,13 @@ function representIssueDetails ({issue}) {
             </List.Item>
             <List.Item>
                 <Label color="blue" horizontal content="Project Name" icon="calendar" size="large"/>
-                <a href={`/projects/${issue.projname}/details`}>{issue.projname}</a>
+                <Link to={`/projects/${issue.projname}/details`}>{issue.projname}</Link>
             </List.Item>
                 <ListLabelsComponent labels={issue.labels}/>
                 <List.Item>
                     <Label color="blue" horizontal content="Current State" icon="play" size="large"/>
                     <UpdateEntityModal entity="Issue State" icon="pencil">
-                                <UpdateIssueStateForm issue={issue}/>
+                        <UpdateIssueStateForm issue={issue}/>
                     </UpdateEntityModal>
                     {issue.currState}
                 </List.Item>

@@ -15,7 +15,7 @@ class UpdateEntityModal extends React.Component {
     }
 
     async handleClose() {
-        window.location.reload(false)
+        
     }
 
     render() {

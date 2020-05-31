@@ -16,50 +16,29 @@ import IssueDetailed from './entities/issue/pages/IssueDetailed'
 
 /* Components Import */
 import { Container } from 'semantic-ui-react'
-
 import * as serviceWorker from './serviceWorker';
+import {AppContextProvider} from './context/AppContext'
+import NavigationBar from './components/NavigationBar'
 
 ReactDOM.render(
   <Router>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="/">SPGE</a>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          
-          <li className="nav-item">
-            <a className="nav-link" href="/register">Sign Up</a>
-          </li>
-
-          <li className="nav-item">
-            <a className="nav-link" href="/login">Login</a>
-          </li>
-
-          <li className="nav-item">
-            <a className="nav-link" href="/projects">Projects</a>
-          </li> 
-
-          <li className="nav-item">
-            <a className="nav-link" href="/about">About</a>
-          </li>
-
-        </ul>
-      </div>
-    </nav>
-
-    <Container fluid>
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/projects" component={ProjectIntro} />       
-        <Route exact path="/projects/:projName/details" component={ProjectDetailed}/>
-        <Route exact path="/projects/:projName/issues" component={ProjectIssues}/>
-        <Route exact path="/issues/:issueId/details" component={IssueDetailed}/>
-      </Switch>
-    </Container>
-  </Router>,
+    <AppContextProvider>
+      <NavigationBar/>
+      <Container fluid>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/projects" component={ProjectIntro} />       
+          <Route exact path="/projects/:projName/details" component={ProjectDetailed}/>
+          <Route exact path="/projects/:projName/issues" component={ProjectIssues}/>
+          <Route exact path="/issues/:issueId/details" component={IssueDetailed}/>
+        </Switch>
+      </Container>
+    </AppContextProvider>
+  </Router>
+  ,
   document.getElementById('root')
 );
 

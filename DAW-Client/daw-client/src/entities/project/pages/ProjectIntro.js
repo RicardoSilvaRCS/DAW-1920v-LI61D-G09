@@ -1,17 +1,20 @@
 import React from 'react';
 import { Container, Header, Icon, Message, Modal, List, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import ProjectServices from '../ProjectServices'
 /* Components Import*/
 import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateProjectForm from './CreateProjectForm'
+import {AppContext} from '../../../context/AppContext'
 
 class ProjectIntro extends React.Component {
 
-    //For now, since we don't have the auth done, to test each render (auth and nonauth) just change the property "auth" in the state object
+    //Visto o context so se manter quando n se faz refresh, tive de retirar o refresh do Modal pq senao perdiamos o login
+    //Para tal por agora qnd se fecha o Modal da criaçao de project, nao aparece o novo projeto criado
 
 
     getUserProjects = async () => {
-      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser("Joao")
+      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser(this.context.authUserName)
       console.log("[ProjectIntroPage] Response received on the Get Projects Request:")
       console.log(getProjOfUserResponse)
       if(getProjOfUserResponse.status === 200) {
@@ -49,7 +52,7 @@ class ProjectIntro extends React.Component {
           this.setState({error: "Project selected doesn't exist. Try again later."})
           return
         }
-        let deleteProjectResponse = await ProjectServices.deleteProject(projToDelete.name)
+        let deleteProjectResponse = await ProjectServices.deleteProjectOfUser(projToDelete.name)
         console.log("[ProjectIntroPage] Response received on Delete Project Request:")
         console.log(deleteProjectResponse)
         //Remember that if the request sends a projectName for a project that doesn't exist, the Server assumes it was deleted w/ sucess, even if the proj doesn't exist
@@ -125,7 +128,9 @@ class ProjectIntro extends React.Component {
                       <List.Item key={it.name}>
                       <List.Icon name='clipboard list' size='large' verticalAlign='middle' />
                       <List.Content>
-                          <List.Header as='a' href={`/projects/${it.name}/details`}>{it.name}</List.Header>
+                          <List.Header>
+                            <Link to={`/projects/${it.name}/details`}>{it.name}</Link>
+                          </List.Header>
                           <List.Description as='p'>
                             {it.descr}
                             <Button name={it.name} icon negative style={{float: "right"}} onClick={this.handleDeleteModal}>
@@ -181,7 +186,6 @@ class ProjectIntro extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            auth: true,
             projects: [],
             error: null,
             message: null,
@@ -194,9 +198,11 @@ class ProjectIntro extends React.Component {
 
 
   render() {
-    return this.state.auth ? this.renderAuthUserInfo() : this.renderNonAuthInfo()
+    return this.context.isAuth ? this.renderAuthUserInfo() : this.renderNonAuthInfo()
   }
 
 }
+
+ProjectIntro.contextType = AppContext
 
 export default ProjectIntro;

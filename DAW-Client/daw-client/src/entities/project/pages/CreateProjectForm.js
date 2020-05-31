@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Message, Container, Button, Icon } from 'semantic-ui-react'
 import ProjectServices  from '../ProjectServices'
 import ProjectDataModels from '../ProjectDataModels'
+import {AppContext} from '../../../context/AppContext'
 
 
 /**
@@ -23,7 +24,7 @@ class CreateProjectForm extends React.Component {
             return
         }
         const createProjectResponse = await ProjectServices
-            .createProjectOfUser("Joao", 
+            .createProjectOfUser(this.context.authUserName, 
                                 ProjectDataModels.projectCreationDataModel(
                                     this.state.projname,
                                     this.state.descr,
@@ -278,4 +279,6 @@ class CreateProjectForm extends React.Component {
 
 }
   
+CreateProjectForm.contextType = AppContext
+
 export default CreateProjectForm

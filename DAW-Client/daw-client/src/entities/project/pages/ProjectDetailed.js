@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Accordion, Button, Container, Header, Icon, Message, Modal, List, Label } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import ProjectServices from '../ProjectServices';
 import IssuesServices from '../../issue/IssueServices'
 
@@ -15,6 +16,7 @@ import UpdateProjectInfo from './UpdateProjectForm'
 import ListStatesComponent from '../../../components/ListStates'
 import ListLabelsWithDeleteComponent from '../../../components/ListLabelsWithDelete'
 import ListTransitionsComponent from '../../../components/ListTransitions'
+import { AppContext } from '../../../context/AppContext';
 
 
 class ProjectDetailed extends React.Component {
@@ -276,7 +278,9 @@ class ProjectDetailed extends React.Component {
                     <List.Item key={it.name}>
                         <List.Icon name='file' size='big' verticalAlign='middle' />
                         <List.Content>
-                            <List.Header as='a' style={{ fontSize: "20px" }} href={`/issues/${it.id}/details`}>{it.name}</List.Header>
+                            <List.Header style={{ fontSize: "20px" }}>
+                                <Link to={`/issues/${it.id}/details`}>{it.name}</Link>
+                            </List.Header>    
                             <List.Description>
                                 {it.descr}
                                 <Button name={it.id} icon="delete" basic style={{ float: "right" }} onClick={this.handleDeleteModal}></Button>
@@ -383,16 +387,17 @@ class ProjectDetailed extends React.Component {
                 labelToDelete: ''
             },
             error: null,
-            message: null,
-            auth: true
+            message: null
         }
     }
 
 
     render() {
-        return this.state.auth ? this.renderAuthUserInfo() : this.renderNonAuthInfo()
+        return this.context.isAuth ? this.renderAuthUserInfo() : this.renderNonAuthInfo()
     }
 
 }
+
+ProjectDetailed.contextType = AppContext
 
 export default ProjectDetailed;

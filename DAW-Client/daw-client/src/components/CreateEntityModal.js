@@ -3,6 +3,7 @@ import { Button, Modal } from 'semantic-ui-react'
 
 class CreateEntityModal extends React.Component {
 
+    //Talvez receber nos props a funçao de onClose para poder voltar a carregar os projetos/issues ou wtv de novo.
     constructor(props) {
         super(props)
         this.state = {
@@ -12,7 +13,7 @@ class CreateEntityModal extends React.Component {
     }
 
     async handleClose() {
-        window.location.reload(false)
+        
     }
 
     render() {

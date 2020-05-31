@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container,Header ,Divider} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 /*Services */
 import IssueServices from '../../issue/IssueServices'
@@ -9,6 +10,7 @@ import CommentServices from '../../comment/CommentServices'
 import LoaderComponent from '../../../components/ContentLoader'
 import IssueDetailsComponent from '../components/IssueDetail'
 import ListCommentsComponent from '../../comment/Comments'
+import {AppContext, AppContextConsumer} from '../../../context/AppContext'
 
 class IssueDetailed extends React.Component {
 
@@ -76,24 +78,39 @@ class IssueDetailed extends React.Component {
         const issue = this.state.issueInfo.details 
         const comments = this.state.issueInfo.comments
         return (
-            <Container text>
-                 {!issue && 
-                    <LoaderComponent/>
-                }
-                { issue &&
-                    <Container>
-                        <Header as='h1'>Issue {issue.name} details</Header>
+            <AppContextConsumer>
+                {({isAuth}) => isAuth ? (
+                <Container text>
+                    {!issue && 
+                        <LoaderComponent/>
+                    }
+                    { issue &&
+                        <Container>
+                            <Header as='h1'>Issue {issue.name} details</Header>
                                     
-                        <IssueDetailsComponent issue={issue}/>
+                            <IssueDetailsComponent issue={issue}/>
 
-                        <Divider horizontal>Comments</Divider>
-                        <ListCommentsComponent comments = {comments} issueId ={issue.id}/>
+                            <Divider horizontal>Comments</Divider>
+                            <ListCommentsComponent comments = {comments} issueId ={issue.id}/>
                         
+                        </Container>
+                    }           
+                </Container>
+                )
+                : (
+                    <Container text>
+                        <Header as="h1">Issue Details</Header>
+                        <p>Here you will be able to see the complete details of an Issue.
+                           For that you must <Link to="/register">have an account</Link> or be <Link to="/login">logged in</Link> if you already have one. 
+                        </p>
                     </Container>
-                }
-            </Container>
+
+                )}
+            </AppContextConsumer>
         )
     }
 }
+
+IssueDetailed.contextType = AppContext
 
 export default IssueDetailed

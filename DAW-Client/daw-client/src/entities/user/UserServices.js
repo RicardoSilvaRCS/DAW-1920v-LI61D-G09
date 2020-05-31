@@ -46,10 +46,6 @@ async function loginUser(loginDataModel) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(loginDataModel)
     })
-    //Print dos headers recebidos
-    for (var pair of loginResponse.headers.entries()) {
-        console.log(pair[0]+ ': '+ pair[1]);
-     }
     return loginResponse
 } 
 
