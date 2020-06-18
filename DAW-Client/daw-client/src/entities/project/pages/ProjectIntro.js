@@ -19,6 +19,8 @@ class ProjectIntro extends React.Component {
       console.log(getProjOfUserResponse)
       if(getProjOfUserResponse.status === 200) {
         const getProjectsContent = await getProjOfUserResponse.json()
+        console.log("This is my projects")
+        console.log(getProjectsContent)
         const projectProps = []
         getProjectsContent.forEach(proj => {
           projectProps.push(proj.properties)

@@ -44,10 +44,12 @@ class GetIssue {
                                 val auxCurrState = rs.getString("currstatetran")
                                 val auxNextState = rs.getString("nextstate")
 
-                                if(issue.currState.equals(auxCurrState)){
-                                    issue.possibleNextStates.add(auxNextState)
-                                }else{
-                                    issue.possibleNextStates.add(auxCurrState)
+                                if(issue.currState != "Archived") {
+                                    if (issue.currState.equals(auxCurrState)) {
+                                        issue.possibleNextStates.add(auxNextState)
+                                    } else {
+                                        issue.possibleNextStates.add(auxCurrState)
+                                    }
                                 }
                             } while(rs.next())
                         }

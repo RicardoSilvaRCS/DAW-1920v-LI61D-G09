@@ -87,7 +87,7 @@ class UpdateIssueStateForm extends React.Component {
   render() {
     const {issuename, issueId, currState, possibleNextStates} = this.state
    
-    const availableStates = possibleNextStates.map((state)=>{
+    let availableStates = possibleNextStates.map((state)=>{
         return {
             key: state,
             text: state,
@@ -95,9 +95,7 @@ class UpdateIssueStateForm extends React.Component {
         }
     })
 
-    console.log(availableStates)
-
-      return (
+    return (
         <Container text>
             <Form onSubmit={this.handleSubmit}>
                 {this.state.message && 
@@ -115,11 +113,20 @@ class UpdateIssueStateForm extends React.Component {
                     <h4>Here you can select from the available states:</h4>
                 </FormField>
                 
-                <FormGroup>
-                    <Dropdown placeholder="Select a state" selection key={this.state} name="selectedState" options={availableStates} onChange={this.handleStateChange}/>
-                    
-                    <Form.Button primary icon="save"/>
-                </FormGroup>
+               
+                    {availableStates.length > 0 && 
+                        <FormGroup>
+                            <Dropdown placeholder="Select a state" selection key={this.state} name="selectedState" options={availableStates} onChange={this.handleStateChange}/>
+                            <Form.Button primary icon="save"/>
+                        </FormGroup>
+                    }
+                    {availableStates.length <= 0 && 
+                        <FormGroup>
+                            <Dropdown placeholder="No More States" selection key="noMore" name="No More States" options={availableStates}/>
+                            <Form.Button primary icon="save" disabled="true"/>
+                        </FormGroup>
+                    }
+                
                 
             </Form>
         </Container>
