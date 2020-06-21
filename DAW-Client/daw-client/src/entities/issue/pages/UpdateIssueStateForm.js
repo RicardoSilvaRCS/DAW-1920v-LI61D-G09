@@ -27,12 +27,7 @@ class UpdateIssueStateForm extends React.Component {
     async handleUpdateIssueState () {
 
         if(!this.state.selectedState){
-            this.setState({error: 'Please Select A State.'})
-            return
-        }
-
-        if(!this.state.final) {
-            this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
+            this.setState({error: 'Please select a state.'})
             return
         }
 
@@ -52,10 +47,6 @@ class UpdateIssueStateForm extends React.Component {
 
     handleStateReset() {
         this.setState({
-            issuename: '',
-            issueId: '',
-            currState: '',
-            possibleNextStates:[],
             final: false,
         })
     }
@@ -85,7 +76,7 @@ class UpdateIssueStateForm extends React.Component {
     }
 
   render() {
-    const {issuename, issueId, currState, possibleNextStates} = this.state
+    const {issuename, issueId, currState, possibleNextStates,final} = this.state
    
     let availableStates = possibleNextStates.map((state)=>{
         return {
@@ -112,21 +103,25 @@ class UpdateIssueStateForm extends React.Component {
                 <FormField>
                     <h4>Here you can select from the available states:</h4>
                 </FormField>
-                
                
-                    {availableStates.length > 0 && 
-                        <FormGroup>
-                            <Dropdown placeholder="Select a state" selection key={this.state} name="selectedState" options={availableStates} onChange={this.handleStateChange}/>
+                {availableStates.length > 0 && 
+                    <FormGroup>
+                        <Dropdown placeholder="Select a state" selection key={this.state} name="selectedState" options={availableStates} onChange={this.handleStateChange}/>
+                        {final &&
+                            <Form.Button primary loading disabled={true} />
+                        }
+                        {!final && 
                             <Form.Button primary icon="save"/>
-                        </FormGroup>
-                    }
-                    {availableStates.length <= 0 && 
-                        <FormGroup>
-                            <Dropdown placeholder="No More States" selection key="noMore" name="No More States" options={availableStates}/>
-                            <Form.Button primary icon="save" disabled="true"/>
-                        </FormGroup>
-                    }
-                
+                        }
+                        
+                    </FormGroup>
+                }
+                {availableStates.length <= 0 && 
+                    <FormGroup>
+                        <Dropdown placeholder="No More States" selection key="noMore" name="No More States" options={availableStates}/>
+                        <Form.Button primary icon="save" disabled="true"/>
+                    </FormGroup>
+                }
                 
             </Form>
         </Container>

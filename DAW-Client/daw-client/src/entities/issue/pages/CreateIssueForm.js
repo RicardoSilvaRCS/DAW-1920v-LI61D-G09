@@ -76,12 +76,8 @@ class CreateIssueForm extends React.Component {
                     this.state.currState,
                     this.state.labels
                 ))
-        console.log("[CreateIssueForm] Response received on the Project Issue Creation Request:")
-        console.log(createIssueResponse)
 
         const createIssueContent = await createIssueResponse.json()
-        console.log("[CreateIssueForm] Content of Project Issue Creation response:")
-        console.log(createIssueContent)   
         
         if(createIssueResponse.status === 200) {
             this.setState({message: `Issue ${createIssueContent.properties.name} created`}, this.handleStateReset)
@@ -159,7 +155,7 @@ class CreateIssueForm extends React.Component {
 
       return (
         <Container text>
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
                 {this.state.message && 
                     <Message onDismiss={this.handleDismissMessage}>
                         <Message.Header>{this.state.message}</Message.Header>
@@ -176,7 +172,12 @@ class CreateIssueForm extends React.Component {
                 <p>Here you can select from the available labels:</p>
                 {renderLabels}
                 <Button secondary style={{marginBottom: "10px"}} onClick={this.handleAddLabel}>Add label</Button>
-                <Form.Button primary content='Create Issue'/>
+                {!this.state.final && 
+                    <Form.Button primary content='Create Issue' onClick={this.handleSubmit}/>
+                }
+                {this.state.final && 
+                    <Form.Button primary loading disabled={true}/>
+                }
             </Form>
         </Container>
       )

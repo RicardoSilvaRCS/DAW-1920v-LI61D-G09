@@ -4,7 +4,6 @@ import UserPaths from './UserPaths'
 const host = ServerInfo.serverHost
 
 async function findUsers(startName) {
-    console.log(`UserService.findUsers(${startName})`)
     const findUsersResponse = await fetch(`http://${host}${UserPaths.findUsersPath(startName)}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
@@ -13,7 +12,6 @@ async function findUsers(startName) {
 } 
 
 async function getUserDetails(userName) {
-    console.log(`UserService.getUserDetails(${userName})`)
     const getUserDetailsResponse = await fetch(`http://${host}${UserPaths.getUserDetailsPath(userName)}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
@@ -22,7 +20,6 @@ async function getUserDetails(userName) {
 } 
 
 async function registerUser(registerDataModel) {
-    console.log(`UserService.registerUser(${registerDataModel})`)
     const registerResponse = await fetch(`http://${host}${UserPaths.registerPath}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,7 +37,6 @@ async function deleteUser(userName) {
 }
 
 async function loginUser(loginDataModel) {
-    console.log(`UserService.loginUser(${loginDataModel})`)
     const loginResponse = await fetch(`http://${host}${UserPaths.loginPath}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

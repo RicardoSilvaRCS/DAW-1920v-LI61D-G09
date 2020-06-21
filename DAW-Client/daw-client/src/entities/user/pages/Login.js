@@ -12,27 +12,24 @@ class Login extends React.Component {
      * In this stage we dont need anything from the response content, we just need to know the status code
      */
     handleSubmit = () => {
-        this.setState({ final: true }, this.handleLogin)
+        this.setState({ final: false }, this.handleLogin)
     }
 
     async handleLogin() {
-        if(!this.state.final) {
-            this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
-            return
-        }
+        
         const loginResponse = await UserServices.loginUser(UserDataModels.loginDataModel(this.state.username, this.state.password)) 
-        console.log("[LoginPage] Response received on the Login request:")
-        console.log(loginResponse)
         //If login was sucessfull, redirect to his projects, if it fails show message and keep in login page
         if(loginResponse.status === 202) {
             let authenticationHeader = loginResponse.headers.get("authorization")
-            console.log("Authorization Header received:")
-            console.log(authenticationHeader)
             this.context.login(authenticationHeader, this.state.username)
             this.props.history.push('/projects')
-        } else {
+        }else if(loginResponse.status >= 500) {
+            this.setState({error: 'An error occured while trying to login please try again later'})
+            
+        }else {
             this.setState({error: 'Credentials are incorrect. Try again.'})
         }
+        this.setState({final : true})
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -50,7 +47,7 @@ class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            final: false,
+            final: true,
             message: '',
             error: ''
         }
@@ -84,7 +81,12 @@ class Login extends React.Component {
                     <Form.Group>
                         <Form.Input required icon='user' iconPosition='left' placeholder='Username' name='username' value={username} onChange={this.handleChange}/>
                         <Form.Input required icon='key' iconPosition='left' placeholder='Password' name='password' value={password} type="password" onChange={this.handleChange}/>
-                        <Form.Button content='Login' />
+                        {this.state.final &&
+                            <Form.Button content='Login' />
+                        }
+                        {!this.state.final &&
+                            <Form.Button basic loading disabled={true}/> 
+                        }
                     </Form.Group>
                 </Form>
             </Container>

@@ -32,11 +32,8 @@ class CreateProjectForm extends React.Component {
                                     this.state.initstate,
                                     this.state.transitions
                                 ))
-        console.log("[CreateProjectForm] Response received on the Project Creation Request:")
-        console.log(createProjectResponse)
+        
         const createProjectContent = await createProjectResponse.json()
-        console.log("[CreateProjectForm] Content of Project Creation response:")
-        console.log(createProjectContent)
         if(createProjectResponse.status === 200) {
             this.setState({message: `Project ${createProjectContent.properties.name} created`}, this.handleStateReset)
         } else {
@@ -97,7 +94,7 @@ class CreateProjectForm extends React.Component {
         let id_name = name.split(":")
         let transid = parseInt(id_name[0])
         let transtype = id_name[1]
-        console.log(id_name)
+        
         this.setState(state => {
             const list = state.transitions.map(item => {
                 console.log(item)

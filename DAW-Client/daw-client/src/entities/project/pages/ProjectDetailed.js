@@ -8,7 +8,6 @@ import IssuesServices from '../../issue/IssueServices'
 
 /*Components*/
 
-import CreateEntityModal from '../../../components/CreateEntityModal'
 import CreateIssueForm from '../../issue/pages/CreateIssueForm'
 import CreateLabelForm from './CreateLabelForm'
 import EntityModal from '../../../components/EntityModal'
@@ -35,23 +34,15 @@ class ProjectDetailed extends React.Component {
         }
 
         const getProjDetailsResponse = await ProjectServices.getProjectDetails(projName)
-        console.log("[ProjectDetailedPage] Response received on Project Details Request:")
-        console.log(getProjDetailsResponse)
 
         const getProjDetailsContent = await getProjDetailsResponse.json()
-        console.log("[ProjectDetailedPage] Content of Get Project Details response:")
-        console.log(getProjDetailsContent)
 
         if (getProjDetailsResponse.status === 200) {
             const projInfo = getProjDetailsContent.properties
 
             const getProjIssuesResponse = await IssuesServices.getProjectIssues(projName)
-            console.log("[ProjectDetailedPage] Response received on Project Issues Request:")
-            console.log(getProjIssuesResponse)
 
             const getProjIssuesContent = await getProjIssuesResponse.json()
-            console.log("[ProjectDetailedPage] Content of Get Project Issues response:")
-            console.log(getProjIssuesContent)
 
             if (getProjIssuesResponse.status === 200) {
                 const projIssues = []
@@ -118,8 +109,6 @@ class ProjectDetailed extends React.Component {
             return
         }
         let deleteIssueResponse = await IssuesServices.deleteIssue(issueToDelete.id)
-        console.log("[ProjectDetailedPage] Response received on the Delete Issue Request:")
-        console.log(deleteIssueResponse)
         //Remember that if the request sends an id for an Issue that doesn't exist, the Server assumes it was deleted w/ sucess, even if the issue doesn't exist
         if (deleteIssueResponse.status === 200) {
             this.setState(state => {
@@ -154,8 +143,6 @@ class ProjectDetailed extends React.Component {
         let labelToDelete = name
         let projectName = this.state.projName
 
-        console.log(labelToDelete)
-
         //ver qual a mensagem de erro
         if (!labelToDelete) {
             this.setState({ error: "Label selected doesn't exist. Try again later." })
@@ -163,9 +150,6 @@ class ProjectDetailed extends React.Component {
         }
 
         let deleteLabelResponse = await ProjectServices.deleteProjectLabel(projectName, labelToDelete)
-
-        console.log("[ProjectDetailedPage] Response received on the Delete Page Request:")
-        console.log(deleteLabelResponse)
 
         if (deleteLabelResponse.status === 200) {
             this.setState(state => {
@@ -188,8 +172,6 @@ class ProjectDetailed extends React.Component {
             })
         } else {
             let deleteLabelContent = await deleteLabelResponse.json()
-            console.log("[ProjectDetailedPage] Content of Delete Label response:")
-            console.log(deleteLabelContent)
             this.setState({
                 error: deleteLabelContent.properties.detail,
                 delLabelModalState: { open: false, labelToDelete: '' }
@@ -322,14 +304,13 @@ class ProjectDetailed extends React.Component {
                     <Accordion.Content active={accordionState}>
                         {projInfo.issues.length <= 0 &&
                             <Container>
+                                <EntityModal entity="Issue" icon="plus" floated="left" size="big">
+                                    <CreateIssueForm project={projInfo.details} />
+                                </EntityModal>
+                                <br></br><br></br>
                                 <Message warning>
                                     <Message.Header>No issues started yet.</Message.Header>
-                                </Message>
-                                <br></br>
-                                <CreateEntityModal entity="Issue">
-                                    <CreateIssueForm project={projInfo.details} />
-                                </CreateEntityModal>
-                                <br></br>
+                                </Message> 
                             </Container>
                         }
                         {projInfo.issues.length > 0 &&

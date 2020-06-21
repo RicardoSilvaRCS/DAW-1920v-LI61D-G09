@@ -22,12 +22,13 @@ class Comments extends React.Component {
             comment : '',
             comments : comments,
             issueId : issueId,
-            isAtualizated : true
+            isAtualizated : true,
+            final: false
         }
     }
 
     representIssueComments () {
-        const {comment} = this.state
+        const {comment,final} = this.state
         return(
             <Comment.Group>
                 {this.state.message && 
@@ -59,7 +60,12 @@ class Comments extends React.Component {
                 }
                 <Form onSubmit={this.handleSubmit}>
                     <Form.TextArea placeholder="Write your comment" name='comment' value={comment} onChange={this.handleChange}/>
-                    <Form.Button primary icon="plus" content="Add Comment"/>
+                    {final && 
+                        <Form.Button primary loading/>
+                    }{!final && 
+                        <Form.Button primary icon="plus" content="Add Comment"/>
+                    }
+                    
                 </Form>
             </Comment.Group>
         )
@@ -94,10 +100,10 @@ class Comments extends React.Component {
         }
         else{
             const comments = await this.getIssueComments(issueId)
-            console.log(comments)
             this.setState({
                 comments : comments,
-                comment : ''
+                comment : '',
+                final : false
             })
         }
     }
@@ -124,7 +130,7 @@ class Comments extends React.Component {
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
     handleSubmit = () => {
-        this.setState( {} , this.handleCommentCreation)
+        this.setState( {final:true} , this.handleCommentCreation)
     }
 
 }

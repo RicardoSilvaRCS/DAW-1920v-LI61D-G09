@@ -3,7 +3,7 @@ import { Container, Header, Icon, Message, Modal, List, Button } from 'semantic-
 import { Link } from 'react-router-dom'
 import ProjectServices from '../ProjectServices'
 /* Components Import*/
-import CreateEntityModal from '../../../components/CreateEntityModal'
+import CreateEntityModal from '../../../components/EntityModal'
 import CreateProjectForm from './CreateProjectForm'
 import {AppContext} from '../../../context/AppContext'
 
@@ -101,8 +101,12 @@ class ProjectIntro extends React.Component {
     renderAuthUserInfo() {
       const delProjModalState = this.state.delProjModalState
         return (
-            <Container text>      
+            <Container text>   
+              <CreateEntityModal entity="Project" icon="plus" floated="right" size="big" >
+                  <CreateProjectForm />
+              </CreateEntityModal>   
               <Header as='h1'>Projects</Header>
+              
               {this.state.message && 
                 <Message onDismiss={this.handleDismissMessage}>
                     <Message.Header>{this.state.message}</Message.Header>
@@ -146,9 +150,6 @@ class ProjectIntro extends React.Component {
                 </Container>      
               }
               <br/>
-              <CreateEntityModal entity="Project">
-                  <CreateProjectForm />
-              </CreateEntityModal>
               <Modal
               dimmer="blurring" 
               open={delProjModalState.open}

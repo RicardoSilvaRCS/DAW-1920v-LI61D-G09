@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button, Modal } from 'semantic-ui-react'
 
-class UpdateEntityModal extends React.Component {
+class EntityModal extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
+            header : props.header,
             entity: props.entity,
             icon : props.icon,
             floated : props.floated,
@@ -15,7 +16,7 @@ class UpdateEntityModal extends React.Component {
     }
 
     async handleClose() {
-        
+        window.location.reload(true);
     }
 
     render() {
@@ -27,7 +28,7 @@ class UpdateEntityModal extends React.Component {
                     {height:"auto" , top: "auto", left: "auto", right: "auto", bottom: "auto"}
                 }
                 onClose={this.handleClose}>
-                <Modal.Header>Update {this.state.entity}</Modal.Header>
+                <Modal.Header>{this.state.header ||"Update"} {this.state.entity}</Modal.Header>
                 <Modal.Content scrolling={true}>
                     {this.props.children}
                 </Modal.Content>
@@ -37,4 +38,4 @@ class UpdateEntityModal extends React.Component {
 
 }
   
-export default UpdateEntityModal
+export default EntityModal

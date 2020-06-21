@@ -15,7 +15,8 @@ class CreateIssueForm extends React.Component {
             projname: issue.projname,
             descr : "",
             error: null,
-            message: null
+            message: null,
+            final : false
         }
     }
 
@@ -27,7 +28,6 @@ class CreateIssueForm extends React.Component {
 
     async handleIssueUpdate () {
         const issueToUpdate = this.state
-        console.log(issueToUpdate)
 
         if(!issueToUpdate.name && !issueToUpdate.descr){
             this.setState({error: 'Please insert something to update'})
@@ -44,11 +44,9 @@ class CreateIssueForm extends React.Component {
         )
 
         const updateIssueContent = await updateIssueResponse.json()
-        
-        console.log("this is the response status "+ updateIssueContent.status)
 
         if(updateIssueResponse.status === 200) {
-            this.setState({message: `Issue ${updateIssueContent.properties.id} updated`}, this.handleStateReset)
+            this.setState({message: `Issue updated`}, this.handleStateReset)
         } else {
             this.setState({error: updateIssueContent.properties.detail})
         }
@@ -63,11 +61,10 @@ class CreateIssueForm extends React.Component {
     }
 
     handleStateReset() {
-        console.log("hey")
         this.setState({
-            issuename: '',
-            projname: '',
+            name: '',
             descr: '',
+            final : false
         })
     }
 
@@ -90,8 +87,12 @@ class CreateIssueForm extends React.Component {
             <Form.Input fluid name="name" value={name} label='Issue Name' placeholder='Issue Name' onChange={this.handleChange}/>
             
             <Form.TextArea name="descr" value={descr} label='Description' placeholder='Write your description' onChange={this.handleChange} />
-            
-            <Form.Button primary icon="save" />
+            {!this.state.final &&
+                <Form.Button primary icon="save" />
+            }
+            {this.state.final &&
+                <Form.Button basic loading/>
+            }
         </Form>
       )
   }
