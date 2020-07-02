@@ -48,7 +48,7 @@ class UsersServices (private val userRepo : UsersRepository) {
 
     fun updateUser( user : UserUpdateInputModel) : UserUpdatedResponse {
         val checkUser = userRepo.getUserInfo(user.userName)
-        if(checkUser.fullName.isNullOrEmpty()) {
+        if(!checkUser.fullName.isNullOrEmpty()) {
             return userRepo.updateUser(user)
         }
         throw UserNotFoundException("No user found with ${user.userName} name.")
