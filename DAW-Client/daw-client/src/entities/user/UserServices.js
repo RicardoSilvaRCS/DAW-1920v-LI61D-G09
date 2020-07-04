@@ -11,10 +11,13 @@ async function findUsers(startName) {
     return findUsersResponse
 } 
 
-async function getUserDetails(userName) {
+async function getUserDetails(userName, authorizationToken) {
     const getUserDetailsResponse = await fetch(`http://${host}${UserPaths.getUserDetailsPath(userName)}`, {
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authorizationToken
+        }
     })
     return getUserDetailsResponse
 } 
@@ -28,11 +31,11 @@ async function registerUser(registerDataModel) {
     return registerResponse
 } 
 
-async function updateUser(updateUserDataModel) {
+async function updateUser(updateUserDataModel, authorizationToken) {
     throw (`TODO: Implement UserServices.updateUser(${updateUserDataModel})`)
 }
 
-async function deleteUser(userName) {
+async function deleteUser(userName, authorizationToken) {
     throw (`TODO: Implement UserServices.deleteUser(${userName})`)
 }
 
@@ -49,15 +52,15 @@ async function logoutUser(logoutDataModel) {
     throw (`TODO: Implement UserServices.logoutUser(${logoutDataModel})`)
 }
 
-async function addUserToProject(addUserToProjectDataModel) {
+async function addUserToProject(addUserToProjectDataModel, authorizationToken) {
     throw (`TODO: Implement UserServices.addUserToProject(${addUserToProjectDataModel})`)
 }
 
-async function getFriendslist(userName) {
+async function getFriendslist(userName, authorizationToken) {
     throw (`TODO: Implement UserServices.getFriendslist(${userName})`)
 }
 
-async function addFriend(addFriendDataModel) {
+async function addFriend(addFriendDataModel, authorizationToken) {
     throw (`TODO: Implement UserServices.addFriend(${addFriendDataModel})`)
 }
 

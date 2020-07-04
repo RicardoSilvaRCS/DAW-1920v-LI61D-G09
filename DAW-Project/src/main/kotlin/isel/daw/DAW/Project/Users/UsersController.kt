@@ -44,11 +44,13 @@ class UsersController (val userServices : UsersServices) {
         return userServices.createUser(newUser).toSirenObject()
     }
 
+    @AuthRequired
     @PutMapping(UPDATE_USER_INFO)
     fun updateUser(@RequestBody user : UserUpdateInputModel) : SirenEntity<UserUpdatedResponse>{
         return userServices.updateUser(user).toSirenObject()
     }
 
+    @AuthRequired
     @DeleteMapping(DELETE_USER)
     fun deleteUser(@PathVariable userName : String) : SirenEntity<UserDeletedResponse>{
         return userServices.deleteUser(userName).toSirenObject()
@@ -77,20 +79,21 @@ class UsersController (val userServices : UsersServices) {
 
     }
 
+    @AuthRequired
     @PutMapping(LOG_OUT_USER_PATH)
     fun logoutUser() {
         throw NotImplementedError("TODO!")
     }
 
     /**USER ASSOCIATION WITH PROJECT**/
-
+    @AuthRequired
     @PutMapping(ADD_USER_TO_PROJECT)
     fun addUserToProject(@PathVariable userName : String , @PathVariable pname : String) : SirenEntity<UserAddedToProjectResponse> {
         return userServices.addUserToProject(userName , pname).toSirenObject()
     }
 
     /**FRIENDS SECTION**/
-
+    @AuthRequired
     @GetMapping(GET_USER_FRIENDS_LIST)
     fun getFriends(@PathVariable userName : String) : List<SirenEntity<UsersNameOutputModel>>{
         val friends: MutableList<SirenEntity<UsersNameOutputModel>> = mutableListOf()
@@ -99,7 +102,7 @@ class UsersController (val userServices : UsersServices) {
         }
         return friends
     }
-
+    @AuthRequired
     @PutMapping(ADD_USER_TO_FRIENDS_LIST)
     fun addUserToFriendsList(@PathVariable userName : String , @PathVariable friendName : String) : SirenEntity<UserAddedToFriendsList>{
         return userServices.addUserToFriendsList(userName , friendName).toSirenObject()

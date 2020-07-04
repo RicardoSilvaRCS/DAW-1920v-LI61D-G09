@@ -61,9 +61,12 @@ class AuthInterceptor(private val usersServices: UsersServices) : HandlerInterce
 		logger.info("[preHandle][Method:${request.method}][URI:${request.requestURI}]")
 
 		if(handler is HandlerMethod && handler.hasMethodAnnotation(AuthRequired::class.java)) {
-			val authHeader = request.getHeader(AUTH_HEADER)?.split(" ")
+			val authHeader = request.getHeader(AUTH_HEADER)?.split(",")
+			/**
+			 * Find out why the second header value has a " " before the value.
+			 */
 			if(authHeader != null) {
-				if(authHeader[0].toLowerCase() == "basic" && usersServices.validateUserCredentials(authHeader[1])) {
+				if(authHeader[0].toLowerCase() == "basic" && usersServices.validateUserCredentials(authHeader[1].replace(" ", ""))) {
 					return true
 				}
 			}

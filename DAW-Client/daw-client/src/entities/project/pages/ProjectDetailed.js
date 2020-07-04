@@ -33,14 +33,14 @@ class ProjectDetailed extends React.Component {
             return
         }
 
-        const getProjDetailsResponse = await ProjectServices.getProjectDetails(projName)
+        const getProjDetailsResponse = await ProjectServices.getProjectDetails(projName, this.context.authToken)
 
         const getProjDetailsContent = await getProjDetailsResponse.json()
 
         if (getProjDetailsResponse.status === 200) {
             const projInfo = getProjDetailsContent.properties
 
-            const getProjIssuesResponse = await IssuesServices.getProjectIssues(projName)
+            const getProjIssuesResponse = await IssuesServices.getProjectIssues(projName, this.context.authToken)
 
             const getProjIssuesContent = await getProjIssuesResponse.json()
 
@@ -108,7 +108,7 @@ class ProjectDetailed extends React.Component {
             this.setState({ error: "Issue selected doesn't exist. Try again later." })
             return
         }
-        let deleteIssueResponse = await IssuesServices.deleteIssue(issueToDelete.id)
+        let deleteIssueResponse = await IssuesServices.deleteIssue(issueToDelete.id, this.context.authToken)
         //Remember that if the request sends an id for an Issue that doesn't exist, the Server assumes it was deleted w/ sucess, even if the issue doesn't exist
         if (deleteIssueResponse.status === 200) {
             this.setState(state => {
@@ -149,7 +149,7 @@ class ProjectDetailed extends React.Component {
             return
         }
 
-        let deleteLabelResponse = await ProjectServices.deleteProjectLabel(projectName, labelToDelete)
+        let deleteLabelResponse = await ProjectServices.deleteProjectLabel(projectName, labelToDelete, this.context.authToken)
 
         if (deleteLabelResponse.status === 200) {
             this.setState(state => {
@@ -229,14 +229,14 @@ class ProjectDetailed extends React.Component {
         return (
             <List>
                 <List.Item>
-                        <Label color="blue" horizontal content="Description" icon="keyboard" size="large" />
-                        {projInfo.details.descr}
-                        <EntityModal entity="Project Info" icon="edit">
-                            <UpdateProjectInfo project={projInfo.details} />
-                        </EntityModal>
+                    <Label color="blue" horizontal content="Description" icon="keyboard" size="large" />
+                    {projInfo.details.descr}
+                    <EntityModal entity="Project Info" icon="edit">
+                        <UpdateProjectInfo project={projInfo.details} />
+                    </EntityModal>
                 </List.Item>
                 <EntityModal entity="Project Label" icon="plus">
-                        <CreateLabelForm project={projInfo.details} />
+                    <CreateLabelForm project={projInfo.details} />
                 </EntityModal>
                 <ListLabelsWithDeleteComponent labels={projInfo.details.labels} handlerDelete={this.handleDeleteLabelModal}/>
                 

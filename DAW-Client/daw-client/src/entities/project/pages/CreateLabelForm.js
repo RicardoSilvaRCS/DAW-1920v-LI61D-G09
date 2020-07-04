@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Message} from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices';
+import { AppContext } from '../../../context/AppContext';
 
 
 class createLabelForm extends React.Component {
@@ -33,7 +34,8 @@ class createLabelForm extends React.Component {
 
         const createProjectLabelResponse = await ProjectServices.createProjectLabel(
             labelToCreate.projectName,
-            labelToCreate.labelName
+            labelToCreate.labelName,
+            this.context.authToken
         )
 
         const createProjectLabelContent = await createProjectLabelResponse.json()
@@ -86,5 +88,7 @@ class createLabelForm extends React.Component {
   }
 
 }
+
+createLabelForm.contextType = AppContext
   
 export default createLabelForm

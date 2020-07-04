@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Message, Dropdown, Container, FormField, FormGroup } from 'semantic-ui-react'
 import IssueServices from '../IssueServices'
 import IssueDataModel from '../IssuesDataModel'
+import { AppContext } from '../../../context/AppContext';
 
 
 /**
@@ -34,7 +35,8 @@ class UpdateIssueStateForm extends React.Component {
         const updateIssueStateResponse = await IssueServices
             .updateIssueState(
                 this.state.issueId,
-                IssueDataModel.updateIssueState(this.state.selectedState)
+                IssueDataModel.updateIssueState(this.state.selectedState),
+                this.context.authToken
             )
         const updateIssueStateContent = await updateIssueStateResponse.json()    
 
@@ -130,4 +132,6 @@ class UpdateIssueStateForm extends React.Component {
 
 }
   
+UpdateIssueStateForm.contextType = AppContext
+
 export default UpdateIssueStateForm

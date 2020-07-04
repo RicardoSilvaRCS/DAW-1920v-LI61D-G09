@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Message} from 'semantic-ui-react'
 import ProjectServices from '../ProjectServices';
 import ProjectDataModels from '../ProjectDataModels';
+import { AppContext } from '../../../context/AppContext';
 
 
 class UpdateProjectForm extends React.Component {
@@ -34,7 +35,8 @@ class UpdateProjectForm extends React.Component {
 
         const updateProjectResponse = await ProjectServices.updateProjectOfUser(
             projectToUpdate.name,
-            ProjectDataModels.updateIssueDataModel(projectToUpdate.descr)
+            ProjectDataModels.updateIssueDataModel(projectToUpdate.descr),
+            this.context.authToken
         )
 
        
@@ -91,4 +93,6 @@ class UpdateProjectForm extends React.Component {
 
 }
   
+UpdateProjectForm.contextType = AppContext
+
 export default UpdateProjectForm

@@ -23,6 +23,12 @@ class CreateProjectForm extends React.Component {
             this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
             return
         }
+
+        if(this.state.projname.includes(" ")) {
+            this.setState({error: "Project Name can't have blank spaces."})
+            return
+        }
+        
         const createProjectResponse = await ProjectServices
             .createProjectOfUser(this.context.authUserName, 
                                 ProjectDataModels.projectCreationDataModel(
@@ -31,7 +37,8 @@ class CreateProjectForm extends React.Component {
                                     this.state.labels,
                                     this.state.initstate,
                                     this.state.transitions
-                                ))
+                                ),
+                                this.context.authToken)
         
         const createProjectContent = await createProjectResponse.json()
         if(createProjectResponse.status === 200) {
@@ -264,7 +271,7 @@ class CreateProjectForm extends React.Component {
                 {renderLabels}
                 <Button secondary style={{marginBottom: "10px"}} onClick={this.handleAddLabel}>Add label</Button>
                 <p>You can now choose the states your project will have. First choose the initial state and then choose the states, and transitions, you feel are needed.
-                    Remember that all the states will end with a transition "Closed -> Archived" soo make sure your transitions reach the state Closed at least one time:</p>     
+                    Remember that all the states will end with a transition "Closed -{">"} Archived" soo make sure your transitions reach the state Closed at least one time:</p>     
                 <Form.Input required icon='caret right' iconPosition='left' placeholder='Initial State:' name='initstate' value={initstate} onChange={this.handleChange}/>
                 {renderedTransitions}
                 <Button secondary style={{marginBottom: "10px"}} onClick={this.handleAddTransition}>Add transition</Button>

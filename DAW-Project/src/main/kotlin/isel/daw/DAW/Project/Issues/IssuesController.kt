@@ -11,6 +11,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * Endpoint to obtain all existing issues of a project. Might receive filtering parameters(creation-date, comment-number, etc.).
      * GET /issues/{pname}
      */
+    @AuthRequired
     @GetMapping(GET_ISSUES_PATH)
     fun getissues( @PathVariable pname: String): MutableList<SirenEntity<IssuesOutputModel>> {
         val issues : MutableList<SirenEntity<IssuesOutputModel>> = mutableListOf()
@@ -24,6 +25,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * Endpoint to obtain information of a specific issue. Must receive the @param id:Int.
      * GET /issue/{tid}
      */
+    @AuthRequired
     @GetMapping(GET_SINGLE_ISSUE_PATH)
     fun getissue( @PathVariable tid: Int ): SirenEntity<IssuesInfoOutputModel>{
         return issueservices.getIssue(tid).toSirenObject()
@@ -38,6 +40,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * Might receive filtering parameters(creation-date, comment-number, etc.). The issues state must start with the initialstate defined in the project.
      * POST /issues
      */
+    @AuthRequired
     @PostMapping(CREATE_ISSUE_PATH, consumes = ["application/json"])
     fun createissue(@RequestBody newIssue: IssuesInputModel): SirenEntity<IssueCreationResponse> {
         return issueservices.createIssue(newIssue).toSirenObject()
@@ -50,6 +53,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      *  labels:Array<String>, a new label for the issue.
      * PUT /issues/{tid}
      */
+    @AuthRequired
     @PutMapping(UPDATE_ISSUE_PATH)
     fun updateissueInfo(@PathVariable tid: Int, @RequestBody newIssue: IssuesInputUpdateModel): SirenEntity<IssueUpdatedResponse> {
         return issueservices.updateIssue(tid, newIssue).toSirenObject()
@@ -59,6 +63,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * Endpoint to update the issue state. Must receive the @param state:String.
      * PUT /issues/{tid}/updatestate
      */
+    @AuthRequired
     @PutMapping(UPDATE_ISSUE_STATE_PATH, consumes = ["application/json"])
     fun updateissuetate( @PathVariable tid: Int, @RequestBody state: IssuesStateInputModel): SirenEntity<IssueStateUpdatedResponse> {
         return issueservices.updateState(tid, state).toSirenObject()
@@ -68,6 +73,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * Endpoint to delete an issue.
      * DELETE /issues/{tid}
      */
+    @AuthRequired
     @DeleteMapping(DELETE_ISSUE_PATH)
     fun deleteissue(@PathVariable tid: Int): SirenEntity<IssueDeletedResponse> {
         return issueservices.deleteIssue(tid).toSirenObject()
@@ -77,6 +83,7 @@ class IssuesController(private val issueservices: IssuesServices) {
     * Endpoint to create an issueLabel
     * POST /issues/{tid}/label
     * */
+    @AuthRequired
     @PostMapping(CREATE_ISSUE_LABEL_PATH)
     fun createIssueLabel(@PathVariable tid: Int, @RequestBody newIssueLabel: IssuesLabelInputModel): SirenEntity<IssueLabelCreationResponse> {
         return issueservices.createIssueLabel(tid, newIssueLabel).toSirenObject()
@@ -86,6 +93,7 @@ class IssuesController(private val issueservices: IssuesServices) {
      * Endpoint to delete an issue label.
      * DELETE /issues/{tid}/label/{labelName}
      */
+    @AuthRequired
     @DeleteMapping(DELETE_ISSUE_LABEL_PATH)
     fun deleteIssueLabel(@PathVariable tid: Int, @PathVariable labelName: String): SirenEntity<IssueLabelDeletedResponse> {
         return issueservices.deleteIssueLabel(tid, labelName).toSirenObject()

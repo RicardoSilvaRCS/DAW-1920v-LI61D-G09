@@ -14,12 +14,11 @@ class ProjectIntro extends React.Component {
 
 
     getUserProjects = async () => {
-      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser(this.context.authUserName)
+      const getProjOfUserResponse = await ProjectServices.getProjectsOfUser(this.context.authUserName, this.context.authToken)
       console.log("[ProjectIntroPage] Response received on the Get Projects Request:")
       console.log(getProjOfUserResponse)
       if(getProjOfUserResponse.status === 200) {
         const getProjectsContent = await getProjOfUserResponse.json()
-        console.log("This is my projects")
         console.log(getProjectsContent)
         const projectProps = []
         getProjectsContent.forEach(proj => {
@@ -27,6 +26,9 @@ class ProjectIntro extends React.Component {
         })
         return projectProps
       } else {
+        const getProjectsErrorContent = await getProjOfUserResponse.json()
+        console.log(getProjectsErrorContent)
+        this.setState({error: getProjectsErrorContent.properties.detail})
         return []
       }
     }
@@ -54,7 +56,7 @@ class ProjectIntro extends React.Component {
           this.setState({error: "Project selected doesn't exist. Try again later."})
           return
         }
-        let deleteProjectResponse = await ProjectServices.deleteProjectOfUser(projToDelete.name)
+        let deleteProjectResponse = await ProjectServices.deleteProjectOfUser(projToDelete.name, this.context.authToken)
         console.log("[ProjectIntroPage] Response received on Delete Project Request:")
         console.log(deleteProjectResponse)
         //Remember that if the request sends a projectName for a project that doesn't exist, the Server assumes it was deleted w/ sucess, even if the proj doesn't exist

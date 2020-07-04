@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Message} from 'semantic-ui-react'
 import IssueServices from '../IssueServices'
 import IssueDataModel from '../IssuesDataModel'
+import { AppContext } from '../../../context/AppContext';
 
 
 class CreateIssueForm extends React.Component {
@@ -40,7 +41,8 @@ class CreateIssueForm extends React.Component {
                 issueToUpdate.name,
                 issueToUpdate.projname,
                 issueToUpdate.descr
-            )
+            ),
+            this.context.authToken
         )
 
         const updateIssueContent = await updateIssueResponse.json()
@@ -99,4 +101,6 @@ class CreateIssueForm extends React.Component {
 
 }
   
+CreateIssueForm.contextType = AppContext
+
 export default CreateIssueForm

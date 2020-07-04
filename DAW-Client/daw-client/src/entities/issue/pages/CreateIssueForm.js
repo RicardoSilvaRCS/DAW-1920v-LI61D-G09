@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Message, Dropdown, Container, Button, Icon } from 'semantic-ui-react'
 import IssueServices from '../IssueServices'
 import IssueDataModel from '../IssuesDataModel'
+import { AppContext } from '../../../context/AppContext';
 
 
 /**
@@ -75,7 +76,9 @@ class CreateIssueForm extends React.Component {
                     this.state.descr,
                     this.state.currState,
                     this.state.labels
-                ))
+                ),
+                this.context.authToken
+                )
 
         const createIssueContent = await createIssueResponse.json()
         
@@ -185,4 +188,6 @@ class CreateIssueForm extends React.Component {
 
 }
   
+CreateIssueForm.contextType = AppContext
+
 export default CreateIssueForm

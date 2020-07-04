@@ -1,5 +1,6 @@
 import React from 'react';
 import { Comment,Form,Message, Container } from 'semantic-ui-react'
+import {AppContext, AppContextConsumer} from '../../context/AppContext'
 
 /*Services*/
 import CommentServices from './CommentServices'
@@ -27,6 +28,13 @@ class Comments extends React.Component {
         }
     }
 
+    /**
+     * On the comments mapping, in the Comment.Author component, it was changed to sho the auth user name
+     * This will have to be changed if projects can be acessed by other people that are not creators.
+     * IF projects are acessed by other people, what will happens is, the comments that were wrote by other users,
+     * will still show that the author is the user auth, not the user who wrote it.
+     * To make this correct we need to change the db on the comment table, and add a "author" attribute for the user who wrote it :)
+     */
     representIssueComments () {
         const {comment,final} = this.state
         return(
@@ -44,10 +52,10 @@ class Comments extends React.Component {
 
                 {this.state.comments && 
                     this.state.comments.map((comment) => (
-                        <Comment>
+                        <Comment key={comment.text + "-key"}>
                             <Comment.Avatar as='a' src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
                             <Comment.Content>
-                                <Comment.Author>O Maior Grande</Comment.Author>
+                                <Comment.Author>{this.context.authUserName}</Comment.Author>
                                     <Comment.Metadata>
                                         <div>{formatDate(comment.creationdate)}</div>
                                     </Comment.Metadata>
@@ -87,11 +95,11 @@ class Comments extends React.Component {
         const comment = this.state.comment
         const issueId = this.state.issueId
         if(!comment) {
-            this.setState({error: 'Please insert a text to create a comment.'})
+            this.setState({error: 'Please insert a text to create a comment.', final: false})
             return
         }
         const createCommentResponse = await CommentServices.
-            createComment(comment,issueId)
+            createComment(comment, issueId, this.context.authToken)
 
         const createIssueContent = await createCommentResponse.json()
         
@@ -111,7 +119,7 @@ class Comments extends React.Component {
     async getIssueComments(issueId) {
 
         const getCommentResponse = await CommentServices.
-            getIssueComments(issueId)
+            getIssueComments(issueId, this.context.authToken)
 
         const getIssueCommentsContent = await getCommentResponse.json()
         
@@ -134,5 +142,7 @@ class Comments extends React.Component {
     }
 
 }
+
+Comments.contextType = AppContext
 
 export default Comments
