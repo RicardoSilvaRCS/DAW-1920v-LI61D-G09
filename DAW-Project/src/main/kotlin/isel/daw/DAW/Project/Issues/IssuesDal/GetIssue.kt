@@ -39,16 +39,22 @@ class GetIssue {
                             issue.projname = rs.getString("projname")
                             issue.currState = rs.getString("currstate")
                             do {
-
-                                issue.labels.add(rs.getString("labelname")?:"")
+                                var labelname = rs.getString("labelname")?:""
+                                if(!issue.labels.contains(labelname)) {
+                                    issue.labels.add(labelname)
+                                }
                                 val auxCurrState = rs.getString("currstatetran")
                                 val auxNextState = rs.getString("nextstate")
 
                                 if(issue.currState != "Archived") {
-                                    if (issue.currState.equals(auxCurrState)) {
-                                        issue.possibleNextStates.add(auxNextState)
+                                    if (issue.currState == auxCurrState) {
+                                        if(!issue.possibleNextStates.contains(auxNextState)) {
+                                            issue.possibleNextStates.add(auxNextState)
+                                        }
                                     } else {
-                                        issue.possibleNextStates.add(auxCurrState)
+                                        if(!issue.possibleNextStates.contains(auxCurrState)) {
+                                            issue.possibleNextStates.add(auxCurrState)
+                                        }
                                     }
                                 }
                             } while(rs.next())
