@@ -57,7 +57,7 @@ class CreateIssue {
         }
 
         /**-----------------------------------------INSER LABELS-----------------------------------------------------*/
-        private const val INSERT_ISSUE_LABELS_QUERY = "INSERT INTO public.issuelabel" +
+        private const val INSERT_ISSUE_LABELS_QUERY = "INSERT INTO issuelabel" +
                 " (issueid, labelname, projname) " +
                 " VALUES (?, ?, ?);"
 
@@ -70,8 +70,9 @@ class CreateIssue {
                         ps.setInt(1,id)
                         ps.setString(2,it)
                         ps.setString(3,newIssue.projname)
+
+                        ps.execute()
                     }
-                    ps.execute()
                 }
             } catch (ex: SQLException) {
                 conn.rollback()
