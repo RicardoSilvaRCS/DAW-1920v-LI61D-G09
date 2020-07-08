@@ -3,6 +3,16 @@ import UserPaths from './UserPaths'
 
 const host = ServerInfo.serverHost
 
+async function getHome() {
+    const getHomeResponse = await fetch(`http://${host}${UserPaths.homePath()}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    return getHomeResponse
+} 
+
 async function findUsers(startName) {
     const findUsersResponse = await fetch(`http://${host}${UserPaths.findUsersPath(startName)}`, {
         method: 'GET',
@@ -75,5 +85,6 @@ export default {
     logoutUser,
     addUserToProject,
     getFriendslist,
-    addFriend
+    addFriend,
+    getHome
 }

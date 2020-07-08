@@ -2,6 +2,7 @@
  * TODO: Maybe put here the request information for the server
  */
 module.exports = {
+    homePath: () => {return `/home`},
     findUsersPath: (startName) => {return `/user/userlist/${startName}`},
     getUserDetailsPath: (userName) => {return `/user/${userName}`},
     registerPath: "/user/register",

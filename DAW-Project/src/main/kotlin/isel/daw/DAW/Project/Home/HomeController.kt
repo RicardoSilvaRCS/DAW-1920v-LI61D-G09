@@ -18,7 +18,8 @@ class Home {
         return Navigation(
                 ApiInfo("Project Manager Web API", mapOf(
                         "author" to URI("mailto:linhabenfica@slbenfica.pt"),
-                        "describedBy" to URI("https://github.com/RicardoSilvaRCS/DAW-1920v-LI61D-G09/wiki/API-Documentation"))
+                        "describedBy" to URI("https://github.com/RicardoSilvaRCS/DAW-1920v-LI61D-G09/wiki/API-Documentation"),
+                        "register" to URI("/register"))
                 ),
                 Resources(
                         projects = NavigationLink(PROJECTS_PATH),

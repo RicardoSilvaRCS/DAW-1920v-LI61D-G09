@@ -9,6 +9,7 @@ package isel.daw.DAW.Project.Common
 /*HOME PATH*/
 const val PROJECT_MANAGER_PATH = "/home"
 
+
 /*USER PAHTS*/
 const val USERS_PATH = "/user"
 const val GET_ALL_USERS = "$USERS_PATH/userslist/{startName}"
