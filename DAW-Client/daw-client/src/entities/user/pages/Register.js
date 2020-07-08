@@ -4,8 +4,38 @@ import { Link } from 'react-router-dom'
 import UserServices from '../UserServices'
 import UserDataModels from '../UserDataModels'
 import {AppContext, AppContextConsumer} from '../../../context/AppContext'
+import HomeServices from '../../misc/HomeServices'
+
+/**
+ * Resposta á questao da discussao:
+ * A partir do componente Form nao é possivel enviar pedidos POST, portanto seria necessário fazer á posteriori o pedido ao servidor, o form seria apenas a ponte para notificar o cliente que é suposto fazer o pedido
+ * a partir da funçao handleSubmit e de seguida handleRegister
+ * Visto nós de momento termos ficheiros c os paths todos, para serem usados pelos modulos services,
+ * Para realizar este exercicio seria necessário:
+ * - mudar a estrutura do services para em vez de usar os links do ficheiro predefinido, receber um path como parametro no metodo em q esse path seria o /user/reggister que foi obtido na resposta do pedido Home
+ * ou
+ * - O módulo services desaparecia por completo tal como foi feito neste trabalho, e fazia-se o fetch diretamente no handleRegister, usando o path guardado no state
+ * 
+ * Alem disso, se o recurso Home so dever ser acedido qnd se entre na paggigna inicial da app, o q é realizado nesta funçao componentDIdMount seria movida para o componente App
+ * para quando se acede ao site, ter-se loggo acesso aos paths recebidos do recurso Home
+ * Depois de obter esses recursos seria necessário gguarda-los para outros componentes os usarem, tendo em conta a estrutura do trabalho seria feito no context existente, uma propriedade chamada "paths"
+ * por exemplo onde se guardariam os paths todos que seriam usados pelos outros componentes
+ */
 
 class Register extends React.Component {
+
+    async componentDidMount() {
+        const homeContent = await (await HomeServices.getHome()).json()
+    
+        console.log(homeContent)
+    
+        let registerpath = homeContent.resources.register.href
+    
+        console.log(registerpath)
+    
+        this.setState({registerServerPath: registerpath})
+    }
+    
 
     userGenderOptions = [
         { key: 'm', text: 'Male', value: 'male' },
@@ -26,6 +56,7 @@ class Register extends React.Component {
             this.setState({error: 'Unexpected error occured. Sorry for the inconvenience please try again later.'})
             return
         }
+
         const registerResponse = await UserServices.registerUser(
             UserDataModels.registerDataModel(
                 this.state.username,
@@ -89,10 +120,12 @@ class Register extends React.Component {
             phonenumber: '',
             password: '',
             final: false,
-            error: ''
+            error: '',
+            registerServerPath : undefined
         }
     }
 
+    
   render() {
     const { username, fullname, email, age, gender, phonenumber, password} = this.state
 
@@ -141,6 +174,7 @@ class Register extends React.Component {
                         <Form.Group>
                             <Form.Button content='Registo' />
                         </Form.Group>
+                        <p>Register path: {this.state.registerServerPath}</p>
         
                     </Form>
                 </Container>)}
@@ -153,3 +187,4 @@ class Register extends React.Component {
 Register.contextType = AppContext
 
 export default Register;
+

@@ -23,7 +23,8 @@ class Home {
                 Resources(
                         projects = NavigationLink(PROJECTS_PATH),
                         issues = NavigationLink(ISSUES_PATH),
-                        comments = NavigationLink(COMMENTS_PATH)
+                        comments = NavigationLink(COMMENTS_PATH),
+                        register = NavigationLink(REGISTER_USER_PATH)
                 )
         )
     }

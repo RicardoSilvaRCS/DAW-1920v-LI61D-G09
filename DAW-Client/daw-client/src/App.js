@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import {AppContext, AppContextConsumer} from './context/AppContext'
 
 class App extends React.Component {
-  
+
   render() {
       return (
         <AppContextConsumer>
@@ -21,7 +21,7 @@ class App extends React.Component {
           (<Container text>
             <Header as='h1'>DAW Project G09</Header>
             <p>With this application you will be able to manage your projects, share them with friends and much more.
-               To start click <Link to="/register">here.</Link> or if you already have an account login <Link to="/login">here.</Link>
+               To start click <Link to="/register">here.</Link> or if you already have an account login <Link to="/login">here.</Link>             
             </p>
           </Container>)}
         </AppContextConsumer>

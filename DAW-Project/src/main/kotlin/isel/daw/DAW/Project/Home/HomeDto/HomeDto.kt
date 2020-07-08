@@ -14,7 +14,8 @@ data class Navigation(val api: ApiInfo, val resources: Resources)
 data class Resources(
         val projects : NavigationLink,
         val issues: NavigationLink,
-        val comments: NavigationLink
+        val comments: NavigationLink,
+        val register: NavigationLink
 )
 
 /**
